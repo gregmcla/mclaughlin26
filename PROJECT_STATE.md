@@ -1,8 +1,25 @@
 # PROJECT_STATE — MCLAUGHLIN '26
 
 ## Current phase
-v1 complete (2026-06-11). Built, verified via headless-Chrome screenshots
-of all 6 screens, pushed to GitHub.
+v2 "Deluxe Edition" complete (2026-06-11). Verified via headless-Chrome
+screenshots, pushed to GitHub.
+
+## v2 additions ("BRING IT TO THE NEXT LEVEL")
+- Studio splash ("McL INTERACTIVE presents") → loading bar with joke
+  status lines ("BACKTESTING GSCOTT…") → PRESS START title
+- SpeechSynthesis stadium announcer on start ("Now entering The Show…")
+- Holographic player card: 3D mouse tilt + foil shine (pointer:fine only)
+- Canvas FX layer: ambient stadium dust + confetti bursts
+- Diagonal 3-bar wipe transition between screens + noise whoosh sound
+- Animated radar hex chart on Attributes (canvas)
+- Visitor meta-achievements (8 trophies, localStorage, toast popups,
+  counter in topbar): First Pitch, Stat Nerd, Read The File,
+  Completionist, Audiophile, Up Up Down Down, Joystick Jockey, The Closer
+- Konami code → GOAT MODE (OVR 100, crown, gold hue shift, confetti,
+  fanfare, announcer) — toggleable
+- Gamepad API: Start/A to boot, d-pad/stick navigation, B = home
+- Swinging stadium spotlight beams, ticker pause-on-hover, favicon,
+  OG meta tags, prefers-reduced-motion support
 
 ## Done
 - Boot screen ("PRESS START", keyboard + click, boot sound riser)
