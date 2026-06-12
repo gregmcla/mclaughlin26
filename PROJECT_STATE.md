@@ -1,8 +1,26 @@
 # PROJECT_STATE — MCLAUGHLIN '26
 
 ## Current phase
-v2 "Deluxe Edition" complete (2026-06-11). Verified via headless-Chrome
+v3 "Cracked Edition" complete (2026-06-11). Verified via headless-Chrome
 screenshots, pushed to GitHub.
+
+## v3 additions ("cracked out AI engineer typeshit")
+- HOME RUN DERBY: fully playable canvas mini-game in the menu — timing-based
+  swings at pitches labeled with deal terms (LOI, EARNOUT, RE-TRADE…),
+  10 pitches, distance physics, ranks (BENCH WARMER→GOAT), bat-crack +
+  crowd-roar synthesis, persisted high score, 2 trophies (Dinger, Derby
+  Champ). Launch: menu item, `derby` in terminal, or `?derby=1`.
+- Procedural chiptune soundtrack: 16-step WebAudio sequencer @112 BPM —
+  kick/snare/hat synthesis, square bass line, triangle arp through a
+  feedback delay. BGM toggle in topbar, persisted.
+- WebGL GLSL shader backdrop: volumetric stadium light beams (cyan/gold),
+  bottom glow, vignette, scanlines; half-res render, CSS fallback.
+- mcl-os terminal: backtick opens a dropdown dev console — help, whoami,
+  stats, ls, cat resume.txt, trophies, derby, goat, gscott, clouds, hire,
+  sudo (denied), clear, exit. Trophy: Terminal Velocity. `?term=1` works.
+- Attract mode: 60s idle → arcade demo loop cycles screens with a
+  blinking DEMO MODE banner; any input exits.
+- AudioContext gesture-resume; ticker hints for derby + terminal.
 
 ## v2 additions ("BRING IT TO THE NEXT LEVEL")
 - Studio splash ("McL INTERACTIVE presents") → loading bar with joke

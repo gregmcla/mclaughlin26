@@ -167,11 +167,79 @@ body.goat .goat-crown{display:block}
 .tb-spacer{flex:1}
 .tb-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
 #tbTrophies{cursor:help;color:var(--gold);border:1px solid rgba(255,179,0,.3);padding:4px 10px}
-#muteBtn{
+#muteBtn,#bgmBtn{
   font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;
   background:none;border:1px solid var(--line);color:var(--dim);padding:5px 12px;cursor:pointer;transition:.2s;
 }
-#muteBtn:hover{border-color:var(--gold);color:var(--gold)}
+#muteBtn:hover,#bgmBtn:hover{border-color:var(--gold);color:var(--gold)}
+#gl{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ============ HOME RUN DERBY ============ */
+#derby{position:fixed;inset:0;z-index:60;background:#04060c;display:none}
+#derby.on{display:block}
+#dcv{position:absolute;inset:0;width:100%;height:100%}
+.d-hud{
+  position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:26px;padding:16px 150px 16px 26px;
+  background:linear-gradient(180deg,rgba(4,6,12,.85),transparent);pointer-events:none;
+}
+.d-hud .dh-title{font-family:'Anton',sans-serif;font-size:22px;letter-spacing:.03em;text-transform:uppercase;transform:skewX(var(--skew))}
+.d-hud .dh-title span{color:var(--gold)}
+.d-stat{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.22em;color:var(--dim);text-transform:uppercase}
+.d-stat b{color:var(--gold-hi);font-size:16px}
+.d-spacer{flex:1}
+.d-exit{
+  position:absolute;top:14px;right:18px;z-index:2;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  background:rgba(6,8,15,.7);border:1px solid var(--line);color:var(--dim);padding:7px 14px;cursor:pointer;
+}
+.d-exit:hover{border-color:var(--red);color:var(--red)}
+.d-callout{
+  position:absolute;left:50%;top:30%;transform:translateX(-50%) skewX(var(--skew));pointer-events:none;
+  font-family:'Anton',sans-serif;font-size:60px;text-transform:uppercase;letter-spacing:.02em;
+  color:var(--gold-hi);text-shadow:0 0 40px rgba(255,179,0,.55);opacity:0;white-space:nowrap;
+}
+.d-callout.miss{color:var(--red);text-shadow:0 0 40px rgba(255,59,92,.5)}
+.d-callout.pop{animation:dpop 1s cubic-bezier(.22,1.4,.36,1) both}
+@keyframes dpop{0%{opacity:0;transform:translateX(-50%) skewX(var(--skew)) scale(.6)}14%{opacity:1;transform:translateX(-50%) skewX(var(--skew)) scale(1.06)}70%{opacity:1}100%{opacity:0;transform:translateX(-50%) skewX(var(--skew)) scale(1) translateY(-26px)}}
+.d-end{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  background:rgba(4,6,12,.88);backdrop-filter:blur(4px);
+}
+.d-end[hidden]{display:none}
+.de-kick{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5em;color:var(--cyan);text-transform:uppercase}
+.de-rank{font-family:'Anton',sans-serif;font-size:clamp(50px,8vw,110px);text-transform:uppercase;transform:skewX(var(--skew));
+  background:linear-gradient(180deg,var(--gold-hi),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.de-line{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.25em;color:var(--dim);text-transform:uppercase}
+.de-line b{color:var(--ink)}
+.de-btns{display:flex;gap:14px;margin-top:26px}
+
+/* ============ TERMINAL ============ */
+#term{
+  position:fixed;left:0;right:0;top:0;z-index:70;height:46vh;display:none;flex-direction:column;
+  background:rgba(3,5,10,.96);border-bottom:2px solid var(--gold);box-shadow:0 20px 80px rgba(0,0,0,.7);
+  font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.7;
+}
+#term.on{display:flex;animation:termdrop .25s ease-out}
+@keyframes termdrop{from{transform:translateY(-100%)}to{transform:none}}
+#termOut{flex:1;overflow-y:auto;padding:18px 22px 6px;color:#9fe8c8;white-space:pre-wrap;word-break:break-word}
+#termOut .t-sys{color:#5b688f}
+#termOut .t-gold{color:var(--gold-hi)}
+#termOut .t-cyan{color:var(--cyan)}
+#termOut .t-red{color:var(--red)}
+.term-in{display:flex;gap:10px;padding:8px 22px 16px;align-items:center}
+.term-in .ps1{color:var(--gold);white-space:nowrap}
+#termInput{
+  flex:1;background:none;border:0;outline:0;color:#d6f5e6;font:inherit;caret-color:var(--gold);
+}
+
+/* ============ ATTRACT MODE ============ */
+#attract{
+  position:fixed;left:50%;bottom:64px;transform:translateX(-50%) skewX(var(--skew));z-index:55;display:none;
+  background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:#191000;
+  font-family:'Anton',sans-serif;font-size:18px;letter-spacing:.14em;text-transform:uppercase;padding:12px 30px;
+  animation:blink 1.6s steps(2,start) infinite;pointer-events:none;
+}
+#attract.on{display:block}
 
 .main{flex:1;display:flex;min-height:0}
 
@@ -455,6 +523,7 @@ body.goat .goat-crown{display:block}
 </head>
 <body>
 
+<canvas id="gl"></canvas>
 <div class="atmo">
   <div class="glow"></div><div class="glow2"></div>
   <div class="stripes"></div>
@@ -494,6 +563,7 @@ body.goat .goat-crown{display:block}
     <div class="tb-spacer"></div>
     <div class="tb-meta" id="tbTrophies" title="Visitor achievements — keep exploring">🏆 0/8</div>
     <div class="tb-meta">Season 10 · Tampa, FL</div>
+    <button id="bgmBtn" aria-label="Toggle music">BGM: ON</button>
     <button id="muteBtn" aria-label="Toggle sound">SOUND: ON</button>
   </div>
 
@@ -507,6 +577,7 @@ body.goat .goat-crown{display:block}
       <button class="mi" data-screen="achievements" style="animation-delay:.26s">Achievements<small>Things He Shipped</small></button>
       <button class="mi" data-screen="scouting" style="animation-delay:.33s">Scouting Report<small>Strengths &amp; Quirks</small></button>
       <button class="mi" data-screen="freeagency" style="animation-delay:.40s">Free Agency<small>Get In Touch</small></button>
+      <button class="mi" id="miDerby" style="animation-delay:.47s">HR Derby<small>Mini Game · Playable</small></button>
     </nav>
 
     <!-- STAGE -->
@@ -814,6 +885,43 @@ body.goat .goat-crown{display:block}
   </div>
 </div>
 
+<!-- HOME RUN DERBY -->
+<div id="derby">
+  <canvas id="dcv"></canvas>
+  <div class="d-hud">
+    <div class="dh-title">Home Run <span>Derby</span></div>
+    <div class="d-stat">PITCH <b id="dPitch">1</b>/10</div>
+    <div class="d-stat">DINGERS <b id="dHR">0</b></div>
+    <div class="d-stat">LONGEST <b id="dLong">0</b> FT</div>
+    <div class="d-spacer"></div>
+    <div class="d-stat">HIGH SCORE <b id="dHS">0</b></div>
+  </div>
+  <button class="d-exit" id="dExit">✕ Exit (Esc)</button>
+  <div class="d-callout" id="dCall"></div>
+  <div class="d-end" id="dEnd" hidden>
+    <div class="de-kick">Derby Complete</div>
+    <div class="de-rank" id="deRank">MVP</div>
+    <div class="de-line"><b id="deHR">0</b> HOME RUNS · LONGEST <b id="deLong">0</b> FT</div>
+    <div class="de-line" id="deNew" style="color:var(--gold-hi)" hidden>★ NEW HIGH SCORE ★</div>
+    <div class="de-btns">
+      <button class="btn btn-gold" id="dAgain"><span>Play Again</span></button>
+      <button class="btn btn-ghost" id="dBack"><span>Back To Menu</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- TERMINAL -->
+<div id="term">
+  <div id="termOut"></div>
+  <div class="term-in">
+    <span class="ps1">greg@mcl-os:~$</span>
+    <input id="termInput" autocomplete="off" spellcheck="false" aria-label="terminal input">
+  </div>
+</div>
+
+<!-- ATTRACT MODE -->
+<div id="attract">Demo Mode — Press Any Button</div>
+
 <script>
 'use strict';
 const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -856,6 +964,32 @@ const sBoot  =()=>{ [330,440,660,880].forEach((f,i)=>blip(f,.12,'triangle',.06,i
 const sFanfare=()=>{ [262,330,392,523].forEach((f,i)=>blip(f,.2,'triangle',.08,i*.1));
   [523,659,784].forEach(f=>blip(f,.5,'triangle',.06,.45)); thump(); };
 const sTick  =()=>blip(1400,.025,'square',.012);
+function crack(){           /* bat-on-ball */
+  if(muted) return; const ctx=ac(); if(!ctx) return;
+  const t=ctx.currentTime, dur=.09;
+  const buf=ctx.createBuffer(1,ctx.sampleRate*dur,ctx.sampleRate);
+  const d=buf.getChannelData(0);
+  for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2);
+  const src=ctx.createBufferSource(); src.buffer=buf;
+  const f=ctx.createBiquadFilter(); f.type='highpass'; f.frequency.value=1800;
+  const g=ctx.createGain(); g.gain.setValueAtTime(.5,t); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  src.connect(f); f.connect(g); g.connect(ctx.destination); src.start(t);
+  blip(180,.12,'sine',.2);
+}
+function roar(){            /* crowd goes wild */
+  if(muted) return; const ctx=ac(); if(!ctx) return;
+  const t=ctx.currentTime, dur=1.6;
+  const buf=ctx.createBuffer(1,ctx.sampleRate*dur,ctx.sampleRate);
+  const d=buf.getChannelData(0);
+  for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
+  const src=ctx.createBufferSource(); src.buffer=buf;
+  const f=ctx.createBiquadFilter(); f.type='lowpass'; f.frequency.value=900; f.Q.value=.4;
+  const g=ctx.createGain();
+  g.gain.setValueAtTime(.001,t);
+  g.gain.exponentialRampToValueAtTime(.22,t+.25);
+  g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  src.connect(f); f.connect(g); g.connect(ctx.destination); src.start(t);
+}
 function announce(text){
   if(muted||!('speechSynthesis' in window)) return;
   try{
@@ -864,6 +998,8 @@ function announce(text){
     speechSynthesis.cancel(); speechSynthesis.speak(u);
   }catch(e){ console.error('announcer failed:',e); }
 }
+/* browsers suspend AudioContext until a gesture — resume on any click */
+addEventListener('pointerdown',()=>{ if(AC&&AC.state==='suspended') AC.resume().catch(e=>console.error('resume failed:',e)); });
 const muteBtn=document.getElementById('muteBtn');
 function paintMute(){ muteBtn.textContent='SOUND: '+(muted?'OFF':'ON'); }
 paintMute();
@@ -931,7 +1067,10 @@ const ACH={
   audiophile:   {ico:'🔊', name:'Audiophile',        desc:'Touched the sound settings.'},
   konami:       {ico:'🐐', name:'Up Up Down Down',   desc:'GOAT MODE unlocked. There is no going back.'},
   joystick:     {ico:'🎮', name:'Joystick Jockey',   desc:'Connected a controller to a website. Legend.'},
-  closer:       {ico:'🤝', name:'The Closer',        desc:'Initiated contract negotiations with Greg.'}
+  closer:       {ico:'🤝', name:'The Closer',        desc:'Initiated contract negotiations with Greg.'},
+  dinger:       {ico:'💥', name:'Dinger',            desc:'Took a term sheet deep. First home run.'},
+  derbychamp:   {ico:'🏆', name:'Derby Champ',       desc:'Five or more home runs in a single derby.'},
+  hacker:       {ico:'💻', name:'Terminal Velocity', desc:'Found the developer console. Cracked.'}
 };
 let earned=new Set(JSON.parse(localStorage.getItem('mcl_ach')||'[]'));
 const tbT=document.getElementById('tbTrophies');
@@ -986,6 +1125,7 @@ function start(){
   if(!loadDone){ finishLoad(); return; }   /* first click skips the load */
   booted=true;
   sBoot(); setTimeout(sFanfare,250);
+  setTimeout(startMusic,1200);
   announce('Now entering The Show. Number twenty-six. Greg. McLaughlin.');
   boot.classList.add('gone');
   app.classList.add('on');
@@ -1045,7 +1185,7 @@ document.querySelectorAll('a.fa-row').forEach(a=>a.addEventListener('click',()=>
 
 /* keyboard nav like a real menu */
 window.addEventListener('keydown',e=>{
-  if(!booted) return;
+  if(!booted||derbyOn||termOpen) return;
   const idx=items.findIndex(mi=>mi.dataset.screen===current);
   if(e.key==='ArrowDown'||e.key==='ArrowRight'){ e.preventDefault(); sHover(); show(items[(idx+1)%items.length].dataset.screen); }
   if(e.key==='ArrowUp'||e.key==='ArrowLeft'){ e.preventDefault(); sHover(); show(items[(idx-1+items.length)%items.length].dataset.screen); }
@@ -1070,6 +1210,11 @@ function pollPad(){
   const gp=navigator.getGamepads()[padIdx];
   if(gp){
     if(!booted&&(padPressed(gp,9)||padPressed(gp,0))) start();   /* Start or A */
+    if(derbyOn){
+      if(padPressed(gp,0)) derbySwing();
+      if(padPressed(gp,1)) closeDerby();
+      requestAnimationFrame(pollPad); return;
+    }
     if(booted){
       const idx=items.findIndex(mi=>mi.dataset.screen===current);
       const axis=gp.axes[1]||0;
@@ -1194,6 +1339,372 @@ function toggleGoat(){
 }
 
 /* ============================================================
+   CHIPTUNE ENGINE — procedurally sequenced walk-up music
+   ============================================================ */
+let bgmOn=localStorage.getItem('mcl_bgm')!=='0', musicStarted=false, musicGain=null, delayNode=null;
+const BPM=112, STEP=60/BPM/4;          /* 16th notes */
+const KICK =[1,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,1,0];
+const SNARE=[0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0];
+const HAT  =[0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,1];
+const BASS =[55,0,0,55, 0,0,65.41,0, 55,0,0,82.41, 0,73.42,65.41,0,
+             49,0,0,49, 0,0,65.41,0, 55,0,0,82.41, 0,98,87.31,82.41];
+const ARP  =[220,0,261.63,0, 329.63,0,261.63,0, 220,0,293.66,0, 392,0,329.63,0,
+             196,0,261.63,0, 329.63,0,392,0, 440,0,392,0, 329.63,261.63,0,0];
+function musicNodes(){
+  const ctx=ac(); if(!ctx) return null;
+  if(!musicGain){
+    musicGain=ctx.createGain(); musicGain.gain.value=.5; musicGain.connect(ctx.destination);
+    delayNode=ctx.createDelay(); delayNode.delayTime.value=STEP*3;
+    const fb=ctx.createGain(); fb.gain.value=.3;
+    delayNode.connect(fb); fb.connect(delayNode); delayNode.connect(musicGain);
+  }
+  return ctx;
+}
+function note(freq,t,dur,type,vol,toDelay){
+  const ctx=musicNodes(); if(!ctx) return;
+  const o=ctx.createOscillator(), g=ctx.createGain();
+  o.type=type; o.frequency.setValueAtTime(freq,t);
+  g.gain.setValueAtTime(0,t);
+  g.gain.linearRampToValueAtTime(vol,t+.008);
+  g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g); g.connect(musicGain);
+  if(toDelay) g.connect(delayNode);
+  o.start(t); o.stop(t+dur+.03);
+}
+function drum(t,kind){
+  const ctx=musicNodes(); if(!ctx) return;
+  if(kind==='kick'){
+    const o=ctx.createOscillator(), g=ctx.createGain();
+    o.type='sine'; o.frequency.setValueAtTime(130,t); o.frequency.exponentialRampToValueAtTime(38,t+.1);
+    g.gain.setValueAtTime(.32,t); g.gain.exponentialRampToValueAtTime(.0001,t+.16);
+    o.connect(g); g.connect(musicGain); o.start(t); o.stop(t+.2);
+  }else{
+    const dur=kind==='snare'?.11:.04;
+    const buf=ctx.createBuffer(1,ctx.sampleRate*dur,ctx.sampleRate);
+    const d=buf.getChannelData(0);
+    for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*(1-i/d.length);
+    const src=ctx.createBufferSource(); src.buffer=buf;
+    const f=ctx.createBiquadFilter();
+    f.type='highpass'; f.frequency.value=kind==='snare'?1400:6500;
+    const g=ctx.createGain(); g.gain.value=kind==='snare'?.16:.06;
+    src.connect(f); f.connect(g); g.connect(musicGain); src.start(t);
+  }
+}
+let stepIdx=0, nextStep=0, musicTimer=null;
+function scheduler(){
+  const ctx=ac(); if(!ctx) return;
+  while(nextStep<ctx.currentTime+.14){
+    if(bgmOn&&!muted){
+      const s16=stepIdx%16, s32=stepIdx%32;
+      if(KICK[s16]) drum(nextStep,'kick');
+      if(SNARE[s16]) drum(nextStep,'snare');
+      if(HAT[s16]) drum(nextStep,'hat');
+      if(BASS[s32]) note(BASS[s32],nextStep,STEP*1.8,'square',.07);
+      if(ARP[s32]) note(ARP[s32],nextStep,STEP*1.2,'triangle',.05,true);
+    }
+    nextStep+=STEP; stepIdx++;
+  }
+}
+function startMusic(){
+  if(musicStarted) return;
+  const ctx=musicNodes(); if(!ctx) return;
+  if(ctx.state==='suspended'){ ctx.resume().catch(e=>console.error('resume failed:',e)); }
+  musicStarted=true;
+  nextStep=ctx.currentTime+.1; stepIdx=0;
+  musicTimer=setInterval(scheduler,25);
+}
+const bgmBtn=document.getElementById('bgmBtn');
+function paintBgm(){ bgmBtn.textContent='BGM: '+(bgmOn?'ON':'OFF'); }
+paintBgm();
+bgmBtn.addEventListener('click',()=>{
+  bgmOn=!bgmOn; localStorage.setItem('mcl_bgm',bgmOn?'1':'0'); paintBgm();
+  if(bgmOn&&!musicStarted&&booted) startMusic();
+  sSelect();
+});
+
+/* ============================================================
+   WEBGL SHADER BACKDROP — volumetric stadium beams + scanlines
+   ============================================================ */
+(function(){
+  if(REDUCED) return;
+  const cv=document.getElementById('gl');
+  const gl=cv.getContext('webgl',{antialias:false,depth:false});
+  if(!gl){ cv.remove(); return; }
+  const VS='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+  const FS=`precision mediump float;
+uniform float t;uniform vec2 r;
+void main(){
+  vec2 uv=gl_FragCoord.xy/r;
+  vec3 col=vec3(0.022,0.030,0.058);
+  float up=pow(uv.y,1.6);
+  for(int i=0;i<5;i++){
+    float fi=float(i);
+    float cx=fract(fi*0.23+0.06*sin(t*0.13+fi*1.9));
+    float x=uv.x+(1.0-uv.y)*0.22*sin(fi*2.1+t*0.07);
+    float b=smoothstep(0.075,0.0,abs(x-cx))*up;
+    vec3 bc=mod(fi,2.0)<1.0?vec3(0.18,0.88,1.0):vec3(1.0,0.70,0.0);
+    col+=bc*b*0.055;
+  }
+  float g=1.0-distance(uv,vec2(0.5,0.0));
+  col+=vec3(1.0,0.7,0.0)*pow(max(g,0.0),6.0)*0.05;
+  col*=1.0-0.45*pow(distance(uv,vec2(0.5,0.55))*1.25,2.0);
+  col-=0.018*sin(gl_FragCoord.y*1.35);
+  gl_FragColor=vec4(col,1.0);
+}`;
+  function sh(type,src){ const s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){ console.error('shader:',gl.getShaderInfoLog(s)); return null; } return s; }
+  const vs=sh(gl.VERTEX_SHADER,VS), fs=sh(gl.FRAGMENT_SHADER,FS);
+  if(!vs||!fs){ cv.remove(); return; }
+  const pr=gl.createProgram();
+  gl.attachShader(pr,vs); gl.attachShader(pr,fs); gl.linkProgram(pr); gl.useProgram(pr);
+  const buf=gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  const loc=gl.getAttribLocation(pr,'p');
+  gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  const uT=gl.getUniformLocation(pr,'t'), uR=gl.getUniformLocation(pr,'r');
+  function size(){ cv.width=Math.floor(innerWidth*.5); cv.height=Math.floor(innerHeight*.5); gl.viewport(0,0,cv.width,cv.height); }
+  size(); addEventListener('resize',size);
+  const t0=performance.now();
+  (function loop(){
+    gl.uniform1f(uT,(performance.now()-t0)/1000);
+    gl.uniform2f(uR,cv.width,cv.height);
+    gl.drawArrays(gl.TRIANGLES,0,3);
+    requestAnimationFrame(loop);
+  })();
+})();
+
+/* ============================================================
+   HOME RUN DERBY — playable mini-game
+   ============================================================ */
+const derbyEl=document.getElementById('derby'), dcv=document.getElementById('dcv'), dctx=dcv.getContext('2d');
+const dPitchEl=document.getElementById('dPitch'), dHREl=document.getElementById('dHR'), dLongEl=document.getElementById('dLong'), dHSEl=document.getElementById('dHS');
+const dCall=document.getElementById('dCall'), dEnd=document.getElementById('dEnd');
+let derbyOn=false, dState='idle', dP=0, dDur=1.2, dT0=0, dCurve=0, dLabel='', dPitchN=0, dHR=0, dLongest=0, dSwung=false;
+let dBall=null, dHS=+(localStorage.getItem('mcl_derby_hs')||0);
+const PITCHES=['COLD EMAIL','TERM SHEET','LOI','EARNOUT','RE-TRADE','EXCLUSIVITY','NDA','WORKING CAP PEG','QofE REPORT','INDICATION OF INTEREST'];
+function dSize(){ dcv.width=innerWidth; dcv.height=innerHeight; }
+addEventListener('resize',()=>{ if(derbyOn) dSize(); });
+function openDerby(){
+  derbyOn=true; dSize();
+  derbyEl.classList.add('on'); dEnd.hidden=true;
+  dPitchN=0; dHR=0; dLongest=0;
+  dHSEl.textContent=dHS; dHREl.textContent='0'; dLongEl.textContent='0';
+  sSelect();
+  setTimeout(nextPitch,700);
+  requestAnimationFrame(derbyLoop);
+}
+function closeDerby(){
+  derbyOn=false; dState='idle';
+  derbyEl.classList.remove('on');
+  sSelect();
+}
+document.getElementById('dExit').addEventListener('click',closeDerby);
+document.getElementById('dBack').addEventListener('click',closeDerby);
+document.getElementById('dAgain').addEventListener('click',()=>{ dEnd.hidden=true; dPitchN=0; dHR=0; dLongest=0; dHREl.textContent='0'; dLongEl.textContent='0'; setTimeout(nextPitch,500); });
+document.getElementById('miDerby').addEventListener('click',openDerby);
+document.getElementById('miDerby').addEventListener('mouseenter',sHover);
+function nextPitch(){
+  if(!derbyOn) return;
+  if(dPitchN>=10){ endDerby(); return; }
+  dPitchN++;
+  dPitchEl.textContent=dPitchN;
+  dLabel=PITCHES[Math.floor(Math.random()*PITCHES.length)];
+  dDur=1.0+Math.random()*.55;
+  dCurve=(Math.random()-.5)*160;
+  dSwung=false; dBall=null;
+  dState='windup';
+  setTimeout(()=>{ if(derbyOn&&dState==='windup'){ dState='pitch'; dT0=performance.now(); sTick(); } },420);
+}
+function callout(txt,miss){
+  dCall.textContent=txt;
+  dCall.classList.toggle('miss',!!miss);
+  dCall.classList.remove('pop'); void dCall.offsetWidth; dCall.classList.add('pop');
+}
+function derbySwing(){
+  if(dState!=='pitch'||dSwung) return;
+  dSwung=true;
+  const p=(performance.now()-dT0)/(dDur*1000);
+  const q=1-Math.abs(p-.93)/.10;          /* contact quality, 1 = perfect */
+  if(q<=0){ whiff(p<.93?'TOO EARLY':'SWING AND A MISS'); return; }
+  const dist=Math.round(300+q*170+Math.random()*30);
+  const isHR=dist>=340;
+  crack();
+  dState='flight';
+  dBall={x:dcv.width/2+dCurve,y:dcv.height*.78,vx:(Math.random()-.5)*5,vy:-(10+q*8),r:16,hr:isHR,t:0};
+  if(isHR){
+    roar(); if(!REDUCED) confetti(70);
+    dHR++; dHREl.textContent=dHR;
+    if(dist>dLongest){ dLongest=dist; dLongEl.textContent=dLongest; }
+    callout(q>.72?`MOONSHOT! ${dist} FT`:`DINGER! ${dist} FT`);
+    unlock('dinger');
+    if(dHR>=5) unlock('derbychamp');
+  }else{
+    blip(220,.2,'sine',.1);
+    callout(`WARNING TRACK — ${dist} FT`,true);
+  }
+  setTimeout(nextPitch,1200);
+}
+function whiff(txt){
+  dState='result';
+  whoosh();
+  callout(txt,true);
+  setTimeout(nextPitch,900);
+}
+window.addEventListener('keydown',e=>{
+  if(!derbyOn) return;
+  if(e.key==='Escape'){ closeDerby(); return; }
+  if(e.key===' '||e.key==='Enter'){ e.preventDefault(); derbySwing(); }
+});
+dcv.addEventListener('pointerdown',derbySwing);
+function endDerby(){
+  dState='idle';
+  const rank=dHR>=8?'GOAT':dHR>=5?'MVP':dHR>=3?'ALL-STAR':dHR>=1?'ROLE PLAYER':'BENCH WARMER';
+  document.getElementById('deRank').textContent=rank;
+  document.getElementById('deHR').textContent=dHR;
+  document.getElementById('deLong').textContent=dLongest;
+  const isNew=dHR>dHS;
+  if(isNew){ dHS=dHR; localStorage.setItem('mcl_derby_hs',String(dHS)); dHSEl.textContent=dHS; }
+  document.getElementById('deNew').hidden=!isNew;
+  if(dHR>=5){ sFanfare(); if(!REDUCED) confetti(120); } else sSelect();
+  dEnd.hidden=false;
+}
+function derbyLoop(){
+  if(!derbyOn) return;
+  const W=dcv.width,H=dcv.height,cx=W/2;
+  dctx.clearRect(0,0,W,H);
+  /* field */
+  const sky=dctx.createLinearGradient(0,0,0,H);
+  sky.addColorStop(0,'#05070e'); sky.addColorStop(.55,'#0a1020'); sky.addColorStop(1,'#0e1830');
+  dctx.fillStyle=sky; dctx.fillRect(0,0,W,H);
+  /* outfield wall */
+  dctx.strokeStyle='rgba(46,224,255,.5)'; dctx.lineWidth=3;
+  dctx.beginPath(); dctx.ellipse(cx,H*.46,W*.42,H*.13,0,Math.PI,0); dctx.stroke();
+  dctx.fillStyle='rgba(139,150,184,.55)'; dctx.font='600 12px "IBM Plex Mono",monospace'; dctx.textAlign='center';
+  dctx.fillText('330',cx-W*.34,H*.47); dctx.fillText('410',cx,H*.335); dctx.fillText('330',cx+W*.34,H*.47);
+  /* foul lines */
+  dctx.strokeStyle='rgba(255,255,255,.10)'; dctx.lineWidth=2;
+  dctx.beginPath(); dctx.moveTo(cx,H*.82); dctx.lineTo(cx-W*.43,H*.42); dctx.moveTo(cx,H*.82); dctx.lineTo(cx+W*.43,H*.42); dctx.stroke();
+  /* mound + plate */
+  dctx.fillStyle='rgba(255,179,0,.25)'; dctx.beginPath(); dctx.ellipse(cx,H*.55,26,9,0,0,7); dctx.fill();
+  /* contact ring */
+  const ringY=H*.78;
+  dctx.strokeStyle=dState==='pitch'?'rgba(255,211,77,.9)':'rgba(255,211,77,.35)';
+  dctx.lineWidth=3; dctx.setLineDash([10,7]);
+  dctx.beginPath(); dctx.arc(cx,ringY,34,0,7); dctx.stroke(); dctx.setLineDash([]);
+  /* pitch ball */
+  if(dState==='pitch'){
+    const p=(performance.now()-dT0)/(dDur*1000);
+    if(p>=1.08&&!dSwung){ dState='result'; callout('CALLED STRIKE',true); blip(160,.18,'sine',.1); setTimeout(nextPitch,800); }
+    else if(p<=1.08){
+      const x=cx+dCurve*Math.sin(p*Math.PI);
+      const y=H*.55+(ringY-H*.55)*p*p;
+      const r=5+24*p*p;
+      const glow=dctx.createRadialGradient(x,y,1,x,y,r*2.4);
+      glow.addColorStop(0,'rgba(255,255,255,.9)'); glow.addColorStop(.4,'rgba(255,211,77,.5)'); glow.addColorStop(1,'rgba(255,179,0,0)');
+      dctx.fillStyle=glow; dctx.beginPath(); dctx.arc(x,y,r*2.4,0,7); dctx.fill();
+      dctx.fillStyle='#f4f6fb'; dctx.beginPath(); dctx.arc(x,y,r,0,7); dctx.fill();
+      dctx.strokeStyle='rgba(255,59,92,.8)'; dctx.lineWidth=2;
+      dctx.beginPath(); dctx.arc(x,y,r*.62,-.6,.9); dctx.stroke();
+      dctx.fillStyle='rgba(46,224,255,.95)'; dctx.font='700 13px "IBM Plex Mono",monospace';
+      dctx.fillText(dLabel,x,y-r-12);
+    }
+  }
+  /* hit ball flight */
+  if(dBall){
+    dBall.t++; dBall.x+=dBall.vx; dBall.y+=dBall.vy; dBall.vy+=.16; dBall.r*=.985;
+    const tr=dctx.createRadialGradient(dBall.x,dBall.y,1,dBall.x,dBall.y,dBall.r*3);
+    tr.addColorStop(0,'rgba(255,255,255,.95)'); tr.addColorStop(.5,dBall.hr?'rgba(255,211,77,.6)':'rgba(139,150,184,.4)'); tr.addColorStop(1,'rgba(0,0,0,0)');
+    dctx.fillStyle=tr; dctx.beginPath(); dctx.arc(dBall.x,dBall.y,dBall.r*3,0,7); dctx.fill();
+    if(dBall.y<-60||dBall.t>120) dBall=null;
+  }
+  /* helper text */
+  dctx.fillStyle='rgba(139,150,184,.6)'; dctx.font='600 12px "IBM Plex Mono",monospace'; dctx.textAlign='center';
+  dctx.fillText('CLICK / SPACE / Ⓐ TO SWING — CONNECT WHEN THE PITCH FILLS THE RING',cx,H-30);
+  requestAnimationFrame(derbyLoop);
+}
+
+/* ============================================================
+   TERMINAL — press \` for mcl-os
+   ============================================================ */
+const term=document.getElementById('term'), termOut=document.getElementById('termOut'), termInput=document.getElementById('termInput');
+let termOpen=false;
+function tPrint(html,cls){ const d=document.createElement('div'); if(cls)d.className=cls; d.innerHTML=html; termOut.appendChild(d); termOut.scrollTop=termOut.scrollHeight; }
+function openTerm(){
+  termOpen=true; term.classList.add('on'); termInput.focus();
+  if(!termOut.childElementCount){
+    tPrint('<span class="t-gold">mcl-os v26.0.1</span> — McLaughlin Operating System','');
+    tPrint('type <span class="t-cyan">help</span> for commands','t-sys');
+  }
+  unlock('hacker'); sSelect();
+}
+function closeTerm(){ termOpen=false; term.classList.remove('on'); termInput.blur(); }
+window.addEventListener('keydown',e=>{
+  if(e.key==='`'){ e.preventDefault(); termOpen?closeTerm():openTerm(); }
+  else if(e.key==='Escape'&&termOpen) closeTerm();
+});
+termInput.addEventListener('keydown',e=>{
+  e.stopPropagation();
+  if(e.key==='Escape'){ closeTerm(); return; }
+  if(e.key!=='Enter') return;
+  const raw=termInput.value.trim(); termInput.value='';
+  if(!raw) return;
+  tPrint('<span class="t-gold">greg@mcl-os:~$</span> '+raw.replace(/</g,'&lt;'),'');
+  const [cmd,...args]=raw.toLowerCase().split(/\s+/);
+  sTick();
+  switch(cmd){
+    case 'help':
+      tPrint('help · whoami · stats · ls · cat &lt;file&gt; · trophies · derby · goat · gscott · clouds · hire · clear · exit','t-cyan'); break;
+    case 'whoami':
+      tPrint('Greg McLaughlin — M&A partnerships executive / AI builder. Tampa, FL. OVR 99.',''); break;
+    case 'stats':
+      tPrint('seasons: 10\nteams: 6\nacquisitions_survived: 3\npartner_network: 100+\narr_built_from_zero: $2.5M\napps_shipped: 12+\ncold_email_response_time: 4min',''); break;
+    case 'ls':
+      tPrint('resume.txt   gscott/   blackhole.html   slime.glsl   shortwave.wav   micrometeorites/   deals/','t-cyan'); break;
+    case 'cat':
+      if(args[0]==='resume.txt') tPrint('Life.io → Curalate → HGS Digital → Laskie → Kharon → Align BA.\nThree acquisitions. Temple actuarial science. Ships software at night.','');
+      else tPrint('cat: '+(args[0]||'')+': permission denied (it\'s personal)','t-red');
+      break;
+    case 'trophies':
+      tPrint([...earned].map(id=>ACH[id]?ACH[id].ico+' '+ACH[id].name:id).join('\n')||'none yet — go explore','t-gold'); break;
+    case 'derby': closeTerm(); openDerby(); break;
+    case 'goat': closeTerm(); toggleGoat(); break;
+    case 'gscott':
+      tPrint('GSCOTT AUTONOMOUS TRADING SYSTEM\nstatus: LIVE · mode: fully autonomous\nportfolios: multiple · capital: real\nlast_action: bought while you were reading this','t-cyan'); break;
+    case 'clouds':
+      tPrint('NOCTILUCENT CLOUD FORECAST — TAMPA FL\nvisibility: poor (latitude 27.9°N, too far south)\nrecommendation: drive north ~2,400 miles. worth it.',''); break;
+    case 'hire':
+      tPrint('opening contract negotiations…','t-gold'); unlock('closer');
+      setTimeout(()=>{ location.href='mailto:greg.s.mclaughlin@gmail.com'; },600); break;
+    case 'sudo':
+      tPrint('greg is not in the sudoers file. this incident will be reported to the league office.','t-red'); break;
+    case 'clear': termOut.innerHTML=''; break;
+    case 'exit': closeTerm(); break;
+    default: tPrint('command not found: '+cmd+' — try <span class="t-cyan">help</span>','t-red');
+  }
+});
+
+/* ============================================================
+   ATTRACT MODE — arcade demo loop after 60s idle
+   ============================================================ */
+const attract=document.getElementById('attract');
+let idleTimer=null, attractTimer=null, attractOn=false;
+function stopAttract(){
+  if(attractOn){ attractOn=false; attract.classList.remove('on'); clearInterval(attractTimer); }
+  clearTimeout(idleTimer);
+  idleTimer=setTimeout(startAttract,60000);
+}
+function startAttract(){
+  if(!booted||derbyOn||termOpen||document.hidden){ stopAttract(); return; }
+  attractOn=true; attract.classList.add('on');
+  const order=['home','career','attributes','achievements','scouting','freeagency'];
+  let i=order.indexOf(current);
+  attractTimer=setInterval(()=>{ i=(i+1)%order.length; show(order[i]); },5000);
+}
+['pointermove','pointerdown','keydown','wheel'].forEach(ev=>addEventListener(ev,stopAttract,{passive:true}));
+stopAttract();
+
+/* ============================================================
    TICKER
    ============================================================ */
 const headlines=[
@@ -1207,6 +1718,8 @@ const headlines=[
   'M&amp;A WIRE: 100+ advisor ecosystem reports <b>career-high engagement</b> this season',
   'TECH DESK: Rendered a black hole in one HTML file — <b>physics dept declines comment</b>',
   'CHEAT CODES: Insiders whisper the old <b>up-up-down-down</b> still works around here',
+  'GAME NIGHT: <b>HOME RUN DERBY</b> now playable from the main menu — swing at live term sheets',
+  'DEV LEAK: Pressing <b>backtick</b> allegedly opens something called mcl-os',
   'FREE AGENCY: Front office confirms — <b>now accepting offers</b>'
 ];
 const tk=document.getElementById('tkTrack');
@@ -1218,6 +1731,10 @@ tk.innerHTML=seq+seq; /* doubled for seamless loop */
    ============================================================ */
 function silentStart(){ const m=muted; muted=true; loadDone=true; start(); muted=m; }
 if(deepLink&&screens[deepLink]){ silentStart(); show(deepLink,false); }
+/* shareable launchers: ?derby=1 jumps straight into the mini-game, ?term=1 opens mcl-os */
+const qp=new URLSearchParams(location.search);
+if(qp.has('derby')){ if(!booted){ document.getElementById('splash')?.remove(); silentStart(); } openDerby(); }
+if(qp.has('term')){ if(!booted){ document.getElementById('splash')?.remove(); silentStart(); } openTerm(); }
 window.addEventListener('hashchange',()=>{
   const h=location.hash.replace('#','');
   if(screens[h]){ if(!booted) silentStart(); show(h); }

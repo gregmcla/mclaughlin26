@@ -12,9 +12,21 @@ radar hex chart) · Achievements (side projects as unlockables) ·
 Scouting Report · Free Agency (contact). Sports-wire ticker, diagonal
 wipe transitions, particle atmosphere, WebAudio menu sounds.
 
-**For the visitor:** 8 meta-achievements with trophy toasts (try
+**For the visitor:** 11 meta-achievements with trophy toasts (try
 finding them all), Konami code → **GOAT MODE**, and full Gamepad API
 support — yes, you can browse this website with a controller.
+
+**Cracked tier:**
+- **HOME RUN DERBY** — a playable mini-game. Swing at term sheets and
+  earnouts. 10 pitches, real timing windows, persisted high score.
+  (`?derby=1` to jump straight in)
+- **Procedural chiptune soundtrack** — a 16-step sequencer written in
+  raw WebAudio: synthesized kick/snare/hats, square bass, delay-fed arps.
+- **GLSL shader backdrop** — volumetric stadium beams rendered in WebGL.
+- **mcl-os** — press `` ` `` for the hidden terminal. Try `gscott`,
+  `clouds`, `sudo`, `hire`. (`?term=1`)
+- **Attract mode** — leave it idle 60s and it demos itself like an arcade
+  cabinet.
 
 **Run it:**
 
