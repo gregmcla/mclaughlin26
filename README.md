@@ -28,6 +28,17 @@ support — yes, you can browse this website with a controller.
 - **Attract mode** — leave it idle 60s and it demos itself like an arcade
   cabinet.
 
+**Final boss tier:**
+- **CARD PACKS** — rip Series 26 wax. 21-card set, weighted rarity pulls
+  with a pity rule, 3D flip reveals, fireworks on legendaries, persistent
+  collection. (`?packs=1`)
+- **HIGHLIGHT REEL** — a broadcast-style career cinematic, narrated live
+  by the stadium announcer. (`?reel=1`)
+- **HALL OF FAME** — beat the derby leaderboard and etch your initials,
+  arcade style.
+- **Fireworks engine** — rockets, bursts, synthesized pops.
+- **Installable PWA** — service worker, offline play, fullscreen app.
+
 **Run it:**
 
 ```bash

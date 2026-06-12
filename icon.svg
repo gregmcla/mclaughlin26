@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#06080f"/>
+  <polygon points="64,48 472,48 440,464 40,464" fill="#ffb300"/>
+  <polygon points="84,68 452,68 423,444 61,444" fill="#0e1426"/>
+  <text x="256" y="330" font-family="Arial Black, Arial, sans-serif" font-size="200" font-weight="900"
+        text-anchor="middle" fill="#ffb300" transform="skewX(-6)" transform-origin="256 256">26</text>
+  <rect x="84" y="68" width="368" height="14" fill="#2ee0ff"/>
+</svg>

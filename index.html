@@ -9,6 +9,8 @@
 <meta property="og:description" content="10 seasons. 3 acquisitions. 12+ apps shipped. Press Start.">
 <meta property="og:image" content="https://raw.githubusercontent.com/gregmcla/mclaughlin26/main/player.jpeg">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpolygon points='8,4 60,4 56,60 4,60' fill='%23ffb300'/%3E%3Ctext x='32' y='44' font-family='Arial Black,Arial' font-size='30' font-weight='900' text-anchor='middle' fill='%23191000' transform='skewX(-6 32 32)'%3E26%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#06080f">
+<link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -241,6 +243,92 @@ body.goat .goat-crown{display:block}
 }
 #attract.on{display:block}
 
+/* ============ CARD PACKS ============ */
+#packs{position:fixed;inset:0;z-index:60;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(3,5,10,.94);backdrop-filter:blur(5px)}
+#packs.on{display:flex}
+.pk-kick{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5em;color:var(--cyan);text-transform:uppercase;margin-bottom:8px}
+.pk-title{font-family:'Anton',sans-serif;font-size:clamp(34px,4.5vw,56px);text-transform:uppercase;transform:skewX(var(--skew));margin-bottom:6px}
+.pk-title em{font-style:normal;color:var(--gold)}
+.pk-coll{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.25em;color:var(--dim);text-transform:uppercase;margin-bottom:30px}
+.pk-coll b{color:var(--gold-hi)}
+#pkPack{
+  width:210px;height:300px;cursor:pointer;position:relative;transform:skewX(-3deg);
+  background:linear-gradient(155deg,#1a2240 0%,#0e1426 45%,#27306 100%),linear-gradient(155deg,#1a2240,#0e1426);
+  border:1px solid rgba(255,179,0,.5);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 24px 70px rgba(0,0,0,.6),inset 0 0 60px rgba(46,224,255,.08);
+  transition:transform .2s;
+}
+#pkPack::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(140px circle at 30% 25%,rgba(46,224,255,.25),transparent 60%),
+  radial-gradient(160px circle at 75% 75%,rgba(255,179,0,.22),transparent 60%);mix-blend-mode:screen}
+#pkPack:hover{transform:skewX(-3deg) translateY(-6px) rotate(-1deg)}
+#pkPack.shake{animation:pkshake .5s ease-in-out}
+@keyframes pkshake{0%,100%{transform:skewX(-3deg)}20%{transform:skewX(-3deg) rotate(-4deg)}40%{transform:skewX(-3deg) rotate(4deg)}60%{transform:skewX(-3deg) rotate(-3deg)}80%{transform:skewX(-3deg) rotate(2deg)}}
+#pkPack.ripped{animation:pkrip .55s cubic-bezier(.7,0,.3,1) both}
+@keyframes pkrip{40%{transform:skewX(-3deg) scale(1.12)}100%{transform:skewX(-3deg) scale(0);opacity:0}}
+.pk-logo{font-family:'Anton',sans-serif;font-size:34px;transform:skewX(-5deg);text-transform:uppercase}
+.pk-logo span{color:var(--gold)}
+.pk-series{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.4em;color:var(--cyan);text-transform:uppercase}
+.pk-hint{margin-top:26px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.3em;color:#5b688f;text-transform:uppercase;animation:blink 1.6s steps(2,start) infinite}
+.pk-cards{display:flex;gap:22px;perspective:1200px}
+.pcard3{width:200px;height:286px;position:relative;cursor:pointer;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.3,1.2,.4,1);opacity:0;animation:dealup .5s cubic-bezier(.22,1.3,.36,1) both}
+@keyframes dealup{from{opacity:0;transform:translateY(120px) rotate(6deg)}to{opacity:1;transform:none}}
+.pcard3.flipped{transform:rotateY(180deg)}
+.pc3-face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid var(--line);
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%)}
+.pc3-back{background:linear-gradient(155deg,#131a30,#0a0f1d);display:flex;align-items:center;justify-content:center;
+  font-family:'Anton',sans-serif;font-size:40px;color:#26314f;transform:rotateY(0)}
+.pc3-front{transform:rotateY(180deg);background:linear-gradient(165deg,var(--panel2),var(--panel));padding:14px;display:flex;flex-direction:column}
+.pc3-front .c-rar{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;margin-bottom:8px}
+.pc3-front .c-ico{font-size:44px;margin:14px 0 10px;text-align:center;filter:drop-shadow(0 6px 18px rgba(0,0,0,.6))}
+.pc3-front .c-name{font-family:'Anton',sans-serif;font-size:19px;text-transform:uppercase;text-align:center;line-height:1.05;margin-bottom:8px}
+.pc3-front .c-fluff{font-size:12.5px;line-height:1.4;color:#9aa6c6;text-align:center}
+.pc3-front .c-new{margin-top:auto;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.3em;color:var(--cyan);text-align:center;text-transform:uppercase}
+.pcard3.r-leg2 .pc3-front{border:0;outline:2px solid var(--gold);box-shadow:0 0 50px rgba(255,179,0,.5)}
+.pcard3.r-epic2 .pc3-front{outline:1px solid rgba(46,224,255,.7);box-shadow:0 0 34px rgba(46,224,255,.3)}
+.pcard3.r-rare2 .pc3-front{outline:1px solid rgba(157,140,255,.6)}
+.pk-again{margin-top:34px;display:none;gap:14px}
+.pk-again.on{display:flex}
+
+/* ============ HIGHLIGHT REEL ============ */
+#reel{position:fixed;inset:0;z-index:62;display:none;background:#03050a;overflow:hidden;cursor:pointer}
+#reel.on{display:block}
+#reel .rl-flash{position:absolute;inset:0;background:var(--gold);opacity:0;pointer-events:none}
+#reel .rl-flash.go{animation:rlflash .5s ease-out}
+@keyframes rlflash{from{opacity:.7}to{opacity:0}}
+.rl-slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6vw}
+.rl-kick{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.55em;color:var(--cyan);text-transform:uppercase;margin-bottom:22px;opacity:0;animation:rise .5s .1s both}
+.rl-big{font-family:'Anton',sans-serif;font-size:clamp(44px,8.5vw,128px);line-height:.92;text-transform:uppercase;transform:skewX(var(--skew));
+  background:linear-gradient(180deg,#fff 30%,#9fb0d8);-webkit-background-clip:text;background-clip:text;color:transparent;
+  opacity:0;animation:rlbig .6s .2s cubic-bezier(.22,1.2,.36,1) both}
+.rl-big em{font-style:normal;background:linear-gradient(180deg,var(--gold-hi),var(--gold));-webkit-background-clip:text;background-clip:text}
+@keyframes rlbig{from{opacity:0;transform:skewX(var(--skew)) scale(1.35)}to{opacity:1;transform:skewX(var(--skew)) scale(1)}}
+.rl-sub{margin-top:24px;font-size:20px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);opacity:0;animation:rise .5s .45s both}
+.rl-dots{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);display:flex;gap:9px}
+.rl-dots i{width:8px;height:8px;background:#26314f;transform:skewX(var(--skew))}
+.rl-dots i.on{background:var(--gold)}
+.rl-skip{position:absolute;top:20px;right:24px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.25em;color:#5b688f;text-transform:uppercase}
+
+/* ============ DERBY LEADERBOARD + INITIALS ============ */
+.de-lb{margin-top:18px;min-width:340px}
+.de-lb h4{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.45em;color:var(--cyan);text-transform:uppercase;text-align:center;margin-bottom:10px}
+.de-lb table{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em}
+.de-lb td{padding:6px 12px;color:var(--dim);border-bottom:1px solid #18203a;text-transform:uppercase}
+.de-lb tr.me td{color:var(--gold-hi)}
+.de-lb td:first-child{color:#46537a}
+.de-lb td:last-child{text-align:right;color:var(--ink)}
+#deInit{display:none;flex-direction:column;align-items:center;gap:16px;margin-top:10px}
+#deInit.on{display:flex}
+.init-kick{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;animation:blink 1.4s steps(2,start) infinite}
+.init-row{display:flex;gap:14px}
+.init-slot{
+  width:74px;height:92px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;
+  font-family:'Anton',sans-serif;font-size:54px;color:var(--ink);
+  background:linear-gradient(165deg,var(--panel2),var(--panel));border:1px solid var(--line);transform:skewX(var(--skew));
+}
+.init-slot.sel{border-color:var(--gold);color:var(--gold-hi);box-shadow:0 0 26px rgba(255,179,0,.25)}
+
 .main{flex:1;display:flex;min-height:0}
 
 /* ============ MENU ============ */
@@ -253,8 +341,8 @@ body.goat .goat-crown{display:block}
 }
 .mi{
   position:relative;display:block;width:100%;text-align:left;background:none;border:0;cursor:pointer;
-  font-family:'Anton',sans-serif;font-size:30px;letter-spacing:.02em;text-transform:uppercase;color:#5b688f;
-  padding:10px 14px;transform:skewX(var(--skew));transition:color .18s,transform .18s,padding .18s;
+  font-family:'Anton',sans-serif;font-size:25px;letter-spacing:.02em;text-transform:uppercase;color:#5b688f;
+  padding:7px 14px;transform:skewX(var(--skew));transition:color .18s,transform .18s,padding .18s;
   opacity:0;animation:rise .55s both;
 }
 .mi small{
@@ -578,6 +666,8 @@ body.goat .goat-crown{display:block}
       <button class="mi" data-screen="scouting" style="animation-delay:.33s">Scouting Report<small>Strengths &amp; Quirks</small></button>
       <button class="mi" data-screen="freeagency" style="animation-delay:.40s">Free Agency<small>Get In Touch</small></button>
       <button class="mi" id="miDerby" style="animation-delay:.47s">HR Derby<small>Mini Game · Playable</small></button>
+      <button class="mi" id="miPacks" style="animation-delay:.54s">Card Packs<small>Rip · Collect All 21</small></button>
+      <button class="mi" id="miReel" style="animation-delay:.61s">Highlight Reel<small>Cinematic · Sound On</small></button>
     </nav>
 
     <!-- STAGE -->
@@ -903,6 +993,19 @@ body.goat .goat-crown{display:block}
     <div class="de-rank" id="deRank">MVP</div>
     <div class="de-line"><b id="deHR">0</b> HOME RUNS · LONGEST <b id="deLong">0</b> FT</div>
     <div class="de-line" id="deNew" style="color:var(--gold-hi)" hidden>★ NEW HIGH SCORE ★</div>
+    <div id="deInit">
+      <div class="init-kick">▶ Hall of Fame — Enter Your Initials</div>
+      <div class="init-row">
+        <div class="init-slot sel" data-i="0">A</div>
+        <div class="init-slot" data-i="1">A</div>
+        <div class="init-slot" data-i="2">A</div>
+      </div>
+      <button class="btn btn-gold" id="initOk"><span>Lock It In</span></button>
+    </div>
+    <div class="de-lb" id="deLbWrap" hidden>
+      <h4>Hall of Fame</h4>
+      <table id="deLb"></table>
+    </div>
     <div class="de-btns">
       <button class="btn btn-gold" id="dAgain"><span>Play Again</span></button>
       <button class="btn btn-ghost" id="dBack"><span>Back To Menu</span></button>
@@ -921,6 +1024,32 @@ body.goat .goat-crown{display:block}
 
 <!-- ATTRACT MODE -->
 <div id="attract">Demo Mode — Press Any Button</div>
+
+<!-- CARD PACKS -->
+<div id="packs">
+  <div class="pk-kick">The Hobby</div>
+  <div class="pk-title">Card <em>Packs</em></div>
+  <div class="pk-coll">COLLECTION <b id="pkCount">0</b>/21</div>
+  <div id="pkStage">
+    <div id="pkPack">
+      <div class="pk-logo">McL<span>'26</span></div>
+      <div class="pk-series">Series 26 · 3 Cards</div>
+    </div>
+  </div>
+  <div class="pk-hint" id="pkHint">▶ Click The Pack To Rip</div>
+  <div class="pk-again de-btns" id="pkAgain">
+    <button class="btn btn-gold" id="pkMore"><span>Rip Another</span></button>
+    <button class="btn btn-ghost" id="pkExit"><span>Back To Menu</span></button>
+  </div>
+</div>
+
+<!-- HIGHLIGHT REEL -->
+<div id="reel">
+  <div class="rl-flash" id="rlFlash"></div>
+  <div id="rlStage"></div>
+  <div class="rl-dots" id="rlDots"></div>
+  <div class="rl-skip">Click To Advance · Esc To Exit</div>
+</div>
 
 <script>
 'use strict';
@@ -1034,9 +1163,39 @@ function confetti(n){
     a:1, life:340+Math.random()*120
   });
 }
+function fireworks(n){
+  if(REDUCED) return;
+  for(let i=0;i<n;i++) setTimeout(()=>{
+    parts.push({kind:'rocket', x:innerWidth*(.15+Math.random()*.7), y:innerHeight+12,
+      vx:(Math.random()-.5)*1.2, vy:-(8.5+Math.random()*3.5),
+      c:['255,179,0','46,224,255','242,245,252','255,59,92'][Math.floor(Math.random()*4)],
+      a:1, life:400});
+  }, i*260);
+}
+function burst(x,y,c){
+  for(let i=0;i<38;i++){
+    const a=Math.random()*Math.PI*2, sp=1+Math.random()*3.6;
+    parts.push({kind:'spark', x, y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp,
+      c, a:1, life:60+Math.random()*45});
+  }
+}
 function fxLoop(){
   fctx.clearRect(0,0,innerWidth,innerHeight);
   for(const p of parts){
+    if(p.kind==='rocket'){
+      p.x+=p.vx; p.y+=p.vy; p.vy+=.09; p.life--;
+      fctx.fillStyle=`rgba(${p.c},.9)`;
+      fctx.fillRect(p.x-1.5,p.y,3,9);
+      if(p.vy>-1){ p.life=0; burst(p.x,p.y,p.c); if(!muted) blip(120+Math.random()*120,.25,'sine',.08); }
+      continue;
+    }
+    if(p.kind==='spark'){
+      p.x+=p.vx; p.y+=p.vy; p.vy+=.045; p.vx*=.985; p.life--;
+      if(p.life<40) p.a=p.life/40;
+      fctx.fillStyle=`rgba(${p.c},${p.a})`;
+      fctx.beginPath(); fctx.arc(p.x,p.y,1.8,0,7); fctx.fill();
+      continue;
+    }
     if(p.kind==='dust'){
       p.x+=p.vx; p.y+=p.vy;
       if(p.y<-5){ p.y=innerHeight+5; p.x=Math.random()*innerWidth; }
@@ -1070,7 +1229,11 @@ const ACH={
   closer:       {ico:'🤝', name:'The Closer',        desc:'Initiated contract negotiations with Greg.'},
   dinger:       {ico:'💥', name:'Dinger',            desc:'Took a term sheet deep. First home run.'},
   derbychamp:   {ico:'🏆', name:'Derby Champ',       desc:'Five or more home runs in a single derby.'},
-  hacker:       {ico:'💻', name:'Terminal Velocity', desc:'Found the developer console. Cracked.'}
+  hacker:       {ico:'💻', name:'Terminal Velocity', desc:'Found the developer console. Cracked.'},
+  packrip:      {ico:'🃏', name:'Wax Ripper',        desc:'Opened your first pack of Series 26.'},
+  collector:    {ico:'📦', name:'Master Set',        desc:'Collected all 21 cards. Touch grass.'},
+  showtime:     {ico:'🎬', name:'Showtime',          desc:'Watched the career highlight reel to the end.'},
+  halloffame:   {ico:'🏛️', name:'Hall of Famer',    desc:'Etched your initials into the derby leaderboard.'}
 };
 let earned=new Set(JSON.parse(localStorage.getItem('mcl_ach')||'[]'));
 const tbT=document.getElementById('tbTrophies');
@@ -1185,7 +1348,7 @@ document.querySelectorAll('a.fa-row').forEach(a=>a.addEventListener('click',()=>
 
 /* keyboard nav like a real menu */
 window.addEventListener('keydown',e=>{
-  if(!booted||derbyOn||termOpen) return;
+  if(!booted||derbyOn||termOpen||packsOn||reelOn) return;
   const idx=items.findIndex(mi=>mi.dataset.screen===current);
   if(e.key==='ArrowDown'||e.key==='ArrowRight'){ e.preventDefault(); sHover(); show(items[(idx+1)%items.length].dataset.screen); }
   if(e.key==='ArrowUp'||e.key==='ArrowLeft'){ e.preventDefault(); sHover(); show(items[(idx-1+items.length)%items.length].dataset.screen); }
@@ -1328,7 +1491,7 @@ function toggleGoat(){
   if(goat){
     ovr.textContent='100'; mode.textContent='GOAT MODE';
     document.title="MCLAUGHLIN '26 — 🐐 GOAT MODE";
-    sFanfare(); if(!REDUCED) confetti(160);
+    sFanfare(); if(!REDUCED){ confetti(160); fireworks(6); }
     announce('Goat mode activated.');
     unlock('konami');
   }else{
@@ -1554,9 +1717,49 @@ function whiff(txt){
 window.addEventListener('keydown',e=>{
   if(!derbyOn) return;
   if(e.key==='Escape'){ closeDerby(); return; }
+  if(deInit.classList.contains('on')){           /* arcade initials entry */
+    e.preventDefault();
+    if(e.key==='ArrowLeft') slotSel=(slotSel+2)%3;
+    if(e.key==='ArrowRight') slotSel=(slotSel+1)%3;
+    if(e.key==='ArrowUp') cycleSlot(slotSel,1);
+    if(e.key==='ArrowDown') cycleSlot(slotSel,-1);
+    if(/^[a-z ]$/i.test(e.key)){ slots[slotSel].textContent=e.key.toUpperCase(); slotSel=(slotSel+1)%3; sTick(); }
+    if(e.key==='Enter') confirmInitials();
+    slots.forEach((x,j)=>x.classList.toggle('sel',j===slotSel));
+    return;
+  }
   if(e.key===' '||e.key==='Enter'){ e.preventDefault(); derbySwing(); }
 });
 dcv.addEventListener('pointerdown',derbySwing);
+/* --- hall of fame leaderboard --- */
+let dLb=JSON.parse(localStorage.getItem('mcl_derby_lb')||'null');
+if(!dLb) dLb=[{n:'GSM',hr:6,ft:471},{n:'AI ',hr:4,ft:430},{n:'PE ',hr:3,ft:402},{n:'LOI',hr:2,ft:381},{n:'NDA',hr:1,ft:344}];
+const deInit=document.getElementById('deInit'), deLbWrap=document.getElementById('deLbWrap');
+const slots=[...document.querySelectorAll('.init-slot')];
+let slotSel=0, lbPendIdx=-1;
+function renderLb(hi){
+  document.getElementById('deLb').innerHTML=dLb.map((r,i)=>
+    `<tr${i===hi?' class="me"':''}><td>${i+1}</td><td>${r.n}</td><td>${r.hr} HR</td><td>${r.ft} FT</td></tr>`).join('');
+  deLbWrap.hidden=false;
+}
+function cycleSlot(i,dir){
+  const A='ABCDEFGHIJKLMNOPQRSTUVWXYZ ';
+  const cur=A.indexOf(slots[i].textContent);
+  slots[i].textContent=A[(cur+dir+A.length)%A.length];
+  sTick();
+}
+slots.forEach((s,i)=>s.addEventListener('click',e=>{ slotSel=i; slots.forEach((x,j)=>x.classList.toggle('sel',j===i)); cycleSlot(i,e.shiftKey?-1:1); }));
+function confirmInitials(){
+  const name=slots.map(s=>s.textContent).join('');
+  dLb.splice(lbPendIdx,0,{n:name,hr:dHR,ft:dLongest});
+  dLb=dLb.slice(0,5);
+  localStorage.setItem('mcl_derby_lb',JSON.stringify(dLb));
+  deInit.classList.remove('on');
+  renderLb(lbPendIdx);
+  unlock('halloffame');
+  sFanfare();
+}
+document.getElementById('initOk').addEventListener('click',confirmInitials);
 function endDerby(){
   dState='idle';
   const rank=dHR>=8?'GOAT':dHR>=5?'MVP':dHR>=3?'ALL-STAR':dHR>=1?'ROLE PLAYER':'BENCH WARMER';
@@ -1566,7 +1769,12 @@ function endDerby(){
   const isNew=dHR>dHS;
   if(isNew){ dHS=dHR; localStorage.setItem('mcl_derby_hs',String(dHS)); dHSEl.textContent=dHS; }
   document.getElementById('deNew').hidden=!isNew;
-  if(dHR>=5){ sFanfare(); if(!REDUCED) confetti(120); } else sSelect();
+  /* hall of fame check */
+  lbPendIdx=dLb.findIndex(r=>dHR>r.hr||(dHR===r.hr&&dLongest>r.ft));
+  if(dHR>0&&lbPendIdx===-1&&dLb.length<5) lbPendIdx=dLb.length;
+  if(dHR>0&&lbPendIdx>-1){ deInit.classList.add('on'); deLbWrap.hidden=true; }
+  else { deInit.classList.remove('on'); renderLb(-1); }
+  if(dHR>=5){ sFanfare(); if(!REDUCED){ confetti(120); fireworks(5); } } else sSelect();
   dEnd.hidden=false;
 }
 function derbyLoop(){
@@ -1695,7 +1903,7 @@ function stopAttract(){
   idleTimer=setTimeout(startAttract,60000);
 }
 function startAttract(){
-  if(!booted||derbyOn||termOpen||document.hidden){ stopAttract(); return; }
+  if(!booted||derbyOn||termOpen||packsOn||reelOn||document.hidden){ stopAttract(); return; }
   attractOn=true; attract.classList.add('on');
   const order=['home','career','attributes','achievements','scouting','freeagency'];
   let i=order.indexOf(current);
@@ -1703,6 +1911,147 @@ function startAttract(){
 }
 ['pointermove','pointerdown','keydown','wheel'].forEach(ev=>addEventListener(ev,stopAttract,{passive:true}));
 stopAttract();
+
+/* ============================================================
+   CARD PACKS — rip wax, collect the set
+   ============================================================ */
+const CARDS=[
+  {id:'gscott',  rar:'leg',  ico:'🤖', name:'The Franchise',     fluff:'Autonomous AI trading system. Live capital. Sleeps never.'},
+  {id:'threepeat',rar:'leg', ico:'💍', name:'Three-Peat',        fluff:'Three teams acquired with him on the roster. Coincidence?'},
+  {id:'ovr99',   rar:'leg',  ico:'⭐', name:'OVR 99 Greg',       fluff:'The base card every collector chases.'},
+  {id:'horizon', rar:'epic', ico:'🕳️', name:'Event Horizon',    fluff:'Bent light around a black hole in one HTML file.'},
+  {id:'slime',   rar:'epic', ico:'🟡', name:'Polycephalum',      fluff:'One million slime mold agents. Zero supervision.'},
+  {id:'villain', rar:'epic', ico:'🦹', name:'Villain Arc',       fluff:'Your grievances, now a comic book.'},
+  {id:'laskie',  rar:'epic', ico:'🚀', name:'$0 → $2.5M',        fluff:'Employee #6. Pre-revenue to ARR in one season.'},
+  {id:'network', rar:'epic', ico:'🕸️', name:'The Ecosystem',    fluff:'100+ advisors kept warm simultaneously.'},
+  {id:'darkwave',rar:'rare', ico:'📻', name:'Darkwave',          fluff:'Listens to ghost broadcasts so you don\'t have to.'},
+  {id:'sessions',rar:'rare', ico:'🎛️', name:'Mission Control',  fluff:'Operator console for fleets of AI agents.'},
+  {id:'sellprep',rar:'rare', ico:'📈', name:'Exit Velocity',     fluff:'AI coach for owners eyeing the exit.'},
+  {id:'mainwork',rar:'rare', ico:'🏪', name:'Main Street',       fluff:'AI consulting for the other 99% of businesses.'},
+  {id:'kharon',  rar:'rare', ico:'🛡️', name:'+60% Pipeline',    fluff:'Compliance-data partnerships, sharpened.'},
+  {id:'hgs',     rar:'rare', ico:'☁️', name:'Channel Builder',  fluff:'AWS, Twilio, Sprinklr — co-sell engaged.'},
+  {id:'curalate',rar:'rare', ico:'💼', name:'$4M Book',          fluff:'Enterprise renewals without breaking a sweat.'},
+  {id:'rookie',  rar:'com',  ico:'🐣', name:'Rookie Card',       fluff:'Life.io, 2016. Employee #10. Mint condition.'},
+  {id:'temple',  rar:'com',  ico:'🦉', name:'Temple Actuary',    fluff:'BBA, Actuarial Science. Likes the math.'},
+  {id:'meteor',  rar:'com',  ico:'☄️', name:'Rooftop Dust',     fluff:'Micrometeorites are real and he will find them.'},
+  {id:'nlc',     rar:'com',  ico:'🌌', name:'Night Clouds',      fluff:'Glowing 45 minutes after sunset. He\'s outside.'},
+  {id:'shortwave',rar:'com', ico:'📡', name:'DX Listener',       fluff:'Strong opinions about the 31-meter band.'},
+  {id:'tampa',   rar:'com',  ico:'🌴', name:'Home Field',        fluff:'Tampa, FL. Humidity rating: 99 OVR.'}
+];
+const RAR={leg:{cls:'r-leg',c3:'r-leg2',label:'★ LEGENDARY'},epic:{cls:'r-epic',c3:'r-epic2',label:'◆ EPIC'},
+           rare:{cls:'r-rare',c3:'r-rare2',label:'● RARE'},com:{cls:'r-lock',c3:'',label:'▪ COMMON'}};
+const packsEl=document.getElementById('packs'), pkStage=document.getElementById('pkStage');
+const pkHint=document.getElementById('pkHint'), pkAgain=document.getElementById('pkAgain'), pkCount=document.getElementById('pkCount');
+let packsOn=false, coll=new Set(JSON.parse(localStorage.getItem('mcl_cards')||'[]'));
+function paintColl(){ pkCount.textContent=coll.size; }
+paintColl();
+function pullCard(){
+  const r=Math.random();
+  const rar=r<.05?'leg':r<.22?'epic':r<.52?'rare':'com';
+  const pool=CARDS.filter(c=>c.rar===rar);
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+function pullPack(){
+  const cards=[pullCard(),pullCard(),pullCard()];
+  if(!cards.some(c=>c.rar!=='com')){          /* pity: guarantee a hit */
+    const pool=CARDS.filter(c=>c.rar==='rare');
+    cards[2]=pool[Math.floor(Math.random()*pool.length)];
+  }
+  return cards;
+}
+function freshPack(){
+  pkStage.innerHTML='<div id="pkPack"><div class="pk-logo">McL<span>\'26</span></div><div class="pk-series">Series 26 · 3 Cards</div></div>';
+  pkHint.style.display=''; pkAgain.classList.remove('on');
+  document.getElementById('pkPack').addEventListener('click',ripPack);
+}
+function ripPack(){
+  const pack=document.getElementById('pkPack');
+  if(!pack||pack.classList.contains('ripped')) return;
+  pack.classList.add('shake'); sTick();
+  setTimeout(()=>{ pack.classList.add('ripped'); whoosh(); },450);
+  setTimeout(()=>{ dealCards(); },950);
+  unlock('packrip');
+}
+function dealCards(){
+  const cards=pullPack();
+  pkHint.style.display='none';
+  pkStage.innerHTML='<div class="pk-cards">'+cards.map((c,i)=>{
+    const R=RAR[c.rar], isNew=!coll.has(c.id);
+    return `<div class="pcard3 ${R.c3}" data-id="${c.id}" style="animation-delay:${i*.14}s">
+      <div class="pc3-face pc3-back">McL</div>
+      <div class="pc3-face pc3-front">
+        <div class="c-rar ${R.cls}">${R.label}</div>
+        <div class="c-ico">${c.ico}</div>
+        <div class="c-name">${c.name}</div>
+        <div class="c-fluff">${c.fluff}</div>
+        <div class="c-new">${isNew?'✦ NEW TO COLLECTION':'DUPLICATE'}</div>
+      </div></div>`;
+  }).join('')+'</div>';
+  let flipped=0;
+  pkStage.querySelectorAll('.pcard3').forEach(el=>{
+    el.addEventListener('click',()=>{
+      if(el.classList.contains('flipped')) return;
+      el.classList.add('flipped'); flipped++;
+      const c=CARDS.find(x=>x.id===el.dataset.id);
+      if(c.rar==='leg'){ sFanfare(); fireworks(3); if(!REDUCED) confetti(60); }
+      else if(c.rar==='epic'){ sTrophy(); }
+      else sSelect();
+      if(!coll.has(c.id)){
+        coll.add(c.id); localStorage.setItem('mcl_cards',JSON.stringify([...coll])); paintColl();
+        if(coll.size===CARDS.length){ unlock('collector'); fireworks(8); }
+      }
+      if(flipped===3) pkAgain.classList.add('on');
+    });
+    el.addEventListener('mouseenter',sHover);
+  });
+}
+function openPacks(){ packsOn=true; packsEl.classList.add('on'); freshPack(); sSelect(); }
+function closePacks(){ packsOn=false; packsEl.classList.remove('on'); sSelect(); }
+document.getElementById('miPacks').addEventListener('click',openPacks);
+document.getElementById('miPacks').addEventListener('mouseenter',sHover);
+document.getElementById('pkMore').addEventListener('click',freshPack);
+document.getElementById('pkExit').addEventListener('click',closePacks);
+window.addEventListener('keydown',e=>{ if(packsOn&&e.key==='Escape') closePacks(); });
+
+/* ============================================================
+   HIGHLIGHT REEL — broadcast cinematic with announcer
+   ============================================================ */
+const SLIDES=[
+  {k:'2016 · THE DRAFT',        big:'DRAFTED OUT OF <em>TEMPLE</em>',       sub:'BBA Actuarial Science → Insurtech Rookie Ball', say:'With the tenth pick, Life dot eye oh selects Greg McLaughlin, Temple University.'},
+  {k:'2016–18 · LIFE.IO',       big:'25 CUSTOMERS <em>CLOSED</em>',         sub:'Employee #10 · Acquired by SE2 / Zinnia',       say:'Twenty five customers in his rookie seasons. And the team gets acquired.'},
+  {k:'2018–20 · CURALATE',      big:'THE <em>$4M</em> BOOK',                sub:'Enterprise renewals · Acquired by Bazaarvoice', say:'A four million dollar book of business. Acquired. Again.'},
+  {k:'2020–21 · HGS DIGITAL',   big:'+55% PARTNER <em>REVENUE</em>',        sub:'AWS · Twilio · Sprinklr channel, built from zero', say:'Partner revenue up fifty five percent. Sales cycles cut nearly in half.'},
+  {k:'2021–23 · LASKIE',        big:'$0 → <em>$2.5M</em> ARR',              sub:'Employee #6 · Acquired by X / Twitter',          say:'Zero to two point five million A R R. Then Twitter comes calling. Three acquisitions.'},
+  {k:'2023–24 · KHARON',        big:'+60% <em>PIPELINE</em>',               sub:'Global risk & compliance partnerships',          say:'Sixty percent more partner pipeline in compliance data.'},
+  {k:'2024–NOW · ALIGN BA',     big:'THE <em>100+</em> ECOSYSTEM',          sub:'Sell-side M&A · Veteran leadership innings',     say:'Now running a one hundred plus advisor ecosystem in mergers and acquisitions.'},
+  {k:'AFTER DARK',              big:'12+ APPS <em>SHIPPED</em>',            sub:'Trading systems · Black holes · Slime molds',    say:'And after dark? He ships. Trading systems. Black holes. Slime molds.'},
+  {k:'FREE AGENCY IS OPEN',     big:'<em>SIGN HIM.</em>',                   sub:'greg.s.mclaughlin@gmail.com',                    say:'Free agency is open. Sign him.'}
+];
+const reelEl=document.getElementById('reel'), rlStage=document.getElementById('rlStage'), rlDots=document.getElementById('rlDots'), rlFlash=document.getElementById('rlFlash');
+let reelOn=false, rlIdx=-1, rlTimer=null;
+rlDots.innerHTML=SLIDES.map(()=>'<i></i>').join('');
+function rlAdvance(){
+  rlIdx++;
+  if(rlIdx>=SLIDES.length){ endReel(true); return; }
+  const s=SLIDES[rlIdx];
+  rlFlash.classList.remove('go'); void rlFlash.offsetWidth; rlFlash.classList.add('go');
+  whoosh(); thump();
+  rlStage.innerHTML=`<div class="rl-slide"><div class="rl-kick">${s.k}</div><div class="rl-big">${s.big}</div><div class="rl-sub">${s.sub}</div></div>`;
+  [...rlDots.children].forEach((d,i)=>d.classList.toggle('on',i<=rlIdx));
+  announce(s.say);
+  clearTimeout(rlTimer);
+  rlTimer=setTimeout(rlAdvance,4300);
+}
+function openReel(){ reelOn=true; rlIdx=-1; reelEl.classList.add('on'); sFanfare(); setTimeout(rlAdvance,600); }
+function endReel(finished){
+  reelOn=false; reelEl.classList.remove('on'); clearTimeout(rlTimer);
+  if('speechSynthesis' in window) speechSynthesis.cancel();
+  if(finished){ unlock('showtime'); fireworks(4); show('freeagency'); }
+}
+document.getElementById('miReel').addEventListener('click',openReel);
+document.getElementById('miReel').addEventListener('mouseenter',sHover);
+reelEl.addEventListener('click',rlAdvance);
+window.addEventListener('keydown',e=>{ if(reelOn&&e.key==='Escape') endReel(false); });
 
 /* ============================================================
    TICKER
@@ -1720,6 +2069,8 @@ const headlines=[
   'CHEAT CODES: Insiders whisper the old <b>up-up-down-down</b> still works around here',
   'GAME NIGHT: <b>HOME RUN DERBY</b> now playable from the main menu — swing at live term sheets',
   'DEV LEAK: Pressing <b>backtick</b> allegedly opens something called mcl-os',
+  'THE HOBBY: <b>SERIES 26 PACKS</b> now ripping — chase the three legendaries',
+  'BROADCAST: Career <b>HIGHLIGHT REEL</b> premieres tonight, announcer confirmed live',
   'FREE AGENCY: Front office confirms — <b>now accepting offers</b>'
 ];
 const tk=document.getElementById('tkTrack');
@@ -1735,6 +2086,15 @@ if(deepLink&&screens[deepLink]){ silentStart(); show(deepLink,false); }
 const qp=new URLSearchParams(location.search);
 if(qp.has('derby')){ if(!booted){ document.getElementById('splash')?.remove(); silentStart(); } openDerby(); }
 if(qp.has('term')){ if(!booted){ document.getElementById('splash')?.remove(); silentStart(); } openTerm(); }
+if(qp.has('packs')){ if(!booted){ document.getElementById('splash')?.remove(); silentStart(); } openPacks(); }
+if(qp.has('reel')){ if(!booted){ document.getElementById('splash')?.remove(); silentStart(); } openReel(); }
+
+/* ============================================================
+   PWA — installable, works offline
+   ============================================================ */
+if('serviceWorker' in navigator&&location.protocol!=='file:'){
+  navigator.serviceWorker.register('sw.js').catch(e=>console.error('sw register failed:',e));
+}
 window.addEventListener('hashchange',()=>{
   const h=location.hash.replace('#','');
   if(screens[h]){ if(!booted) silentStart(); show(h); }

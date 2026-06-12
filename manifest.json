@@ -1,0 +1,13 @@
+{
+  "name": "MCLAUGHLIN '26 — The Show Edition",
+  "short_name": "McL '26",
+  "description": "Greg McLaughlin's career, as a AAA sports video game.",
+  "start_url": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#06080f",
+  "theme_color": "#06080f",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

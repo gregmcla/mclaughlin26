@@ -1,8 +1,28 @@
 # PROJECT_STATE — MCLAUGHLIN '26
 
 ## Current phase
-v3 "Cracked Edition" complete (2026-06-11). Verified via headless-Chrome
+v4 "Final Boss Edition" complete (2026-06-11). Verified via headless-Chrome
 screenshots, pushed to GitHub.
+
+## v4 additions ("GO EVEN HARDER")
+- CARD PACKS: full pack-opening system — foil pack shake/rip animation,
+  3 cards dealt face-down, 3D flip reveals with rarity outlines/sounds
+  (legendary = fanfare + fireworks), 21-card set (3 LEG / 5 EPIC / 7 RARE /
+  6 COM), pity rule (guaranteed rare+ per pack), collection persisted
+  (`mcl_cards`), NEW/DUPLICATE tags. `?packs=1`. Trophies: Wax Ripper,
+  Master Set.
+- HIGHLIGHT REEL: 9-slide broadcast cinematic of the career with gold
+  flash cuts, whoosh/thump transitions, announcer narration per slide,
+  progress dots, click-to-advance, ends on Free Agency. `?reel=1`.
+  Trophy: Showtime.
+- Derby HALL OF FAME: arcade 3-initial entry (click/arrows/typing),
+  seeded top-5 leaderboard (GSM/AI/PE/LOI/NDA), persisted `mcl_derby_lb`,
+  qualifying-score detection. Trophy: Hall of Famer.
+- FIREWORKS engine in the FX canvas (rockets + bursts with pop sounds) —
+  fires on GOAT mode, MVP+ derby, legendary pulls, reel finale, master set.
+- PWA: manifest.json + icon.svg + sw.js (cache-first, offline-capable,
+  installable fullscreen landscape).
+- Menu now 9 items (font scaled down to fit); 15 visitor trophies total.
 
 ## v3 additions ("cracked out AI engineer typeshit")
 - HOME RUN DERBY: fully playable canvas mini-game in the menu — timing-based
