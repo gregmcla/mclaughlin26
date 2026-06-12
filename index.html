@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCLAUGHLIN '26 — THE SHOW</title>
+<meta name="description" content="Greg McLaughlin — M&A partnerships executive, AI builder. Career mode now loading.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06080f;
+  --bg2:#0c1120;
+  --panel:#0e1426;
+  --panel2:#131a30;
+  --line:#1f2a4a;
+  --gold:#ffb300;
+  --gold-hi:#ffd34d;
+  --cyan:#2ee0ff;
+  --red:#ff3b5c;
+  --ink:#f2f5fc;
+  --dim:#8b96b8;
+  --skew:-8deg;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Barlow Condensed',sans-serif;
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+/* ============ ATMOSPHERE ============ */
+.atmo{position:fixed;inset:0;pointer-events:none;z-index:0}
+.atmo .glow{
+  position:absolute;width:140vmax;height:140vmax;left:50%;top:-90vmax;transform:translateX(-50%);
+  background:radial-gradient(closest-side,rgba(46,224,255,.10),rgba(46,224,255,0) 70%);
+}
+.atmo .glow2{
+  position:absolute;width:90vmax;height:90vmax;right:-40vmax;bottom:-50vmax;
+  background:radial-gradient(closest-side,rgba(255,179,0,.08),rgba(255,179,0,0) 70%);
+}
+.atmo .stripes{
+  position:absolute;inset:-50%;
+  background:repeating-linear-gradient(115deg,rgba(255,255,255,.022) 0 2px,transparent 2px 90px);
+}
+.atmo .bigword{
+  position:absolute;left:-2vw;bottom:-7vh;
+  font-family:'Anton',sans-serif;font-size:24vw;line-height:.8;letter-spacing:-.01em;
+  color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.045);
+  transform:skewX(var(--skew));user-select:none;white-space:nowrap;
+}
+.atmo .sweep{
+  position:absolute;inset:0;overflow:hidden;
+}
+.atmo .sweep::after{
+  content:"";position:absolute;top:-20%;bottom:-20%;width:30vw;left:-40vw;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.035),transparent);
+  transform:skewX(-18deg);
+  animation:sweep 9s ease-in-out infinite;
+}
+@keyframes sweep{0%,55%{left:-45vw}90%,100%{left:130vw}}
+.grain{
+  position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+}
+
+/* ============ BOOT SCREEN ============ */
+#boot{
+  position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:radial-gradient(120% 90% at 50% 110%,#0d1428 0%,var(--bg) 60%);
+  cursor:pointer;transition:opacity .6s ease,visibility .6s;
+}
+#boot.gone{opacity:0;visibility:hidden}
+.boot-kicker{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.55em;color:var(--cyan);
+  text-transform:uppercase;margin-bottom:18px;animation:rise .8s .2s both;
+}
+.boot-logo{
+  font-family:'Anton',sans-serif;font-size:clamp(56px,11vw,150px);line-height:.92;text-align:center;
+  text-transform:uppercase;transform:skewX(var(--skew));
+  background:linear-gradient(180deg,#fff 30%,#9fb0d8 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 18px 50px rgba(46,224,255,.18));
+  animation:rise .8s .35s both;
+}
+.boot-logo .yr{color:transparent;background:linear-gradient(180deg,var(--gold-hi),var(--gold));-webkit-background-clip:text;background-clip:text}
+.boot-sub{
+  margin-top:20px;font-weight:600;font-size:clamp(14px,1.6vw,20px);letter-spacing:.42em;text-transform:uppercase;color:var(--dim);
+  animation:rise .8s .5s both;
+}
+.press-start{
+  margin-top:7vh;font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);
+  animation:blink 1.4s steps(2,start) infinite, rise .8s .8s both;
+}
+@keyframes blink{50%{opacity:.15}}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+.boot-foot{
+  position:absolute;bottom:26px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.25em;color:#3c4868;text-transform:uppercase;
+}
+
+/* ============ SHELL ============ */
+#app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;opacity:0;transition:opacity .7s ease .15s}
+#app.on{opacity:1}
+
+/* top bar */
+.topbar{
+  display:flex;align-items:center;gap:18px;
+  padding:14px 28px;border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(14,20,38,.9),rgba(14,20,38,.55));
+  backdrop-filter:blur(6px);
+}
+.tb-logo{font-family:'Anton',sans-serif;font-size:20px;letter-spacing:.02em;transform:skewX(var(--skew));text-transform:uppercase}
+.tb-logo span{color:var(--gold)}
+.tb-mode{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--cyan);text-transform:uppercase;
+  border:1px solid rgba(46,224,255,.35);padding:4px 10px;
+}
+.tb-spacer{flex:1}
+.tb-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
+#muteBtn{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  background:none;border:1px solid var(--line);color:var(--dim);padding:5px 12px;cursor:pointer;transition:.2s;
+}
+#muteBtn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* main area */
+.main{flex:1;display:flex;min-height:0}
+
+/* ============ MENU ============ */
+.menu{
+  width:330px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;gap:6px;
+  padding:0 0 0 34px;
+}
+.menu-label{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.4em;color:#46537a;text-transform:uppercase;margin-bottom:10px;padding-left:14px;
+}
+.mi{
+  position:relative;display:block;width:100%;text-align:left;background:none;border:0;cursor:pointer;
+  font-family:'Anton',sans-serif;font-size:30px;letter-spacing:.02em;text-transform:uppercase;color:#5b688f;
+  padding:10px 14px;transform:skewX(var(--skew));transition:color .18s,transform .18s,padding .18s;
+  opacity:0;animation:rise .55s both;
+}
+.mi small{
+  display:block;font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:12px;letter-spacing:.32em;color:#3c4868;margin-top:1px;transition:color .18s;
+}
+.mi::before{
+  content:"";position:absolute;left:0;top:8%;bottom:8%;width:4px;background:var(--gold);
+  transform:scaleY(0);transition:transform .18s;
+}
+.mi:hover,.mi.active{color:var(--ink);transform:skewX(var(--skew)) translateX(14px)}
+.mi:hover small,.mi.active small{color:var(--cyan)}
+.mi.active::before{transform:scaleY(1)}
+.mi.active{color:var(--gold-hi)}
+
+/* ============ STAGE ============ */
+.stage{flex:1;position:relative;min-width:0;display:flex;align-items:stretch;padding:34px 38px 26px 30px}
+.screen{
+  position:absolute;inset:34px 38px 26px 30px;display:none;min-height:0;
+}
+.screen.on{display:flex;gap:34px;animation:screenIn .45s cubic-bezier(.22,1,.36,1) both}
+@keyframes screenIn{from{opacity:0;transform:translateX(46px) skewX(-1deg)}to{opacity:1;transform:none}}
+.screen-body{flex:1;min-width:0;display:flex;flex-direction:column;min-height:0}
+
+.sc-kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.45em;color:var(--cyan);text-transform:uppercase;margin-bottom:6px}
+.sc-title{
+  font-family:'Anton',sans-serif;font-size:clamp(34px,4.4vw,58px);line-height:.95;text-transform:uppercase;transform:skewX(var(--skew));transform-origin:left;
+  margin-bottom:20px;
+}
+.sc-title em{font-style:normal;color:var(--gold)}
+.scroll{overflow-y:auto;min-height:0;padding-right:14px;scrollbar-width:thin;scrollbar-color:#26314f transparent}
+.scroll::-webkit-scrollbar{width:6px}
+.scroll::-webkit-scrollbar-thumb{background:#26314f}
+
+/* ============ PLAYER CARD ============ */
+.pcard{
+  width:300px;flex-shrink:0;align-self:flex-start;position:relative;
+  background:linear-gradient(165deg,var(--panel2),var(--panel) 70%);
+  border:1px solid var(--line);
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 26px),calc(100% - 26px) 100%,0 100%);
+  padding:0 0 18px;
+}
+.pcard::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--gold),var(--cyan))}
+.pc-photo{position:relative;height:240px;overflow:hidden}
+.pc-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;filter:contrast(1.06) saturate(.85)}
+.pc-photo::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(6,8,15,0) 45%,rgba(14,20,38,.96) 96%),
+             linear-gradient(20deg,rgba(46,224,255,.14),transparent 45%);
+}
+.pc-ovr{
+  position:absolute;top:14px;left:14px;width:64px;height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:#191000;
+  clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
+  font-family:'Anton',sans-serif;
+}
+.pc-ovr b{font-size:26px;line-height:1}
+.pc-ovr i{font-style:normal;font-size:9px;letter-spacing:.2em}
+.pc-pos{
+  position:absolute;top:14px;right:14px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.25em;
+  background:rgba(6,8,15,.75);border:1px solid rgba(46,224,255,.4);color:var(--cyan);padding:5px 9px;
+}
+.pc-name{position:relative;margin-top:-44px;padding:0 18px;z-index:1}
+.pc-name .first{font-weight:600;font-size:15px;letter-spacing:.34em;text-transform:uppercase;color:var(--cyan)}
+.pc-name .last{font-family:'Anton',sans-serif;font-size:38px;line-height:1;text-transform:uppercase;transform:skewX(var(--skew));transform-origin:left;display:block}
+.pc-team{padding:10px 18px 0;font-weight:600;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.pc-team b{color:var(--ink)}
+.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:12px}
+.pc-cell{background:var(--panel);padding:9px 12px}
+.pc-cell i{display:block;font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.22em;color:#5b688f;text-transform:uppercase;margin-bottom:2px}
+.pc-cell b{font-weight:600;font-size:14.5px;letter-spacing:.06em;text-transform:uppercase}
+.pc-foot{display:flex;justify-content:space-between;padding:12px 18px 0;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:#46537a;text-transform:uppercase}
+
+/* ============ HOME SCREEN ============ */
+.home-hero{display:flex;flex-direction:column;justify-content:center;flex:1}
+.hh-line{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.5em;color:var(--cyan);text-transform:uppercase;margin-bottom:14px;opacity:0;animation:rise .6s .1s both}
+.hh-name{
+  font-family:'Anton',sans-serif;font-size:clamp(54px,7.4vw,118px);line-height:.88;text-transform:uppercase;transform:skewX(var(--skew));transform-origin:left;
+  opacity:0;animation:rise .6s .22s both;
+}
+.hh-name span{display:block;color:transparent;-webkit-text-stroke:1.5px rgba(242,245,252,.8)}
+.hh-name em{font-style:normal;background:linear-gradient(180deg,#fff 35%,#93a5d4);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hh-tag{
+  margin-top:22px;max-width:560px;font-size:21px;font-weight:500;line-height:1.45;color:#c4cde6;
+  opacity:0;animation:rise .6s .36s both;
+}
+.hh-tag b{color:var(--gold);font-weight:600}
+.hh-stats{display:flex;gap:34px;margin-top:34px;opacity:0;animation:rise .6s .5s both;flex-wrap:wrap}
+.hh-stat i{display:block;font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.28em;color:#5b688f;text-transform:uppercase;margin-top:4px}
+.hh-stat b{font-family:'Anton',sans-serif;font-size:42px;color:var(--ink)}
+.hh-stat b em{font-style:normal;color:var(--gold)}
+.hh-cta{margin-top:38px;display:flex;gap:14px;opacity:0;animation:rise .6s .62s both}
+.btn{
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;letter-spacing:.3em;text-transform:uppercase;
+  padding:13px 28px 13px 30px;cursor:pointer;border:0;transform:skewX(var(--skew));transition:.2s;
+}
+.btn>span{display:inline-block;transform:skewX(calc(var(--skew)*-1))}
+.btn-gold{background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:#191000}
+.btn-gold:hover{filter:brightness(1.12);transform:skewX(var(--skew)) translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid #3a4670}
+.btn-ghost:hover{border-color:var(--cyan);color:var(--cyan);transform:skewX(var(--skew)) translateY(-2px)}
+
+/* ============ CAREER ============ */
+.season{
+  position:relative;display:grid;grid-template-columns:118px 1fr auto;gap:18px;align-items:start;
+  background:linear-gradient(165deg,var(--panel2),var(--panel));border:1px solid var(--line);
+  padding:18px 22px;margin-bottom:12px;
+  clip-path:polygon(0 0,100% 0,100% 100%,16px 100%,0 calc(100% - 16px));
+  opacity:0;animation:rise .5s both;
+}
+.season:hover{border-color:#2c3a66}
+.szn-yr{font-family:'Anton',sans-serif;font-size:24px;color:var(--cyan);line-height:1.05}
+.szn-yr small{display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.25em;color:#5b688f;margin-top:5px;text-transform:uppercase}
+.szn-team{font-family:'Anton',sans-serif;font-size:21px;letter-spacing:.02em;text-transform:uppercase}
+.szn-role{font-size:14.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:2px 0 8px}
+.szn-notes{font-size:16px;line-height:1.5;color:#aeb9d6;max-width:60ch}
+.szn-badges{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.badge{
+  font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;padding:5px 10px;white-space:nowrap;
+}
+.badge-acq{background:rgba(255,179,0,.12);border:1px solid rgba(255,179,0,.5);color:var(--gold-hi)}
+.badge-info{background:rgba(46,224,255,.08);border:1px solid rgba(46,224,255,.3);color:var(--cyan)}
+.totals{
+  display:flex;gap:30px;flex-wrap:wrap;margin-top:18px;padding:18px 24px;
+  background:rgba(255,179,0,.05);border:1px solid rgba(255,179,0,.3);
+  clip-path:polygon(0 0,100% 0,100% 100%,16px 100%,0 calc(100% - 16px));
+}
+.totals .hh-stat b{font-size:32px}
+
+/* ============ ATTRIBUTES ============ */
+.attr-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px 40px}
+.attr-group-title{
+  grid-column:span 1;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.4em;color:#5b688f;text-transform:uppercase;
+  margin:6px 0 2px;
+}
+.attr{opacity:0;animation:rise .5s both}
+.attr-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.attr-name{font-weight:600;font-size:16px;letter-spacing:.2em;text-transform:uppercase}
+.attr-val{font-family:'Anton',sans-serif;font-size:22px;color:var(--gold)}
+.attr-val.elite{color:var(--cyan)}
+.bar{height:8px;background:#10162b;border:1px solid var(--line);transform:skewX(var(--skew))}
+.bar i{
+  display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-hi));
+  transition:width 1s cubic-bezier(.22,1,.36,1);
+}
+.bar i.elite{background:linear-gradient(90deg,#0fb6d6,var(--cyan))}
+.attr-note{margin-top:26px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:#5b688f;line-height:1.8}
+
+/* ============ ACHIEVEMENTS ============ */
+.ach-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:13px}
+.ach{
+  position:relative;background:linear-gradient(165deg,var(--panel2),var(--panel));border:1px solid var(--line);padding:16px 16px 14px;
+  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%);
+  transition:transform .18s,border-color .18s;opacity:0;animation:rise .5s both;
+}
+.ach:hover{transform:translateY(-4px);border-color:#2c3a66}
+.ach-rarity{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;margin-bottom:8px}
+.r-leg{color:var(--gold-hi)}.r-epic{color:var(--cyan)}.r-rare{color:#9d8cff}.r-lock{color:#46537a}
+.ach-name{font-family:'Anton',sans-serif;font-size:19px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:6px}
+.ach-desc{font-size:14.5px;line-height:1.45;color:#9aa6c6}
+.ach.locked{opacity:.55}
+.ach.locked .ach-name{color:#5b688f}
+.ach-leg::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(255,179,0,.12),transparent 55%);pointer-events:none}
+.ach-leg{border-color:rgba(255,179,0,.45)}
+
+/* ============ SCOUTING ============ */
+.scout-wrap{display:grid;grid-template-columns:1.25fr 1fr;gap:34px}
+.scout-text p{font-size:17.5px;line-height:1.62;color:#c4cde6;margin-bottom:16px;max-width:62ch}
+.scout-text p b{color:var(--ink)}
+.scout-text p em{color:var(--gold);font-style:normal}
+.sw-box{border:1px solid var(--line);background:linear-gradient(165deg,var(--panel2),var(--panel));padding:18px 20px;margin-bottom:14px;clip-path:polygon(0 0,100% 0,100% 100%,14px 100%,0 calc(100% - 14px))}
+.sw-box h3{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.4em;text-transform:uppercase;margin-bottom:12px}
+.sw-box.plus h3{color:var(--cyan)}.sw-box.minus h3{color:var(--red)}
+.sw-box li{list-style:none;font-size:15.5px;line-height:1.5;color:#aeb9d6;padding-left:16px;position:relative;margin-bottom:7px}
+.sw-box.plus li::before{content:"▲";color:var(--cyan);position:absolute;left:0;font-size:9px;top:6px}
+.sw-box.minus li::before{content:"▼";color:var(--red);position:absolute;left:0;font-size:9px;top:6px}
+
+/* ============ FREE AGENCY ============ */
+.fa-wrap{flex:1;display:flex;flex-direction:column;justify-content:center}
+.fa-big{
+  font-family:'Anton',sans-serif;font-size:clamp(40px,5.4vw,84px);line-height:.95;text-transform:uppercase;transform:skewX(var(--skew));transform-origin:left;
+  opacity:0;animation:rise .6s .1s both;
+}
+.fa-big em{font-style:normal;color:var(--gold)}
+.fa-sub{margin-top:18px;font-size:20px;font-weight:500;color:#c4cde6;max-width:58ch;line-height:1.5;opacity:0;animation:rise .6s .25s both}
+.fa-rows{margin-top:36px;display:flex;flex-direction:column;gap:2px;max-width:560px;opacity:0;animation:rise .6s .4s both}
+.fa-row{
+  display:flex;justify-content:space-between;align-items:center;gap:20px;text-decoration:none;
+  background:linear-gradient(165deg,var(--panel2),var(--panel));border:1px solid var(--line);padding:16px 22px;transition:.18s;
+}
+.fa-row:hover{border-color:var(--gold);transform:translateX(8px)}
+.fa-row i{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.3em;color:#5b688f;text-transform:uppercase}
+.fa-row b{font-weight:600;font-size:18px;letter-spacing:.06em;color:var(--ink)}
+.fa-row:hover b{color:var(--gold-hi)}
+
+/* ============ TICKER ============ */
+.ticker{
+  border-top:1px solid var(--line);background:#0a0f1d;overflow:hidden;white-space:nowrap;flex-shrink:0;
+  display:flex;align-items:center;
+}
+.ticker .tk-label{
+  flex-shrink:0;background:var(--gold);color:#191000;font-family:'Anton',sans-serif;font-size:13px;letter-spacing:.08em;
+  padding:9px 16px;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 10px) 100%,0 100%);z-index:2;
+}
+.tk-track{display:inline-flex;animation:tick 60s linear infinite;padding-left:20px}
+.tk-track span{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:#7a87ad;text-transform:uppercase;padding-right:60px;
+}
+.tk-track span b{color:var(--cyan);font-weight:500}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1100px){
+  body{overflow:auto}
+  #app{height:auto;min-height:100%}
+  .main{flex-direction:column}
+  .menu{width:100%;flex-direction:row;flex-wrap:wrap;gap:2px;padding:18px 20px 0}
+  .menu-label{width:100%}
+  .mi{width:auto;font-size:18px;padding:8px 12px}
+  .mi small{display:none}
+  .stage{padding:20px}
+  .screen{position:relative;inset:auto;width:100%}
+  .screen.on{flex-direction:column}
+  .pcard{width:100%;max-width:340px;align-self:center;order:-1}
+  .scout-wrap{grid-template-columns:1fr}
+  .attr-cols{grid-template-columns:1fr}
+  .season{grid-template-columns:1fr}
+  .szn-badges{flex-direction:row;align-items:flex-start;flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<div class="atmo">
+  <div class="glow"></div><div class="glow2"></div>
+  <div class="stripes"></div>
+  <div class="sweep"></div>
+  <div class="bigword">McL 26</div>
+</div>
+<div class="grain"></div>
+
+<!-- BOOT -->
+<div id="boot">
+  <div class="boot-kicker">A Career Mode Experience</div>
+  <div class="boot-logo">McLAUGHLIN <span class="yr">'26</span></div>
+  <div class="boot-sub">The Show Edition</div>
+  <div class="press-start">▶ Press Start</div>
+  <div class="boot-foot">© 2026 Greg McLaughlin · Tampa, FL · No microtransactions</div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="tb-logo">McL<span>'26</span></div>
+    <div class="tb-mode">Franchise Mode</div>
+    <div class="tb-spacer"></div>
+    <div class="tb-meta">Season 10 · Tampa, FL</div>
+    <button id="muteBtn" aria-label="Toggle sound">SOUND: ON</button>
+  </div>
+
+  <div class="main">
+    <!-- MENU -->
+    <nav class="menu" aria-label="Main menu">
+      <div class="menu-label">Main Menu</div>
+      <button class="mi active" data-screen="home" style="animation-delay:.05s">Home<small>Player Spotlight</small></button>
+      <button class="mi" data-screen="career" style="animation-delay:.12s">Career Mode<small>10 Seasons · 6 Teams</small></button>
+      <button class="mi" data-screen="attributes" style="animation-delay:.19s">Attributes<small>Player Ratings</small></button>
+      <button class="mi" data-screen="achievements" style="animation-delay:.26s">Achievements<small>Things He Shipped</small></button>
+      <button class="mi" data-screen="scouting" style="animation-delay:.33s">Scouting Report<small>Strengths &amp; Quirks</small></button>
+      <button class="mi" data-screen="freeagency" style="animation-delay:.40s">Free Agency<small>Get In Touch</small></button>
+    </nav>
+
+    <!-- STAGE -->
+    <div class="stage">
+
+      <!-- HOME -->
+      <section class="screen on" id="s-home">
+        <div class="screen-body home-hero">
+          <div class="hh-line">Player Spotlight · #26</div>
+          <h1 class="hh-name"><span>Greg</span><em>McLaughlin</em></h1>
+          <p class="hh-tag">M&amp;A partnerships executive by day. <b>AI builder by night.</b> Ten seasons of dealmaking, three acquisitions survived, and a dugout full of side projects — including an autonomous trading system that manages real money while he sleeps.</p>
+          <div class="hh-stats">
+            <div class="hh-stat"><b>10</b><i>Seasons</i></div>
+            <div class="hh-stat"><b>3</b><i>Acquisitions</i></div>
+            <div class="hh-stat"><b>100<em>+</em></b><i>Partner Network</i></div>
+            <div class="hh-stat"><b>12<em>+</em></b><i>Apps Shipped</i></div>
+          </div>
+          <div class="hh-cta">
+            <button class="btn btn-gold" data-goto="career"><span>View Career</span></button>
+            <button class="btn btn-ghost" data-goto="freeagency"><span>Make An Offer</span></button>
+          </div>
+        </div>
+        <aside class="pcard">
+          <div class="pc-photo">
+            <img src="player.jpeg" alt="Greg McLaughlin headshot">
+            <div class="pc-ovr"><b>99</b><i>OVR</i></div>
+            <div class="pc-pos">BD / M&amp;A</div>
+          </div>
+          <div class="pc-name">
+            <span class="first">Greg</span>
+            <span class="last">McLaughlin</span>
+          </div>
+          <div class="pc-team">Team · <b>Align Business Advisory</b></div>
+          <div class="pc-grid">
+            <div class="pc-cell"><i>Position</i><b>Partnerships</b></div>
+            <div class="pc-cell"><i>Secondary</i><b>AI Builder</b></div>
+            <div class="pc-cell"><i>Bats / Throws</i><b>AI / Deals</b></div>
+            <div class="pc-cell"><i>Hometown</i><b>Tampa, FL</b></div>
+            <div class="pc-cell"><i>College</i><b>Temple Univ.</b></div>
+            <div class="pc-cell"><i>Degree</i><b>Actuarial Sci.</b></div>
+          </div>
+          <div class="pc-foot"><span>Series 26</span><span>Live Edition</span></div>
+        </aside>
+      </section>
+
+      <!-- CAREER -->
+      <section class="screen" id="s-career">
+        <div class="screen-body">
+          <div class="sc-kicker">Franchise History</div>
+          <h2 class="sc-title">Career <em>Mode</em></h2>
+          <div class="scroll">
+            <div class="season" style="animation-delay:.05s">
+              <div class="szn-yr">'24–NOW<small>Seasons 9–10</small></div>
+              <div>
+                <div class="szn-team">Align Business Advisory</div>
+                <div class="szn-role">M&amp;A Executive · Strategic Partnerships</div>
+                <p class="szn-notes">Veteran leadership year. Runs a national ecosystem of 100+ attorney, CPA, and wealth-management partners for a lower-middle-market M&amp;A firm — owning executive relationships from first meeting through deal close.</p>
+              </div>
+              <div class="szn-badges"><span class="badge badge-info">ACTIVE ROSTER</span><span class="badge badge-info">SELL-SIDE M&amp;A</span></div>
+            </div>
+            <div class="season" style="animation-delay:.12s">
+              <div class="szn-yr">'23–'24<small>Season 8</small></div>
+              <div>
+                <div class="szn-team">Kharon</div>
+                <div class="szn-role">Strategic Partnerships Manager</div>
+                <p class="szn-notes">Owned ~12 strategic partnerships across global risk, compliance, and financial-data ecosystems. Drove a ~60% year-over-year increase in partner-sourced pipeline through co-selling and structured enablement.</p>
+              </div>
+              <div class="szn-badges"><span class="badge badge-info">+60% PIPELINE</span></div>
+            </div>
+            <div class="season" style="animation-delay:.19s">
+              <div class="szn-yr">'21–'23<small>Seasons 6–7</small></div>
+              <div>
+                <div class="szn-team">Laskie</div>
+                <div class="szn-role">BD &amp; Partnerships Manager · Employee #6</div>
+                <p class="szn-notes">Founding BD team member at a pre-revenue startup. Built the GTM strategy, partner network, and outbound playbooks from zero; helped scale the platform from $0 to $2.5M ARR in year one.</p>
+              </div>
+              <div class="szn-badges"><span class="badge badge-acq">🏆 Acquired by X / Twitter</span><span class="badge badge-info">$0 → $2.5M ARR</span></div>
+            </div>
+            <div class="season" style="animation-delay:.26s">
+              <div class="szn-yr">'20–'21<small>Season 5</small></div>
+              <div>
+                <div class="szn-team">HGS Digital</div>
+                <div class="szn-role">Director · Channel Sales &amp; Partner Enablement</div>
+                <p class="szn-notes">Built channel partnerships with AWS, Twilio, and Sprinklr. Grew partner-generated revenue 55%, doubled pipeline year over year, and cut enterprise sales cycles roughly 45%.</p>
+              </div>
+              <div class="szn-badges"><span class="badge badge-info">+55% PARTNER REV</span></div>
+            </div>
+            <div class="season" style="animation-delay:.33s">
+              <div class="szn-yr">'18–'20<small>Seasons 3–4</small></div>
+              <div>
+                <div class="szn-team">Curalate</div>
+                <div class="szn-role">Senior Associate · Client Partner</div>
+                <p class="szn-notes">Managed a ~$4M ARR book of mid-market and enterprise SaaS clients — QBRs, renewals, and expansion across multi-quarter enterprise cycles.</p>
+              </div>
+              <div class="szn-badges"><span class="badge badge-acq">🏆 Acquired by Bazaarvoice</span></div>
+            </div>
+            <div class="season" style="animation-delay:.40s">
+              <div class="szn-yr">'16–'18<small>Rookie Seasons</small></div>
+              <div>
+                <div class="szn-team">Life.io</div>
+                <div class="szn-role">Growth, Sales &amp; Partnerships · Employee #10</div>
+                <p class="szn-notes">Drafted out of Temple into an early-stage insurtech. Closed 25 new customers and helped lay the sales and partnership foundation ahead of acquisition.</p>
+              </div>
+              <div class="szn-badges"><span class="badge badge-acq">🏆 Acquired by SE2 / Zinnia</span><span class="badge badge-info">25 CUSTOMERS CLOSED</span></div>
+            </div>
+            <div class="totals">
+              <div class="hh-stat"><b>10</b><i>Seasons</i></div>
+              <div class="hh-stat"><b>6</b><i>Teams</i></div>
+              <div class="hh-stat"><b>3</b><i>Acquisitions</i></div>
+              <div class="hh-stat"><b>2<em>×</em></b><i>Founding-Team Member</i></div>
+              <div class="hh-stat"><b>$2.5M</b><i>ARR From Zero</i></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ATTRIBUTES -->
+      <section class="screen" id="s-attributes">
+        <div class="screen-body">
+          <div class="sc-kicker">Player Ratings</div>
+          <h2 class="sc-title">Attri<em>butes</em></h2>
+          <div class="scroll">
+            <div class="attr-cols">
+              <div class="attr-group-title">Front Office</div>
+              <div class="attr-group-title">Builder</div>
+              <div class="attr" style="animation-delay:.05s">
+                <div class="attr-top"><span class="attr-name">Relationship Management</span><span class="attr-val elite" data-n="97">0</span></div>
+                <div class="bar"><i class="elite" data-w="97"></i></div>
+              </div>
+              <div class="attr" style="animation-delay:.05s">
+                <div class="attr-top"><span class="attr-name">Curiosity</span><span class="attr-val elite" data-n="99">0</span></div>
+                <div class="bar"><i class="elite" data-w="99"></i></div>
+              </div>
+              <div class="attr" style="animation-delay:.12s">
+                <div class="attr-top"><span class="attr-name">Deal Operations</span><span class="attr-val" data-n="94">0</span></div>
+                <div class="bar"><i data-w="94"></i></div>
+              </div>
+              <div class="attr" style="animation-delay:.12s">
+                <div class="attr-top"><span class="attr-name">Shipping Velocity</span><span class="attr-val elite" data-n="96">0</span></div>
+                <div class="bar"><i class="elite" data-w="96"></i></div>
+              </div>
+              <div class="attr" style="animation-delay:.19s">
+                <div class="attr-top"><span class="attr-name">Ecosystem Building</span><span class="attr-val" data-n="93">0</span></div>
+                <div class="bar"><i data-w="93"></i></div>
+              </div>
+              <div class="attr" style="animation-delay:.19s">
+                <div class="attr-top"><span class="attr-name">AI Engineering</span><span class="attr-val" data-n="89">0</span></div>
+                <div class="bar"><i data-w="89"></i></div>
+              </div>
+              <div class="attr" style="animation-delay:.26s">
+                <div class="attr-top"><span class="attr-name">Pipeline Generation</span><span class="attr-val" data-n="91">0</span></div>
+                <div class="bar"><i data-w="91"></i></div>
+              </div>
+              <div class="attr" style="animation-delay:.26s">
+                <div class="attr-top"><span class="attr-name">Prompt Craft</span><span class="attr-val" data-n="92">0</span></div>
+                <div class="bar"><i data-w="92"></i></div>
+              </div>
+              <div class="attr" style="animation-delay:.33s">
+                <div class="attr-top"><span class="attr-name">Executive Presence</span><span class="attr-val" data-n="92">0</span></div>
+                <div class="bar"><i data-w="92"></i></div>
+              </div>
+              <div class="attr" style="animation-delay:.33s">
+                <div class="attr-top"><span class="attr-name">Weird-Idea Tolerance</span><span class="attr-val elite" data-n="98">0</span></div>
+                <div class="bar"><i class="elite" data-w="98"></i></div>
+              </div>
+            </div>
+            <p class="attr-note">RATINGS METHODOLOGY: ENTIRELY UNAUDITED. CYAN = ELITE TIER. NO RATING BOOSTS WERE PURCHASED — THIS GAME HAS NO MICROTRANSACTIONS.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACHIEVEMENTS -->
+      <section class="screen" id="s-achievements">
+        <div class="screen-body">
+          <div class="sc-kicker">Unlockables</div>
+          <h2 class="sc-title">Achieve<em>ments</em></h2>
+          <div class="scroll">
+            <div class="ach-grid">
+              <div class="ach ach-leg" style="animation-delay:.05s">
+                <div class="ach-rarity r-leg">★ Legendary</div>
+                <div class="ach-name">The Franchise</div>
+                <p class="ach-desc">Built GScott — an autonomous AI trading system that researches, scores, and trades micro-cap stocks with live capital. It files its own post-trade reviews.</p>
+              </div>
+              <div class="ach" style="animation-delay:.10s">
+                <div class="ach-rarity r-epic">◆ Epic</div>
+                <div class="ach-name">Event Horizon</div>
+                <p class="ach-desc">Wrote a real-time general-relativity black hole renderer — light bending computed by GPU geodesics, in a single HTML file.</p>
+              </div>
+              <div class="ach" style="animation-delay:.15s">
+                <div class="ach-rarity r-epic">◆ Epic</div>
+                <div class="ach-name">Polycephalum</div>
+                <p class="ach-desc">Simulated one million slime mold agents on a GPU and watched them solve mazes like a tiny yellow city planner.</p>
+              </div>
+              <div class="ach" style="animation-delay:.20s">
+                <div class="ach-rarity r-epic">◆ Epic</div>
+                <div class="ach-name">Villain Arc</div>
+                <p class="ach-desc">Launched villain.me — an AI comic generator that turns anyone's grievances into a supervillain origin story.</p>
+              </div>
+              <div class="ach" style="animation-delay:.25s">
+                <div class="ach-rarity r-rare">● Rare</div>
+                <div class="ach-name">Darkwave</div>
+                <p class="ach-desc">Built a correlator that listens to shortwave numbers stations — the ghost broadcasts spies allegedly still use.</p>
+              </div>
+              <div class="ach" style="animation-delay:.30s">
+                <div class="ach-rarity r-rare">● Rare</div>
+                <div class="ach-name">Mission Control</div>
+                <p class="ach-desc">Shipped ai-sessions — an operator console for running fleets of AI coding agents in parallel.</p>
+              </div>
+              <div class="ach" style="animation-delay:.35s">
+                <div class="ach-rarity r-rare">● Rare</div>
+                <div class="ach-name">Exit Velocity</div>
+                <p class="ach-desc">Created SellPrep, an AI exit-readiness coach for business owners thinking about selling their company.</p>
+              </div>
+              <div class="ach" style="animation-delay:.40s">
+                <div class="ach-rarity r-rare">● Rare</div>
+                <div class="ach-name">Main Street</div>
+                <p class="ach-desc">Founded Mainwork — practical AI consulting for small and mid-sized businesses, not just the Fortune 500.</p>
+              </div>
+              <div class="ach locked" style="animation-delay:.45s">
+                <div class="ach-rarity r-lock">🔒 Hidden</div>
+                <div class="ach-name">Micrometeorite Hunter</div>
+                <p class="ach-desc">Unlock condition unknown. Involves rooftop dust, rare-earth magnets, and a microscope.</p>
+              </div>
+              <div class="ach locked" style="animation-delay:.50s">
+                <div class="ach-rarity r-lock">🔒 Hidden</div>
+                <div class="ach-name">Night Cloud Spotter</div>
+                <p class="ach-desc">Unlock condition: spot noctilucent clouds glowing 45 minutes after sunset. Latitude-dependent.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCOUTING -->
+      <section class="screen" id="s-scouting">
+        <div class="screen-body">
+          <div class="sc-kicker">Front Office Eyes Only</div>
+          <h2 class="sc-title">Scouting <em>Report</em></h2>
+          <div class="scroll">
+            <div class="scout-wrap">
+              <div class="scout-text">
+                <p><b>Summary:</b> Rare two-way player. Most guys in this league are either relationship operators or builders — McLaughlin is both, and at a high level. Ten seasons across insurtech, SaaS, compliance data, and M&amp;A advisory; three of his teams were acquired while he was on the roster, which scouts call <em>suspicious levels of being in the right room</em>.</p>
+                <p>On the business side, he's a pure relationship hitter: C-suite-comfortable, runs disciplined account plans, and keeps a 100+ advisor ecosystem warm without breaking a sweat. Took a pre-revenue startup to $2.5M ARR as employee #6. Currently playing veteran innings in sell-side M&amp;A, walking business owners through the biggest transaction of their lives.</p>
+                <p>On the builder side, the motor never stops. Nights and weekends he ships production software with AI — trading systems, physics simulations, consumer apps. The concern isn't whether he can build it; it's that <em>he will absolutely start building it tonight</em>.</p>
+                <p><b>Projection:</b> Franchise cornerstone for any organization that values both the handshake and the codebase. Sign him before someone else does.</p>
+              </div>
+              <div>
+                <div class="sw-box plus">
+                  <h3>▲ Strengths</h3>
+                  <ul>
+                    <li>Elite relationship instincts — trusted by owners, PE firms, and 100+ advisors</li>
+                    <li>Survived three acquisitions; thrives in chaos and zero-to-one environments</li>
+                    <li>Ships real, working software at a startup pace — solo</li>
+                    <li>Translates fluently between boardrooms and build logs</li>
+                    <li>Actuarial science degree: genuinely likes the math</li>
+                  </ul>
+                </div>
+                <div class="sw-box minus">
+                  <h3>▼ Development Areas</h3>
+                  <ul>
+                    <li>Physically incapable of not starting a new side project</li>
+                    <li>Will explain noctilucent clouds to anyone within earshot</li>
+                    <li>Refuses to choose between spreadsheets and shaders</li>
+                    <li>Has opinions about shortwave radio. Strong ones.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FREE AGENCY -->
+      <section class="screen" id="s-freeagency">
+        <div class="screen-body fa-wrap">
+          <div class="sc-kicker">Contract Negotiations Open</div>
+          <h2 class="fa-big">Now Accepting<br><em>Offers</em></h2>
+          <p class="fa-sub">Selling a business, building a partner ecosystem, or cooking up something weird with AI? Greg takes meetings. Front office responds fast.</p>
+          <div class="fa-rows">
+            <a class="fa-row" href="mailto:greg.s.mclaughlin@gmail.com"><i>Email</i><b>greg.s.mclaughlin@gmail.com</b></a>
+            <a class="fa-row" href="https://www.linkedin.com/in/greg-mclaughlin" target="_blank" rel="noopener"><i>LinkedIn</i><b>linkedin.com/in/greg-mclaughlin</b></a>
+            <a class="fa-row" href="https://github.com/gregmcla" target="_blank" rel="noopener"><i>GitHub</i><b>github.com/gregmcla</b></a>
+            <div class="fa-row"><i>Home Field</i><b>Tampa, FL</b></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="tk-label">McL Wire</div>
+    <div class="tk-track" id="tkTrack"></div>
+  </div>
+</div>
+
+<script>
+'use strict';
+/* ---------- sound: tiny WebAudio synth ---------- */
+let AC=null, muted=localStorage.getItem('mcl_muted')==='1';
+function ac(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ console.error('WebAudio unavailable:',e); } } return AC; }
+function blip(freq,dur,type,vol,when){
+  if(muted) return;
+  const ctx=ac(); if(!ctx) return;
+  const t=(ctx.currentTime)+(when||0);
+  const o=ctx.createOscillator(), g=ctx.createGain();
+  o.type=type||'square'; o.frequency.setValueAtTime(freq,t);
+  g.gain.setValueAtTime(0,t);
+  g.gain.linearRampToValueAtTime(vol||.05,t+.005);
+  g.gain.exponentialRampToValueAtTime(.0001,t+(dur||.07));
+  o.connect(g); g.connect(ctx.destination);
+  o.start(t); o.stop(t+(dur||.07)+.02);
+}
+const sHover =()=>blip(880,.05,'square',.025);
+const sSelect=()=>{ blip(660,.07,'square',.05); blip(990,.09,'square',.05,.07); };
+const sBoot  =()=>{ [330,440,660,880].forEach((f,i)=>blip(f,.12,'triangle',.06,i*.09)); };
+
+const muteBtn=document.getElementById('muteBtn');
+function paintMute(){ muteBtn.textContent='SOUND: '+(muted?'OFF':'ON'); }
+paintMute();
+muteBtn.addEventListener('click',()=>{ muted=!muted; localStorage.setItem('mcl_muted',muted?'1':'0'); paintMute(); if(!muted) sSelect(); });
+
+/* ---------- boot ---------- */
+const boot=document.getElementById('boot'), app=document.getElementById('app');
+let booted=false;
+function start(){
+  if(booted) return; booted=true;
+  sBoot();
+  boot.classList.add('gone');
+  app.classList.add('on');
+  setTimeout(()=>boot.remove(),700);
+}
+boot.addEventListener('click',start);
+window.addEventListener('keydown',e=>{ if(!booted&&(e.key==='Enter'||e.key===' ')) start(); });
+
+/* deep link: #career, #attributes, ... skips the boot screen */
+const deepLink=location.hash.replace('#','');
+
+/* ---------- menu / screens ---------- */
+const items=[...document.querySelectorAll('.mi')];
+const screens={};
+items.forEach(mi=>screens[mi.dataset.screen]=document.getElementById('s-'+mi.dataset.screen));
+let current='home';
+
+function show(name){
+  if(!screens[name]||name===current&&app.classList.contains('on')) return;
+  current=name;
+  items.forEach(mi=>mi.classList.toggle('active',mi.dataset.screen===name));
+  Object.entries(screens).forEach(([k,el])=>{
+    el.classList.remove('on');
+    if(k===name){
+      void el.offsetWidth;            /* restart entry animation */
+      el.classList.add('on');
+    }
+  });
+  if(name==='attributes') animateAttrs();
+}
+items.forEach(mi=>{
+  mi.addEventListener('mouseenter',sHover);
+  mi.addEventListener('click',()=>{ sSelect(); show(mi.dataset.screen); });
+});
+document.querySelectorAll('[data-goto]').forEach(b=>{
+  b.addEventListener('mouseenter',sHover);
+  b.addEventListener('click',()=>{ sSelect(); show(b.dataset.goto); });
+});
+document.querySelectorAll('.fa-row,.ach,.season').forEach(el=>el.addEventListener('mouseenter',sHover));
+
+/* keyboard nav like a real menu */
+window.addEventListener('keydown',e=>{
+  if(!booted) return;
+  const idx=items.findIndex(mi=>mi.dataset.screen===current);
+  if(e.key==='ArrowDown'||e.key==='ArrowRight'){ e.preventDefault(); sHover(); show(items[(idx+1)%items.length].dataset.screen); }
+  if(e.key==='ArrowUp'||e.key==='ArrowLeft'){ e.preventDefault(); sHover(); show(items[(idx-1+items.length)%items.length].dataset.screen); }
+});
+
+/* ---------- attribute bars ---------- */
+let attrsDone=false;
+function animateAttrs(){
+  document.querySelectorAll('.bar i').forEach(b=>{ b.style.width='0%'; });
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    document.querySelectorAll('.bar i').forEach(b=>{ b.style.width=b.dataset.w+'%'; });
+  }));
+  document.querySelectorAll('.attr-val').forEach(v=>{
+    const target=+v.dataset.n, t0=performance.now(), dur=900;
+    function tick(t){
+      const p=Math.min(1,(t-t0)/dur);
+      v.textContent=Math.round(target*(1-Math.pow(1-p,3)));
+      if(p<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+  attrsDone=true;
+}
+
+/* ---------- ticker ---------- */
+const headlines=[
+  'BREAKING: McLaughlin ships <b>3 apps in one day</b>, claims he was "just warming up"',
+  'TRADE DESK: GScott AI portfolio executes overnight buys — <b>manager was asleep</b>',
+  'FRANCHISE NOTES: 3 of 6 former teams acquired — league investigating <b>suspicious timing</b>',
+  'SCOUTING: Sources say he answered a cold email in <b>under 4 minutes</b>',
+  'WEATHER: Conditions favorable for <b>noctilucent clouds</b> 45 min post-sunset, McLaughlin already outside',
+  'LEAGUE OFFICE: Temple actuarial science degree ruled a <b>legal performance enhancer</b>',
+  'RUMOR MILL: Has a rare-earth magnet and a rooftop plan — <b>micrometeorite szn</b>',
+  'M&amp;A WIRE: 100+ advisor ecosystem reports <b>career-high engagement</b> this season',
+  'TECH DESK: Rendered a black hole in one HTML file — <b>physics dept declines comment</b>',
+  'FREE AGENCY: Front office confirms — <b>now accepting offers</b>'
+];
+const tk=document.getElementById('tkTrack');
+const seq=headlines.map(h=>`<span>${h} <span style="color:#3c4868">&nbsp;///&nbsp;</span></span>`).join('');
+tk.innerHTML=seq+seq; /* doubled for seamless loop */
+
+/* apply deep link after everything is wired up */
+if(deepLink&&screens[deepLink]){ muted=true; start(); muted=localStorage.getItem('mcl_muted')==='1'; show(deepLink); }
+window.addEventListener('hashchange',()=>{ const h=location.hash.replace('#',''); if(screens[h]){ if(!booted){ muted=true; start(); muted=localStorage.getItem('mcl_muted')==='1'; } show(h); } });
+</script>
+</body>
+</html>
