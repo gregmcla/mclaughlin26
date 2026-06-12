@@ -329,6 +329,69 @@ body.goat .goat-crown{display:block}
 }
 .init-slot.sel{border-color:var(--gold);color:var(--gold-hi);box-shadow:0 0 26px rgba(255,179,0,.25)}
 
+/* ============ ASK THE GM ============ */
+#gmBtn{
+  position:fixed;right:22px;bottom:56px;z-index:44;cursor:pointer;
+  font-family:'Anton',sans-serif;font-size:15px;letter-spacing:.08em;text-transform:uppercase;
+  background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:#191000;border:0;
+  padding:11px 20px;transform:skewX(var(--skew));box-shadow:0 12px 40px rgba(255,179,0,.25);transition:.2s;
+}
+#gmBtn:hover{transform:skewX(var(--skew)) translateY(-3px)}
+#gmPanel{
+  position:fixed;right:22px;bottom:110px;z-index:65;width:min(380px,calc(100vw - 34px));height:480px;max-height:70vh;
+  display:none;flex-direction:column;background:linear-gradient(170deg,#121a32,#0a0f1d);
+  border:1px solid rgba(255,179,0,.4);box-shadow:0 30px 90px rgba(0,0,0,.7);
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%);
+}
+#gmPanel.on{display:flex;animation:rise .3s both}
+.gm-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.gm-ava{width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:20px;
+  background:linear-gradient(180deg,var(--gold-hi),var(--gold));clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+.gm-name{font-family:'Anton',sans-serif;font-size:15px;letter-spacing:.05em;text-transform:uppercase}
+.gm-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase}
+.gm-x{margin-left:auto;background:none;border:0;color:var(--dim);font-size:16px;cursor:pointer}
+.gm-x:hover{color:var(--red)}
+#gmLog{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin}
+.gm-msg{max-width:85%;padding:10px 14px;font-size:15px;line-height:1.45;font-weight:500}
+.gm-msg.bot{align-self:flex-start;background:#18213d;border-left:3px solid var(--gold);color:#d7deef}
+.gm-msg.me{align-self:flex-end;background:rgba(46,224,255,.1);border-right:3px solid var(--cyan);color:#c9f2fb}
+.gm-msg.bot a{color:var(--gold-hi)}
+.gm-typing{align-self:flex-start;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5b688f;letter-spacing:.3em}
+.gm-in{display:flex;gap:10px;padding:12px 14px;border-top:1px solid var(--line)}
+#gmInput{flex:1;background:#0a0f1d;border:1px solid var(--line);color:var(--ink);padding:10px 12px;
+  font-family:'Barlow Condensed',sans-serif;font-size:16px;outline:0}
+#gmInput:focus{border-color:var(--gold)}
+#gmSend{background:linear-gradient(180deg,var(--gold-hi),var(--gold));border:0;color:#191000;
+  font-family:'Anton',sans-serif;font-size:13px;letter-spacing:.06em;padding:0 18px;cursor:pointer;text-transform:uppercase}
+
+/* ============ COMMENTARY BOOTH ============ */
+#booth{position:fixed;left:22px;bottom:56px;z-index:44;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:380px}
+.cb{
+  display:flex;gap:12px;align-items:flex-start;background:linear-gradient(170deg,#121a32,#0a0f1d);
+  border:1px solid var(--line);border-left:3px solid var(--cyan);padding:11px 16px;
+  animation:cbin .4s cubic-bezier(.22,1.3,.36,1) both, toast-out .4s ease 5.6s both;
+}
+.cb.jim{border-left-color:var(--gold)}
+@keyframes cbin{from{transform:translateX(-120%);opacity:0}to{transform:none;opacity:1}}
+.cb b{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.1em;color:var(--cyan);text-transform:uppercase;white-space:nowrap;padding-top:2px}
+.cb.jim b{color:var(--gold)}
+.cb p{font-size:14.5px;line-height:1.4;color:#b7c1dd;font-weight:500}
+
+/* ============ CRT MODE ============ */
+#crt{position:fixed;inset:0;z-index:80;pointer-events:none;display:none}
+body.crt #crt{display:block}
+#crt::before{content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px);}
+#crt::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.55) 100%);
+  animation:crtflick 4s steps(60) infinite}
+@keyframes crtflick{0%,100%{opacity:1}97%{opacity:1}98%{opacity:.78}99%{opacity:.95}}
+body.crt #app,body.crt #derby,body.crt #packs,body.crt #reel{filter:saturate(1.25) contrast(1.12) brightness(1.04)}
+body.crt .grain{opacity:.85}
+
+/* spectators */
+#tbEyes{cursor:pointer}
+
 .main{flex:1;display:flex;min-height:0}
 
 /* ============ MENU ============ */
@@ -650,7 +713,8 @@ body.goat .goat-crown{display:block}
     <div class="tb-mode" id="tbMode">Franchise Mode</div>
     <div class="tb-spacer"></div>
     <div class="tb-meta" id="tbTrophies" title="Visitor achievements — keep exploring">🏆 0/8</div>
-    <div class="tb-meta">Season 10 · Tampa, FL</div>
+    <div class="tb-meta" id="tbEyes" title="Live spectators (you count too)">👁 —</div>
+    <div class="tb-meta" id="tbWx">Season 10 · Tampa, FL</div>
     <button id="bgmBtn" aria-label="Toggle music">BGM: ON</button>
     <button id="muteBtn" aria-label="Toggle sound">SOUND: ON</button>
   </div>
@@ -1008,6 +1072,7 @@ body.goat .goat-crown{display:block}
     </div>
     <div class="de-btns">
       <button class="btn btn-gold" id="dAgain"><span>Play Again</span></button>
+      <button class="btn btn-ghost" id="dCard"><span>📸 Save Card</span></button>
       <button class="btn btn-ghost" id="dBack"><span>Back To Menu</span></button>
     </div>
   </div>
@@ -1024,6 +1089,30 @@ body.goat .goat-crown{display:block}
 
 <!-- ATTRACT MODE -->
 <div id="attract">Demo Mode — Press Any Button</div>
+
+<!-- CRT FILTER -->
+<div id="crt"></div>
+
+<!-- COMMENTARY BOOTH -->
+<div id="booth"></div>
+
+<!-- ASK THE GM -->
+<button id="gmBtn">🎙 Ask The GM</button>
+<div id="gmPanel">
+  <div class="gm-head">
+    <div class="gm-ava">🧢</div>
+    <div>
+      <div class="gm-name">Front Office GM</div>
+      <div class="gm-sub">● Online · Answers Fast</div>
+    </div>
+    <button class="gm-x" id="gmClose">✕</button>
+  </div>
+  <div id="gmLog"></div>
+  <div class="gm-in">
+    <input id="gmInput" placeholder="Ask about Greg, the stats, the deals…" autocomplete="off">
+    <button id="gmSend">Send</button>
+  </div>
+</div>
 
 <!-- CARD PACKS -->
 <div id="packs">
@@ -1196,6 +1285,14 @@ function fxLoop(){
       fctx.beginPath(); fctx.arc(p.x,p.y,1.8,0,7); fctx.fill();
       continue;
     }
+    if(p.kind==='rain'){
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.y>innerHeight+10){ p.y=-12; p.x=Math.random()*(innerWidth+80)-40; }
+      fctx.strokeStyle=`rgba(160,190,230,${p.a})`;
+      fctx.lineWidth=1;
+      fctx.beginPath(); fctx.moveTo(p.x,p.y); fctx.lineTo(p.x+p.vx*1.6,p.y+p.vy*1.6); fctx.stroke();
+      continue;
+    }
     if(p.kind==='dust'){
       p.x+=p.vx; p.y+=p.vy;
       if(p.y<-5){ p.y=innerHeight+5; p.x=Math.random()*innerWidth; }
@@ -1233,7 +1330,9 @@ const ACH={
   packrip:      {ico:'🃏', name:'Wax Ripper',        desc:'Opened your first pack of Series 26.'},
   collector:    {ico:'📦', name:'Master Set',        desc:'Collected all 21 cards. Touch grass.'},
   showtime:     {ico:'🎬', name:'Showtime',          desc:'Watched the career highlight reel to the end.'},
-  halloffame:   {ico:'🏛️', name:'Hall of Famer',    desc:'Etched your initials into the derby leaderboard.'}
+  halloffame:   {ico:'🏛️', name:'Hall of Famer',    desc:'Etched your initials into the derby leaderboard.'},
+  pressconf:    {ico:'🎙️', name:'Press Box',        desc:'Asked the GM a question. He always answers.'},
+  coverathlete: {ico:'📸', name:'Cover Athlete',     desc:'Generated a trading card in Photo Mode.'}
 };
 let earned=new Set(JSON.parse(localStorage.getItem('mcl_ach')||'[]'));
 const tbT=document.getElementById('tbTrophies');
@@ -1334,6 +1433,7 @@ function show(name,withWipe){
   if(name==='scouting') unlock('readthefile');
   visited.add(name);
   if(visited.size===items.length) unlock('completionist');
+  commentate('screen:'+name);
 }
 items.forEach(mi=>{
   mi.addEventListener('mouseenter',sHover);
@@ -1493,6 +1593,7 @@ function toggleGoat(){
     document.title="MCLAUGHLIN '26 — 🐐 GOAT MODE";
     sFanfare(); if(!REDUCED){ confetti(160); fireworks(6); }
     announce('Goat mode activated.');
+    commentate('goat');
     unlock('konami');
   }else{
     ovr.textContent='99'; mode.textContent='Franchise Mode';
@@ -1700,6 +1801,7 @@ function derbySwing(){
     dHR++; dHREl.textContent=dHR;
     if(dist>dLongest){ dLongest=dist; dLongEl.textContent=dLongest; }
     callout(q>.72?`MOONSHOT! ${dist} FT`:`DINGER! ${dist} FT`);
+    commentate('hr');
     unlock('dinger');
     if(dHR>=5) unlock('derbychamp');
   }else{
@@ -1712,6 +1814,7 @@ function whiff(txt){
   dState='result';
   whoosh();
   callout(txt,true);
+  commentate('whiff');
   setTimeout(nextPitch,900);
 }
 window.addEventListener('keydown',e=>{
@@ -1862,7 +1965,16 @@ termInput.addEventListener('keydown',e=>{
   sTick();
   switch(cmd){
     case 'help':
-      tPrint('help · whoami · stats · ls · cat &lt;file&gt; · trophies · derby · goat · gscott · clouds · hire · clear · exit','t-cyan'); break;
+      tPrint('help · whoami · stats · ls · cat &lt;file&gt; · trophies · derby · goat · gscott · clouds · weather · card · crt · gm · hire · clear · exit','t-cyan'); break;
+    case 'weather':
+      tPrint(wx?`TAMPA LIVE: ${Math.round(wx.temperature_2m)}°F · code ${wx.weather_code} · ${wx.is_day?'day':'night'} game`:'live feed still loading — try again in a sec','t-cyan'); break;
+    case 'card':
+      tPrint('generating trading card…','t-gold'); savePhotoCard(null); break;
+    case 'crt':
+      document.body.classList.toggle('crt');
+      tPrint('CRT mode '+(document.body.classList.contains('crt')?'ON — enjoy 1994':'OFF — back to 4K'),'t-gold'); break;
+    case 'gm':
+      closeTerm(); document.getElementById('gmBtn').click(); break;
     case 'whoami':
       tPrint('Greg McLaughlin — M&A partnerships executive / AI builder. Tampa, FL. OVR 99.',''); break;
     case 'stats':
@@ -1993,7 +2105,7 @@ function dealCards(){
       if(el.classList.contains('flipped')) return;
       el.classList.add('flipped'); flipped++;
       const c=CARDS.find(x=>x.id===el.dataset.id);
-      if(c.rar==='leg'){ sFanfare(); fireworks(3); if(!REDUCED) confetti(60); }
+      if(c.rar==='leg'){ sFanfare(); fireworks(3); if(!REDUCED) confetti(60); commentate('legendary'); }
       else if(c.rar==='epic'){ sTrophy(); }
       else sSelect();
       if(!coll.has(c.id)){
@@ -2054,6 +2166,199 @@ reelEl.addEventListener('click',rlAdvance);
 window.addEventListener('keydown',e=>{ if(reelOn&&e.key==='Escape') endReel(false); });
 
 /* ============================================================
+   LIVE STADIUM CONDITIONS — real Tampa weather (open-meteo)
+   ============================================================ */
+let wx=null;
+const WX_CODES=[[0,'CLEAR ☀'],[3,'CLOUDS ⛅'],[48,'FOG 🌫'],[67,'RAIN 🌧'],[77,'SNOW?! ❄'],[82,'RAIN 🌧'],[99,'STORM ⛈']];
+function wxLabel(code){ for(const [max,l] of WX_CODES) if(code<=max) return l; return 'WEIRD SKY'; }
+fetch('https://api.open-meteo.com/v1/forecast?latitude=27.95&longitude=-82.46&current=temperature_2m,weather_code,is_day&temperature_unit=fahrenheit')
+  .then(r=>r.json())
+  .then(j=>{
+    wx=j.current; if(!wx) return;
+    const label=wxLabel(wx.weather_code);
+    document.getElementById('tbWx').textContent=`Tampa ${Math.round(wx.temperature_2m)}°F · ${label}${wx.is_day?'':' · 🌙'}`;
+    const rainy=(wx.weather_code>=51&&wx.weather_code<=67)||wx.weather_code>=80;
+    if(rainy&&!REDUCED){
+      for(let i=0;i<150;i++) parts.push({kind:'rain',x:Math.random()*innerWidth,y:Math.random()*innerHeight,
+        vx:-1-Math.random(),vy:9+Math.random()*6,a:.16+Math.random()*.2,life:Infinity});
+      headlines.unshift('RAIN DELAY: Actual live rain reported at the home field — <b>grounds crew deployed</b>');
+      buildTicker();
+      commentate('rain');
+    }
+  })
+  .catch(e=>console.error('weather fetch failed:',e));
+
+/* ============================================================
+   COMMENTARY BOOTH — Jim & Chip call the action
+   ============================================================ */
+const booth=document.getElementById('booth');
+let lastCb=0;
+const CB_LINES={
+  'screen:career':[['JIM','Three acquisitions in ten seasons, Chip. At some point that\'s not luck, that\'s a skill.'],['CHIP','I had Laskie at zero revenue, Jim. He had it at two and a half million. We are not the same.']],
+  'screen:attributes':[['CHIP','A 99 in Curiosity, Jim. The scouts had to invent a new column.'],['JIM','Look at that radar chart, folks. That\'s not a hexagon, that\'s a warning.']],
+  'screen:achievements':[['JIM','He simulated a million slime mold agents, Chip. On purpose.'],['CHIP','The trading system files its own post-trade reviews, Jim. I can\'t even file my expenses.']],
+  'screen:scouting':[['CHIP','The file says "will explain noctilucent clouds to anyone within earshot." I can confirm, Jim.'],['JIM','Development areas include "refuses to choose between spreadsheets and shaders." Chilling.']],
+  'screen:freeagency':[['JIM','Front office says they respond fast, Chip. I\'ve seen the four-minute cold email reply. It\'s real.'],['CHIP','Folks, free agency is OPEN. The mailto link is RIGHT THERE.']],
+  'screen:home':[['CHIP','Back to the spotlight, Jim. The holo card still gives me chills.']],
+  whiff:[['JIM','Swung right through the earnout, Chip.'],['CHIP','That re-trade had late movement, Jim. Nobody hits the re-trade.'],['JIM','He\'s swinging at narrative, Chip. You gotta wait for the numbers.']],
+  hr:[['CHIP','GET OUT THE SPREADSHEET, THAT ONE\'S GONE!'],['JIM','He took the working capital peg DEEP, Chip!'],['CHIP','The exit was clean and fully diligenced, Jim. Beautiful swing.']],
+  goat:[['JIM','...Chip, is that a crown?'],['CHIP','GOAT mode, Jim. We talked about this in the production meeting.']],
+  legendary:[['CHIP','A LEGENDARY PULL! The hobby is ALIVE, Jim!'],['JIM','That foil shine, Chip. Mint condition. Slab it immediately.']],
+  rain:[['JIM','And folks, that is REAL rain — pulled live from the actual Tampa forecast.'],['CHIP','A website with a rain delay, Jim. What a time to be alive.']],
+  idle:[['JIM','He\'s just... looking at the menu, Chip.'],['CHIP','Sometimes you gotta sit in the moment, Jim.']]
+};
+function commentate(key){
+  const pool=CB_LINES[key]; if(!pool) return;
+  const now=performance.now();
+  if(now-lastCb<12000) return;                       /* don't talk over each other */
+  if(key.startsWith('screen:')&&Math.random()<.6) return;  /* not every visit */
+  lastCb=now;
+  const [who,text]=pool[Math.floor(Math.random()*pool.length)];
+  const el=document.createElement('div');
+  el.className='cb'+(who==='JIM'?' jim':'');
+  el.innerHTML=`<b>${who}:</b><p>${text}</p>`;
+  booth.appendChild(el);
+  setTimeout(()=>el.remove(),6200);
+  sTick();
+}
+setInterval(()=>{ if(booted&&!derbyOn&&!reelOn&&!document.hidden&&Math.random()<.25) commentate('idle'); },45000);
+
+/* ============================================================
+   PHOTO MODE — generate a downloadable trading card PNG
+   ============================================================ */
+const cardImg=new Image(); cardImg.src='player.jpeg';
+function savePhotoCard(derbyData){
+  const cv=document.createElement('canvas'); cv.width=1200; cv.height=630;
+  const x=cv.getContext('2d');
+  /* backdrop */
+  const bg=x.createLinearGradient(0,0,1200,630);
+  bg.addColorStop(0,'#0c1120'); bg.addColorStop(1,'#06080f');
+  x.fillStyle=bg; x.fillRect(0,0,1200,630);
+  x.strokeStyle='rgba(255,255,255,.03)'; x.lineWidth=2;
+  for(let i=-10;i<30;i++){ x.beginPath(); x.moveTo(i*60,630); x.lineTo(i*60+260,0); x.stroke(); }
+  /* photo panel */
+  if(cardImg.complete&&cardImg.naturalWidth){
+    x.save(); x.beginPath(); x.moveTo(0,0); x.lineTo(420,0); x.lineTo(360,630); x.lineTo(0,630); x.closePath(); x.clip();
+    const s=Math.max(420/cardImg.width,630/cardImg.height);
+    x.drawImage(cardImg,0,0,cardImg.width,cardImg.height,(420-cardImg.width*s)/2,0,cardImg.width*s,cardImg.height*s);
+    const ov=x.createLinearGradient(0,0,420,0); ov.addColorStop(0,'rgba(6,8,15,0)'); ov.addColorStop(1,'rgba(6,8,15,.85)');
+    x.fillStyle=ov; x.fillRect(0,0,420,630); x.restore();
+  }
+  /* gold top bar + OVR shield */
+  const gold=x.createLinearGradient(0,0,1200,0); gold.addColorStop(0,'#ffb300'); gold.addColorStop(1,'#2ee0ff');
+  x.fillStyle=gold; x.fillRect(0,0,1200,8);
+  x.fillStyle='#ffb300';
+  x.beginPath(); x.moveTo(1090,40); x.lineTo(1150,70); x.lineTo(1150,130); x.lineTo(1090,160); x.lineTo(1030,130); x.lineTo(1030,70); x.closePath(); x.fill();
+  x.fillStyle='#191000'; x.font='900 52px Arial Black, Arial'; x.textAlign='center';
+  x.fillText(document.body.classList.contains('goat')?'100':'99',1090,118);
+  x.font='700 16px Arial'; x.fillText('OVR',1090,142);
+  /* name (skewed) */
+  x.save(); x.transform(1,0,-.12,1,0,0); x.textAlign='left';
+  x.fillStyle='#2ee0ff'; x.font='600 26px Arial'; x.fillText('G R E G',520,200);
+  x.fillStyle='#f2f5fc'; x.font='900 92px Arial Black, Arial'; x.fillText('McLAUGHLIN',512,290);
+  x.fillStyle='#ffb300'; x.font='700 24px Arial'; x.fillText(derbyData?'HOME RUN DERBY · OFFICIAL RESULT':'PARTNERSHIPS · M&A · AI BUILDER',520,340);
+  x.restore();
+  /* stat line */
+  x.textAlign='left'; x.fillStyle='#8b96b8'; x.font='600 22px Arial';
+  if(derbyData){
+    x.fillStyle='#f2f5fc'; x.font='900 54px Arial Black, Arial';
+    x.fillText(`${derbyData.hr} HR  ·  ${derbyData.ft} FT  ·  ${derbyData.rank}`,520,440);
+    x.fillStyle='#8b96b8'; x.font='600 22px Arial';
+    x.fillText('STEP UP TO THE PLATE AT THE LINK BELOW',520,490);
+  }else{
+    x.fillText('10 SEASONS  ·  3 ACQUISITIONS  ·  100+ PARTNER NETWORK  ·  12+ APPS',520,430);
+    x.fillStyle='#f2f5fc'; x.fillText('TEAM: ALIGN BUSINESS ADVISORY  ·  TAMPA, FL',520,470);
+  }
+  x.fillStyle='#46537a'; x.font='600 18px Courier New, monospace';
+  x.fillText("MCLAUGHLIN '26 — THE SHOW EDITION · SERIES 26",520,580);
+  /* download */
+  try{
+    const a=document.createElement('a');
+    a.download=derbyData?'mcl26-derby-card.png':'mcl26-player-card.png';
+    a.href=cv.toDataURL('image/png');
+    a.click();
+    toast('📸','Photo Mode','Card Saved',a.download+' is in your downloads.');
+    unlock('coverathlete'); sTrophy();
+  }catch(e){ console.error('photo mode failed:',e); toast('📸','Photo Mode','Save Failed',String(e)); }
+}
+document.getElementById('dCard').addEventListener('click',()=>{
+  const rank=document.getElementById('deRank').textContent;
+  savePhotoCard({hr:dHR,ft:dLongest,rank});
+});
+
+/* ============================================================
+   ASK THE GM — front office chatbot
+   ============================================================ */
+const gmPanel=document.getElementById('gmPanel'), gmLog=document.getElementById('gmLog'), gmInput=document.getElementById('gmInput');
+let gmOpen=false, gmGreeted=false;
+const GM_BRAIN=[
+  [/^(hi|hey|hello|yo|sup|howdy)\b/, ["Welcome to the front office. Ask me anything — career, the trading system, the weird hobbies. I've got the whole file.","Hey. You here about the player? Smart. What do you want to know?"]],
+  [/who.*greg|about (greg|him)|tell me about/, ["Greg McLaughlin. Ten seasons of partnerships and M&A — Life.io, Curalate, HGS, Laskie, Kharon, now Align Business Advisory. Three of those teams got acquired with him on the roster. After dark he ships AI software. Rare two-way player."]],
+  [/m&a|deal|merger|acqui|sell.?side|align/, ["He runs strategic partnerships at Align Business Advisory — lower-middle-market sell-side M&A. 100+ attorney/CPA/wealth-manager ecosystem. He's the guy in the room when an owner sells the business they spent 30 years building."]],
+  [/gscott|trading|stock|portfolio/, ["GScott is his autonomous AI trading system. It researches, scores, and trades micro-cap stocks with live capital — and writes its own post-trade reviews. It is probably trading right now. Type <b>gscott</b> in the terminal (backtick key) for a status report."]],
+  [/\b(ai|build|project|app|code|software|ship)\b/, ["The man ships. A black hole renderer. A million-agent slime mold sim. A supervillain comic generator. A shortwave numbers-station correlator. An AI trading system with real money. Check the Achievements screen — that's the unlockables list."]],
+  [/career|job|work|resume|experience|history/, ["Quick career line: Temple (actuarial science) → Life.io employee #10 (acquired) → Curalate $4M book (acquired) → HGS +55% partner revenue → Laskie employee #6, $0→$2.5M ARR (acquired by X/Twitter) → Kharon +60% pipeline → Align BA. Or just watch the Highlight Reel — the announcer does it better."]],
+  [/derby|game|play|swing|tip/, ["Derby tip from the front office: watch the ball, not the label. Swing when the pitch fills the ring — about 93% of the way in. The re-trade has late movement. Everyone whiffs on the re-trade."]],
+  [/hire|contact|email|reach|sign|offer|meeting|talk/, ["Now we're talking. <a href='mailto:greg.s.mclaughlin@gmail.com'>greg.s.mclaughlin@gmail.com</a> — or LinkedIn at <a href='https://www.linkedin.com/in/greg-mclaughlin' target='_blank' rel='noopener'>linkedin.com/in/greg-mclaughlin</a>. Front office responds fast. Four-minute cold-email reply is the club record."]],
+  [/salary|contract|money|cost|price|rate/, ["Compensation discussions go through his agent. His agent is also him. It's very efficient."]],
+  [/cloud|noctilucent|meteor|shortwave|radio|hobby|weird/, ["Off the field: noctilucent clouds (glowing night clouds, 45 min after sunset), micrometeorite hunting (rooftop dust + rare-earth magnets), and shortwave numbers stations. We don't ask questions. We just respect the range."]],
+  [/goat|best|elite|crack/, ["You want GOAT mode? There's an old code. Up, up, down, down... you know the rest. The crowd loves it."]],
+  [/weather|rain|tampa|hot|forecast/, [()=>wx?`Live from the home field: ${Math.round(wx.temperature_2m)}°F, code ${wx.weather_code}. ${wx.weather_code>=51?'Rain delay in effect — you may have noticed the actual rain on this website.':'Clear enough for batting practice.'}`:"Still pulling the live Tampa feed. Check the scoreboard up top in a second."]],
+  [/card|pack|collect|rip/, ["Series 26 packs are live in the menu. 21-card set, three legendaries. Pack odds are printed nowhere because this is the hobby, baby. Pity rule guarantees a rare+."]],
+  [/trophy|achievement|unlock/, ["There are 17 visitor trophies. You've got "+0+" — kidding, I don't check your locker. The counter is in the top bar. Hidden ones involve a backtick, a controller, and an old cheat code."]],
+  [/who (made|built)|claude|an ai|are you (real|ai)/, ["An AI built this site about a human who builds AI. The slime mold is somewhere in the loop too. Don't think about it too hard."]],
+  [/thank|thanks|ty\b/, ["Anytime. The front office never sleeps. Literally — there's a trading system running."]],
+  [/bye|later|cya|goodbye/, ["Door's always open. Take a pack on the way out — first rip's free. (They're all free.)"]]
+];
+const GM_FALLBACK=[
+  "Good question. The scouting report doesn't cover that — but the email does: <a href='mailto:greg.s.mclaughlin@gmail.com'>ask Greg directly</a>.",
+  "That's above my pay grade, and I'm the GM. Try asking about the career, the projects, the derby, or how to sign him.",
+  "I'll be honest, I'm a front-office guy. Deals, stats, weird hobbies — that's my zone. Ask me one of those.",
+  "Hmm. Let me check the file... the file says 'ask about GScott, it's cooler.'"
+];
+function gmSay(html,me){
+  const d=document.createElement('div');
+  d.className='gm-msg '+(me?'me':'bot');
+  d.innerHTML=html;
+  gmLog.appendChild(d); gmLog.scrollTop=gmLog.scrollHeight;
+}
+function gmReply(q){
+  const typing=document.createElement('div');
+  typing.className='gm-typing'; typing.textContent='GM IS TYPING…';
+  gmLog.appendChild(typing); gmLog.scrollTop=gmLog.scrollHeight;
+  let reply=null;
+  for(const [re,replies] of GM_BRAIN){ if(re.test(q)){ reply=replies[Math.floor(Math.random()*replies.length)]; break; } }
+  if(!reply) reply=GM_FALLBACK[Math.floor(Math.random()*GM_FALLBACK.length)];
+  if(typeof reply==='function') reply=reply();
+  setTimeout(()=>{ typing.remove(); gmSay(reply); sTick(); },650+Math.random()*750);
+}
+document.getElementById('gmBtn').addEventListener('click',()=>{
+  gmOpen=!gmOpen; gmPanel.classList.toggle('on',gmOpen); sSelect();
+  if(gmOpen&&!gmGreeted){ gmGreeted=true; setTimeout(()=>gmSay("Front office. You're talking to the GM. Ask me about the player — career, stats, the AI stuff, how to sign him. I type fast."),350); }
+  if(gmOpen) gmInput.focus();
+});
+document.getElementById('gmClose').addEventListener('click',()=>{ gmOpen=false; gmPanel.classList.remove('on'); });
+function gmSubmit(){
+  const q=gmInput.value.trim(); if(!q) return;
+  gmInput.value='';
+  gmSay(q.replace(/</g,'&lt;'),true);
+  unlock('pressconf');
+  gmReply(q.toLowerCase());
+}
+document.getElementById('gmSend').addEventListener('click',gmSubmit);
+gmInput.addEventListener('keydown',e=>{ e.stopPropagation(); if(e.key==='Enter') gmSubmit(); if(e.key==='Escape'){ gmOpen=false; gmPanel.classList.remove('on'); } });
+
+/* ============================================================
+   LIVE SPECTATORS
+   ============================================================ */
+const tbEyes=document.getElementById('tbEyes');
+let crowd=850+Math.floor(Math.random()*500);
+function paintCrowd(){ tbEyes.textContent='👁 '+crowd.toLocaleString('en-US'); }
+paintCrowd();
+setInterval(()=>{ crowd=Math.max(312,crowd+Math.floor(Math.random()*61)-28); paintCrowd(); },6000);
+tbEyes.addEventListener('click',()=>{ toast('👁','Live Crowd','You Count Too','Current attendance includes you. Thanks for showing up.'); sSelect(); });
+
+/* ============================================================
    TICKER
    ============================================================ */
 const headlines=[
@@ -2071,11 +2376,17 @@ const headlines=[
   'DEV LEAK: Pressing <b>backtick</b> allegedly opens something called mcl-os',
   'THE HOBBY: <b>SERIES 26 PACKS</b> now ripping — chase the three legendaries',
   'BROADCAST: Career <b>HIGHLIGHT REEL</b> premieres tonight, announcer confirmed live',
+  'PRESS BOX: Jim &amp; Chip calling the action <b>live from the booth</b> — they see everything',
+  'FRONT OFFICE: The <b>GM is taking questions</b> — bottom right corner, he types fast',
+  'SCOREBOARD: Stadium conditions powered by <b>actual live Tampa weather</b>',
   'FREE AGENCY: Front office confirms — <b>now accepting offers</b>'
 ];
 const tk=document.getElementById('tkTrack');
-const seq=headlines.map(h=>`<span>${h} <span style="color:#3c4868">&nbsp;///&nbsp;</span></span>`).join('');
-tk.innerHTML=seq+seq; /* doubled for seamless loop */
+function buildTicker(){
+  const seq=headlines.map(h=>`<span>${h} <span style="color:#3c4868">&nbsp;///&nbsp;</span></span>`).join('');
+  tk.innerHTML=seq+seq; /* doubled for seamless loop */
+}
+buildTicker();
 
 /* ============================================================
    DEEP LINKS — #career etc. skip splash/boot
@@ -2088,6 +2399,7 @@ if(qp.has('derby')){ if(!booted){ document.getElementById('splash')?.remove(); s
 if(qp.has('term')){ if(!booted){ document.getElementById('splash')?.remove(); silentStart(); } openTerm(); }
 if(qp.has('packs')){ if(!booted){ document.getElementById('splash')?.remove(); silentStart(); } openPacks(); }
 if(qp.has('reel')){ if(!booted){ document.getElementById('splash')?.remove(); silentStart(); } openReel(); }
+if(qp.has('gm')){ if(!booted){ document.getElementById('splash')?.remove(); silentStart(); } document.getElementById('gmBtn').click(); }
 
 /* ============================================================
    PWA — installable, works offline

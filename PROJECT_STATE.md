@@ -1,8 +1,29 @@
 # PROJECT_STATE — MCLAUGHLIN '26
 
 ## Current phase
-v4 "Final Boss Edition" complete (2026-06-11). Verified via headless-Chrome
-screenshots, pushed to GitHub.
+v5 "No Ceiling Edition" complete (2026-06-12). Verified via headless-Chrome
+screenshots + live API check, pushed to GitHub.
+
+## v5 additions ("take a limitless pill and GO CRAZZY")
+- LIVE STADIUM CONDITIONS: real Tampa weather via open-meteo (no key) —
+  topbar shows live temp/conditions/night moon; real rain spawns canvas
+  rain particles + a RAIN DELAY ticker headline + booth commentary.
+  Graceful .catch fallback offline.
+- ASK THE GM: front-office chatbot (floating 🎙 button, `?gm=1`, `gm` in
+  terminal) — 18-pattern regex brain w/ personality, typing indicator,
+  linkified contact answers, live-weather answers, 4 fallbacks.
+  Trophy: Press Box.
+- PHOTO MODE: canvas-generated 1200×630 trading-card PNG download —
+  player card (terminal `card`) or derby result card (📸 Save Card button
+  on derby end screen). Trophy: Cover Athlete.
+- COMMENTARY BOOTH: Jim & Chip color-commentary bubbles (bottom-left)
+  reacting to screen visits, derby HRs/whiffs, GOAT mode, legendary
+  pulls, live rain, and idling. 12s rate limit.
+- CRT MODE: `crt` in terminal — scanlines, vignette, flicker, saturation.
+- LIVE SPECTATORS: drifting 👁 attendance counter in topbar (click it).
+- sw.js v2: navigations now network-first (stale-page bug fixed) —
+  REMEMBER: bump CACHE version on every future deploy.
+- 17 visitor trophies total.
 
 ## v4 additions ("GO EVEN HARDER")
 - CARD PACKS: full pack-opening system — foil pack shake/rip animation,

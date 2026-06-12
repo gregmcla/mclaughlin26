@@ -39,6 +39,18 @@ support — yes, you can browse this website with a controller.
 - **Fireworks engine** — rockets, bursts, synthesized pops.
 - **Installable PWA** — service worker, offline play, fullscreen app.
 
+**Limitless tier:**
+- **Live stadium conditions** — the scoreboard pulls *actual Tampa
+  weather*. If it's really raining in Tampa, it rains on the website
+  and the ticker calls a rain delay.
+- **ASK THE GM** — a front-office chatbot that answers questions about
+  Greg, scouts the derby, and negotiates contracts. (`?gm=1`)
+- **Photo Mode** — generates downloadable trading-card PNGs of the
+  player card or your derby result, drawn on a canvas.
+- **Commentary booth** — Jim & Chip call everything you do, live.
+- **CRT mode** — type `crt` in the terminal. Enjoy 1994.
+- **Live attendance** — 👁 spectator count in the top bar. You count too.
+
 **Run it:**
 
 ```bash
