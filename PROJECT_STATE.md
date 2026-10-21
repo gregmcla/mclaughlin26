@@ -1,16 +1,22 @@
 # PROJECT_STATE
 
 ## Current phase
-Redesign on branch `redesign/the-model-is-not-the-system` (2026-10-21). Case-study site built around
-"the model is not the system." Arcade moved to `arcade/`. Not yet merged, not yet deployed.
+v6 "MVP Edition" on branch `redesign/the-model-is-not-the-system` (2026-10-21). The game is the site
+again, rethemed from The Show to MVP Baseball 2005, with the case-study content folded in as Owner
+Mode. Not yet merged, not yet deployed.
 
 ## Done this pass
-- Home, builds index, four case studies (MicroCapRebuilder, Buyer Universe Generator, DealCloud
-  connector and Debrief, AI operating system for a deal firm), about, 404
-- `facts.json` plus `assets/facts.js` fact sync
-- OG image 1200x630, SVG favicon, apple-touch-icon, robots, sitemap, `.nojekyll`
-- Arcade service worker scoped to `arcade/`; root `sw.js` kill switch for old caches
-- QA: no horizontal overflow at 390 and 1440 on all pages
+- Retheme: navy and MVP red, Chakra Petch display, McL Sports splash, "It's in the résumé",
+  Dynasty Mode, Kruk & Kuip booth, Farm System
+- New Owner Mode screen: four case files linking to `builds/*.html`, restyled to the game
+- Content integrity: no calendar dates anywhere, card says Free Agent, no "real money" or
+  "trading system", degree is Risk Management & Insurance, GM bot / terminal / ticker / reel /
+  cards / photo card all updated to match
+- Fixed a long-standing router bug (menu buttons without a screen threw on every navigation,
+  which also made the Completionist trophy unreachable)
+- Phone breakpoint at 700px; atmosphere layer clipped so nothing scrolls sideways
+- OG image is a boot-screen screenshot; `sw.js` cache bumped to v4
+- QA: no horizontal overflow at 390 and 1440 on every screen and page, no JS errors
 
 ## Waiting on Greg
 - "What I'd do differently" for each of the four case studies, in his words

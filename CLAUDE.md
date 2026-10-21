@@ -1,27 +1,29 @@
-# Greg McLaughlin, personal site
+# McLAUGHLIN '26 · MVP Edition
 
 ## What it is
-A case-study site built around one idea: "the model is not the system."
-Greg builds the part around the model: the rules, the approval step, and the
-record. Audience: hiring managers for Deployment Strategist, AI Strategist, and
-AI partnerships roles. The previous site, a sports video game career-mode menu,
-lives on at `arcade/` and is linked from the footer.
+Greg McLaughlin's personal site as a 2005-era baseball video game main menu (MVP Baseball
+2005 is the reference, never named on the site; "McL Sports", "It's in the résumé").
+One idea underneath the jokes: "the model is not the system." Audience: hiring managers for
+Deployment Strategist, AI Strategist, and AI partnerships roles.
 
 ## Structure
-- `index.html` home: headline, four builds as ledger entries, how I work, writing, about, contact
-- `builds/` index of everything, plus four full case studies
-- `about.html`, `404.html`, `robots.txt`, `sitemap.xml`
-- `facts.json` the single source of truth for every number and claim. Pages carry
-  values inline inside `[data-fact]` spans; `assets/facts.js` re-syncs them.
-  Change a number here, not in the pages. Every value must match the résumé.
-- `assets/site.css` one stylesheet. Light and dark. No build step.
-- `arcade/` the old site, self-contained, with its own service worker scoped to `./`
-- `sw.js` at the root is a kill switch that clears the old site's cache for returning visitors
+- `index.html` the game. Single self-contained file: splash, boot, main menu, screens
+  (Home, Dynasty Mode, Owner Mode, Attributes, Farm System, Scouting Report, Free Agency),
+  HR Derby, card packs, highlight reel, terminal, GM chatbot, Kruk & Kuip booth, live weather.
+  Deep links `#owner`, `#career` etc. skip the boot.
+- `builds/` Owner Mode case files (four full case studies) plus the Farm System index.
+  Styled by `assets/case.css` in the same palette and type as the game.
+- `about.html` long-form scouting file. `404.html`, `robots.txt`, `sitemap.xml`.
+- `facts.json` single source of truth for numbers on the case pages; `assets/facts.js` syncs
+  `[data-fact]` spans. The game carries its numbers inline; keep them matching.
+- `sw.js` network-first service worker. Bump `CACHE` on every deploy.
+- `manifest.json`, `icon.svg`, `player.jpeg` are the game's PWA assets.
 
 ## Design
-Ledger on green paper. Paper `#E7EBE4`, ink `#15201B`, one accent `#B2302C` (stamp red) that
-marks the human gate. Bricolage Grotesque for display, Source Serif 4 for body. No auto-motion,
-no all-caps labels, no mono eyebrows. Reading column under 70 characters.
+Navy `#050b17` ground, MVP red `#e8321e` / `#ff6a3d` accent, ice `#cfe1ff` secondary.
+Chakra Petch 700 for display (skewed -8deg), Barlow Condensed for UI, Barlow for case-page
+body, IBM Plex Mono for labels. The CSS variables are still named `--gold` and `--cyan`
+from the old theme; they hold red and ice now.
 
 ## Rules
 - Nothing on the site states current employment or dates for any role.
@@ -29,8 +31,13 @@ no all-caps labels, no mono eyebrows. Reading column under 70 characters.
 - MCR is a simulation. Never "trading system," never "real money," never returns.
 - Sections marked "Greg's note, coming" are placeholders for Greg's own words. Do not invent them.
 
+## Rules, continued
+- Kharon "+60% pipeline", HGS 55%/45%, Curalate $4M book: Greg confirmed these are supportable.
+  If that changes, they live in Dynasty Mode, the highlight reel, and the card set.
+- Mainwork, Common Engine, Systemheld do not appear on the site.
+
 ## Run
 ```bash
 python3 -m http.server 7905
 ```
-Playwright with `/opt/pw-browsers/chromium` renders `og.png` and the QA screenshots.
+Playwright with `/opt/pw-browsers/chromium` renders `og.png` (a boot-screen screenshot) and QA shots.
