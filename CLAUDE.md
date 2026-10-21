@@ -1,27 +1,36 @@
-# MCLAUGHLIN '26 — Personal Website
+# Greg McLaughlin, personal site
 
 ## What it is
-Greg McLaughlin's personal website, themed as a AAA sports video game
-career-mode main menu (MLB The Show style). Greg is the franchise player:
-boot screen ("PRESS START"), player card with OVR rating, attribute bars,
-career seasons (job history), achievements (side projects as unlockables),
-scouting report, and free agency (contact).
+A case-study site built around one idea: "the model is not the system."
+Greg builds the part around the model: the rules, the approval step, and the
+record. Audience: hiring managers for Deployment Strategist, AI Strategist, and
+AI partnerships roles. The previous site, a sports video game career-mode menu,
+lives on at `arcade/` and is linked from the footer.
 
-## Tech stack
-- Single self-contained `index.html` — vanilla HTML/CSS/JS, no build step
-- WebAudio API for game-menu sound blips (mute toggle included)
-- Google Fonts: Anton (display), Barlow Condensed (UI), IBM Plex Mono (stats)
-- `player.jpeg` — headshot used on the player card
+## Structure
+- `index.html` home: headline, four builds as ledger entries, how I work, writing, about, contact
+- `builds/` index of everything, plus four full case studies
+- `about.html`, `404.html`, `robots.txt`, `sitemap.xml`
+- `facts.json` the single source of truth for every number and claim. Pages carry
+  values inline inside `[data-fact]` spans; `assets/facts.js` re-syncs them.
+  Change a number here, not in the pages. Every value must match the résumé.
+- `assets/site.css` one stylesheet. Light and dark. No build step.
+- `arcade/` the old site, self-contained, with its own service worker scoped to `./`
+- `sw.js` at the root is a kill switch that clears the old site's cache for returning visitors
 
-## How to run
+## Design
+Ledger on green paper. Paper `#E7EBE4`, ink `#15201B`, one accent `#B2302C` (stamp red) that
+marks the human gate. Bricolage Grotesque for display, Source Serif 4 for body. No auto-motion,
+no all-caps labels, no mono eyebrows. Reading column under 70 characters.
+
+## Rules
+- Nothing on the site states current employment or dates for any role.
+- No client names from the deal firm. Describe the work, not the client.
+- MCR is a simulation. Never "trading system," never "real money," never returns.
+- Sections marked "Greg's note, coming" are placeholders for Greg's own words. Do not invent them.
+
+## Run
 ```bash
-cd /Users/gregmclaughlin/mclaughlin26
 python3 -m http.server 7905
-# open http://localhost:7905
 ```
-Port 7905 (7901/7902 are taken by event-horizon/polycephalum).
-
-## Content sources
-Career facts come from Greg's resume (Life.io → Curalate → HGS Digital →
-Laskie → Kharon → Align BA) and his project portfolio. Update the
-ACHIEVEMENTS grid when new projects ship.
+Playwright with `/opt/pw-browsers/chromium` renders `og.png` and the QA screenshots.

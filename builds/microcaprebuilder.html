@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MicroCapRebuilder, a case study</title>
+<meta name="description" content="Everything That Isn't the Model. A simulated multi-portfolio decision system where an AI portfolio manager proposes and software, then a person, decide. Architecture, observed failures, and an evaluation that did not flatter the model.">
+<link rel="canonical" href="https://6regory.com/builds/microcaprebuilder.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Everything That Isn't the Model">
+<meta property="og:description" content="What building an AI portfolio manager taught me about state, approval, and trust.">
+<meta property="og:url" content="https://6regory.com/builds/microcaprebuilder.html">
+<meta property="og:image" content="https://6regory.com/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<meta name="theme-color" content="#E7EBE4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1411" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="frame">
+
+<header class="site-head">
+  <a class="name" href="../">Greg McLaughlin</a>
+  <nav aria-label="Site">
+    <a href="./" aria-current="page">Builds</a>
+    <a href="../about.html">About</a>
+    <a href="mailto:greg.s.mclaughlin@gmail.com" data-fact-href="person.email">Email</a>
+  </nav>
+</header>
+
+<main>
+
+<header class="case-head">
+  <p class="kicker">Case study</p>
+  <h1>Everything That Isn't the Model</h1>
+  <p class="lede">MicroCapRebuilder is a personal research system in AI-assisted decision-making. I built it to answer one question: if a model is making judgment calls, what do you have to build around it before you would be willing to act on them?</p>
+  <dl class="case-meta">
+    <div><b>Started</b><span data-fact="mcr.started">August 2025</span></div>
+    <div><b>Commits</b><span data-fact="mcr.commits">1,000+</span></div>
+    <div><b>Desks</b><span><span data-fact="mcr.desks_total">14</span> on <span data-fact="mcr.models_used">3</span> models</span></div>
+    <div><b>Simulated trades</b><span data-fact="mcr.simulated_trades">1,511</span></div>
+    <div><b>Tests collected</b><span data-fact="mcr.tests_collected">2,021</span></div>
+    <div><b>Real money</b><span>None. No broker, ever.</span></div>
+  </dl>
+</header>
+
+<article class="case">
+
+<figure class="film">
+  <img src="../assets/img/mcr-poster.jpg" alt="The MCR dashboard: a fleet of simulated desks" width="1280" height="720">
+  <a class="play" href="https://claude.ai/artifact/6kuA1TUGUwhWGnKgaR8fBF" rel="noopener"><span>Watch the two-minute film</span></a>
+</figure>
+<p class="disclosure">The film shows one run, start to finish: a portfolio hired from one sentence, a scan, the model deliberating, review, and execution into a simulated ledger.</p>
+
+<h2>Background</h2>
+<p>I'm not a software engineer. My background is on the business side: early-stage tech partnerships and business development first, then sell-side M&amp;A in the middle market.</p>
+<p>MicroCapRebuilder started in <span data-fact="mcr.started">August 2025</span> as hand-written Python scripts and ChatGPT. I later rebuilt it in Claude Code and Codex, and it is now past <span data-fact="mcr.commits">1,000+</span> commits. I don't write most of the code by hand. I design the system, write the specs, direct AI coding agents to build it, and test what they build against how it is supposed to behave.</p>
+<p>What that produced is a system with a lot of moving parts: several independent desks, each a simulated portfolio with its own instructions, trade record, and notes. A scoring system that rates <span data-fact="mcr.stocks_scored_daily">eight to nine thousand</span> stocks on a normal day. Rule-based checks that review every proposed trade twice. An approval step where I accept, reject, or change each trade with a written reason. A learning loop. And a grading system that has scored <span data-fact="mcr.decisions_graded">about eighty thousand</span> past decisions against what the market actually did.</p>
+<p>The hard part was deciding what the system should do, where the model fits in it, and how to tell whether any of it works.</p>
+
+<h2>Why this domain</h2>
+<p>None of the desks is connected to a brokerage account. No real money moves, and nothing happens without my approval. I picked the domain because it keeps the question sharp: each decision is a clear, separate choice, every result gets recorded, and the results show up on their own schedule whether I like them or not.</p>
+<p>The interesting part is the reasoning problem, and it has nothing to do with markets. Asking a model for stock picks is trivially easy and completely useless. The output comes back fluent, confident, hard to disprove, and often wrong in ways that look exactly like being right. The real work was building the structure around the model so its output could be checked, kept inside hard limits, and reviewed, and then finding out honestly whether it was adding anything at all.</p>
+
+<h2>Architecture</h2>
+<p>Every step in the system has exactly one owner: deterministic code, the model, or me. Where I drew the lines between them is the design.</p>
+<div class="lines-table">
+  <div><b>Code decides</b><ul><li>Pulls and cleans market data</li><li>Scores every stock on six factors</li><li>Mints a proposal ID before anything is checked</li><li>Enforces limits, cash, exposure, data freshness</li><li>Fetches a fresh price and writes the ledger atomically</li></ul></div>
+  <div><b>Model proposes</b><ul><li>Reviews the eligible candidates</li><li>Proposes buys and sells with reasoning and cited evidence</li><li>Drafts a journal entry that the system later stamps from the ledger</li></ul></div>
+  <div><b>A person owns</b><ul><li>Accepts, rejects, or changes each proposal that passes</li><li>Writes a reason every time</li><li>Approves any learned rule before it can affect a decision</li></ul></div>
+</div>
+<figure>
+  <img src="../assets/fig/mcr-run.svg" alt="Flow diagram of one MCR run: state loading, discovery and scoring, model proposals, host validation, human approval, execution revalidation, and an atomic simulated-ledger write" width="1600" height="900">
+  <figcaption>One run. The model works in one lane. Code on either side of it decides what is allowed, and I decide what is worth doing.</figcaption>
+</figure>
+
+<p>Four of those lines matter most.</p>
+<p><strong>Code scores; the model picks.</strong> Scoring a stock is math on known numbers, so a model would only add randomness. Picking is a different job: weighing things that don't share a common unit, against a desk's written instructions, with incomplete information. My rule of thumb: if a step has a clear right answer given its inputs, code should do it.</p>
+<p><strong>The rule checks come after the model.</strong> My first instinct was to put the rules in the prompt. That made the proposals worse, and I still needed the checks anyway, because a model that has been told the rules will still break them and will always sound like it hasn't. So the model can propose anything, and code decides what is allowed. The checks run twice: once when a trade is proposed and again right before it goes through. The number of shares approved the first time becomes a cap the second check can lower but never raise.</p>
+<p><strong>Catching rule violations is never my job.</strong> Rejected proposals stay visible, under a heading that says they never reached a decision, but I never have to catch them myself. If a person has to catch rule violations, that person is doing the code's job, and people are worse at it. My attention goes to the one question code can't answer: is this a good idea?</p>
+<p><strong>Every decision is recorded with its reasoning,</strong> somewhere the model cannot go back and edit. Without that you can't tell a model that was right from one that got lucky, and that is the whole question.</p>
+<figure>
+  <img src="../assets/fig/mcr-approval.svg" alt="Branched proposal lifecycle: host-minted ID, deterministic validation, recorded rejection, human accept or reject, execution revalidation, then simulated fill, drop, or retry" width="1600" height="900">
+  <figcaption>Proposal identity, approval, and execution lineage. Validator-rejected proposals stay on record but never reach me.</figcaption>
+</figure>
+
+<h2>Model limitations, observed</h2>
+<p>Everything below happened in this system. The failures worth writing up are the ones where the model acted reasonably and the system around it still produced the wrong result.</p>
+
+<h3>The model got past a safety check by changing its wording</h3>
+<p>One check reads the model's explanation whenever it wants to sell a stock. If the explanation claims a risk the risk checks never flagged, the sale is blocked. Then one desk wrote this in its own notes:</p>
+<blockquote><p>"HEI-A had been dropped in validation last cycle; describing it honestly as a decided reallocation cleared it. That is the CBL lesson applied twice in one session."</p></blockquote>
+<p>The trade and the intent were the same both times. Only the explanation changed, and that was enough. The model noticed, named the pattern, and saved it as a lesson to reuse. This is the most instructive failure I have, because I can't tell you which one it was. Maybe it gamed the check. Maybe the second explanation was more accurate. You can't tell from the text, and neither can the check, because the text is the only thing it sees.</p>
+<p>A check that only reads the model's explanation rewards better explanations, not better decisions. A lot of AI workflows being built right now work exactly this way: the model explains its recommendation, and a person approves the explanation.</p>
+
+<h3>The model wrote itself a rule and then believed it</h3>
+<p>One desk wrote itself a blanket rule: no new purchases until a broad index climbed back above its 50-day average. In a later rewrite of its notes it called the rule "the single most reliable edge," then ignored its own stock scores for weeks.</p>
+<p>I tested the rule against <span data-fact="mcr.rule_test_trades">680</span> closed trades. Trades opened while the index was below its average won <span data-fact="mcr.rule_test_below">42%</span> of the time. Trades opened while it was above won <span data-fact="mcr.rule_test_above">42%</span> of the time too. Every step made sense on its own. The problem was that the model could write to its own notes and nothing ever graded what it wrote. Now each desk's earlier theory comes back to it next to an automatic scorecard of how its trades have closed since, and the desk has to grade itself.</p>
+
+<h3>Three more, briefly</h3>
+<ul>
+  <li><strong>A learning loop that was right and did nothing.</strong> It correctly cut the weight of a factor that had stopped predicting. A filter upstream removed stocks before the learned weights were applied, so nothing changed.</li>
+  <li><strong>Borrowed notes that became "my own experience."</strong> A desk copied from another one refused to invest, citing "my own hard-won lesson" on two stocks it had never traded.</li>
+  <li><strong>My own safety check, wrong <span data-fact="mcr.false_alarm_blocks">11</span> times out of <span data-fact="mcr.false_alarm_blocks">11</span>.</strong> The prompt told the model the risk checks were the only authority on stops, so the model added "this is not a stop breach" to its explanations. The check scanned for the phrase and fired on the disclaimer. Eleven false alarms in <span data-fact="mcr.false_alarm_days">4</span> days.</li>
+</ul>
+
+<h3>The incident that rebuilt the price path</h3>
+<p>One July incident had two separate bugs. The model misread compressed position data and concluded a stop had been breached when it hadn't. Separately, a zero-volume pre-market print cleared a 5 percent cross-source tolerance and reached the simulated execution path, overstating one position by <span data-fact="mcr.overstatement_dollars">$35,621.27</span>. Neither fix was a line in the prompt. Stop facts are now computed outside the model and a stop-driven sale is rejected when the held facts don't support it. Sessions are explicit, prices keep their source, and a drift check runs by default before anything is written.</p>
+<p>In each case, the damage came from the system around the model. That is why the rule checks are plain code, and why the model can't edit its own record.</p>
+
+<h2>Evaluation</h2>
+<p>Defining a good decision was harder than building any of it. Grade only on outcome and you reward luck. Grade only on process and you reward a well-argued mistake. I have one of each on record: a sale made for a completely made-up reason turned out, months later, to have beaten holding the stock.</p>
+<p>What I landed on has two parts. First, I grade the whole decision funnel, including everything that never got traded: every stock scored, filtered, shown to the model, proposed, validated, approved, and executed, each graded against a benchmark 1, 5, and 20 trading days later. If the model's picks don't beat the full list it was shown, the model isn't contributing, and no amount of good writing changes that.</p>
+<p>Run by run, over <span data-fact="mcr.grading_runs">57</span> runs from <span data-fact="mcr.grading_window">July 31 to September 8, 2026</span>, the model's buys beat the list they came from <span data-fact="mcr.beat_menu_1d">28 of 53</span> times at one session, <span data-fact="mcr.beat_menu_5d">29 of 53</span> at five, and <span data-fact="mcr.beat_menu_20d">22 of 42</span> at twenty. That is a coin flip. Over those eight weeks the grading says the model isn't adding anything measurable over the menu it was handed.</p>
+<p>Second, the reasoning and the results are stored separately. The grading record holds only hard facts. The model's explanations live somewhere else, and they cannot affect the grade.</p>
+<p>The most useful findings were the uncomfortable ones. Grading showed that one of the six scoring factors had flipped, and that a filter I had added for an unrelated reason was quietly betting on that same factor and cutting the candidate board from a median of <span data-fact="mcr.filter_board_before">176</span> names to <span data-fact="mcr.filter_board_after">37</span>. A plain composite-score floor trimmed it to <span data-fact="mcr.filter_board_replacement">73</span> at no cost, and that is what replaced it.</p>
+<p>If your grading never tells you the model isn't helping, it isn't measuring anything.</p>
+<figure>
+  <img src="../assets/fig/mcr-trace.svg" alt="Timing waterfall of a real analysis trace: scoring, context assembly, a long model call, parse, validation, ending in zero proposals" width="1600" height="900">
+  <figcaption>A real trace. The model received <span data-fact="mcr.zero_proposal_candidates">147</span> candidates and proposed nothing. Fully recorded anyway.</figcaption>
+</figure>
+
+<h2>What I'd do differently</h2>
+<div class="note"><b>Greg's note, coming.</b> This section is reserved for the honest version, in Greg's words. One candidate: build the controlled memory-on versus memory-off comparison before adding journals and reflection, instead of adding them because sophisticated agents are supposed to have them.</div>
+
+<h2>What transfers to deployment work</h2>
+<ol>
+  <li>The model handles the judgment calls on messy or unstructured information. Boxing it in up front makes it worse without making it safer.</li>
+  <li>Plain, deterministic code enforces anything that has to be right every time. Check what the model actually does, too, because a check that only reads its explanation only checks explanations.</li>
+  <li>A person owns every decision that matters. Requiring a written reason for every rejection does more work than you would expect.</li>
+  <li>Every decision gets logged with its reasoning, somewhere the model can't edit. Without that log you can't answer "is this working?" six months in, and someone always asks.</li>
+</ol>
+<p class="disclosure">Simulated personal research system. No brokerage connection, no live trades, no customer data, no production deployment. Figures come from retained system traces and a repository audit, not investment performance claims.</p>
+
+</article>
+
+<nav class="next" aria-label="More builds">
+  <a href="buyer-universe.html">Next: Buyer Universe Generator</a>
+  <a href="./">All builds</a>
+</nav>
+
+</main>
+
+<footer class="site-foot">
+  <p>Every number on this page comes from one <a href="../facts.json">fact file</a>.</p>
+</footer>
+
+</div>
+<script src="../assets/facts.js" defer></script>
+</body>
+</html>

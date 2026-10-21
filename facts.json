@@ -1,0 +1,93 @@
+{
+  "_about": "Single source of truth for every number and claim on the site. Pages carry these values inline and assets/facts.js re-syncs them from this file, so a change here lands everywhere. Keep every entry consistent with the résumé.",
+  "person": {
+    "name": "Greg McLaughlin",
+    "email": "greg.s.mclaughlin@gmail.com",
+    "city": "Tampa, FL",
+    "linkedin": "https://www.linkedin.com/in/greg-mclaughlin",
+    "github": "https://github.com/gregmcla",
+    "degree": "B.B.A. Risk Management & Insurance, Temple University, 2016"
+  },
+  "career": {
+    "years_business_side": "ten",
+    "companies": ["Life.io", "Curalate", "HGS Digital", "Laskie", "Kharon", "Align Business Advisory"],
+    "acquisitions_survived": 3,
+    "laskie_employee_number": 6,
+    "laskie_first_year_revenue": "$2.5M",
+    "laskie_partner_firms": "20+",
+    "laskie_team_managed": "three account executives and an operations manager",
+    "kharon_partners": "about 12",
+    "hgs_partners": ["AWS", "Twilio", "Sprinklr"],
+    "align_partner_network": "100+"
+  },
+  "mcr": {
+    "commits": "1,000+",
+    "started": "August 2025",
+    "desks_total": 14,
+    "models_used": 3,
+    "simulated_trades": "1,511",
+    "simulated_trades_asof": "September 26, 2026",
+    "tests_collected": "2,021",
+    "stocks_scored_daily": "eight to nine thousand",
+    "decisions_graded": "about eighty thousand",
+    "grading_runs": 57,
+    "grading_window": "July 31 to September 8, 2026",
+    "beat_menu_1d": "28 of 53",
+    "beat_menu_5d": "29 of 53",
+    "beat_menu_20d": "22 of 42",
+    "rule_test_trades": 680,
+    "rule_test_below": "42%",
+    "rule_test_above": "42%",
+    "zero_proposal_candidates": 147,
+    "overstatement_dollars": "$35,621.27",
+    "false_alarm_blocks": 11,
+    "false_alarm_days": 4,
+    "model_proposals_reviewed": 321,
+    "model_proposals_rejected": 3,
+    "filter_board_before": 176,
+    "filter_board_after": 37,
+    "filter_board_replacement": 73
+  },
+  "bug": {
+    "commits": 44,
+    "last_commit": "May 7, 2026",
+    "tests_passing": 93,
+    "buyers_scored": 75,
+    "buyers_strategic": 16,
+    "buyers_pe": 59,
+    "tier_a": 6,
+    "tier_b": 15,
+    "tier_c": 45,
+    "dropped": 9,
+    "drafts_generated": 5,
+    "drafts_clean": 4,
+    "drafts_flagged": 1,
+    "regen_retries": 2,
+    "rubric_dimensions": 5,
+    "research_hours_before": "about 20",
+    "research_hours_after": "about 1",
+    "data_sources": ["PitchBook", "ZoomInfo", "DealCloud", "Apollo"]
+  },
+  "dealcloud": {
+    "mcp_lines": "about 500",
+    "tools": 7,
+    "tool_names": ["get_contact", "get_interactions", "get_emails", "get_pipeline", "get_stale_contacts", "search_dealcloud", "create_interaction"],
+    "users": 10,
+    "teams": ["business development", "deal origination", "due diligence"],
+    "debrief_lines": "about 340",
+    "interactions_logged": "100+"
+  },
+  "aios": {
+    "documents": 14,
+    "blueprints": 12,
+    "words": "about 48,000",
+    "built": 3,
+    "partial": 4,
+    "not_built": 5,
+    "plan_days": 90
+  },
+  "archive": {
+    "repos": "about 50",
+    "span": "January 2025 to October 2026"
+  }
+}

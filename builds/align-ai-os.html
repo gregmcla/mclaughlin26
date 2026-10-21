@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>An AI operating system for a deal firm, a case study</title>
+<meta name="description" content="Discovery across the whole sell-side M&A lifecycle: 12 use-case blueprints, ranked and specified, with a 90-day plan to own the rollout instead of hiring a consultant.">
+<link rel="canonical" href="https://6regory.com/builds/align-ai-os.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="An AI operating system for a deal firm">
+<meta property="og:description" content="Twelve use cases, three built, four partial, five deliberately not built. The strategist half of the job, written down.">
+<meta property="og:url" content="https://6regory.com/builds/align-ai-os.html">
+<meta property="og:image" content="https://6regory.com/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<meta name="theme-color" content="#E7EBE4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1411" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="frame">
+
+<header class="site-head">
+  <a class="name" href="../">Greg McLaughlin</a>
+  <nav aria-label="Site">
+    <a href="./" aria-current="page">Builds</a>
+    <a href="../about.html">About</a>
+    <a href="mailto:greg.s.mclaughlin@gmail.com" data-fact-href="person.email">Email</a>
+  </nav>
+</header>
+
+<main>
+
+<header class="case-head">
+  <p class="kicker">Case study</p>
+  <h1>An AI operating system for a deal firm</h1>
+  <p class="lede">Building one tool proves you can build. Deciding which twelve to build, in what order, and which five not to build at all is the other half of the job. This is that half.</p>
+  <dl class="case-meta">
+    <div><b>Where</b><span>A lower-middle-market M&amp;A advisory firm</span></div>
+    <div><b>Form</b><span><span data-fact="aios.documents">14</span> documents, <span data-fact="aios.words">about 48,000</span> words, plus a portal spec</span></div>
+    <div><b>Scope</b><span><span data-fact="aios.blueprints">12</span> use cases across origination, pitch, and execution</span></div>
+    <div><b>Status</b><span><span data-fact="aios.built">3</span> built, <span data-fact="aios.partial">4</span> partial, <span data-fact="aios.not_built">5</span> not built</span></div>
+    <div><b>Purpose</b><span>A <span data-fact="aios.plan_days">90</span>-day pitch to own the AI rollout internally</span></div>
+  </dl>
+</header>
+
+<article class="case">
+
+<h2>The situation</h2>
+<p>The firm had bought Claude firm-wide and was weighing whether to hire an outside consultant to figure out what to do with it. I had already built several working tools on nights and weekends because the workflows were painful and I was in them every day. The question was whether those tools were a hobby or the start of a plan.</p>
+
+<h2>What I was accountable for</h2>
+<p>Turning scattered builds into a case leadership could act on: a map of where AI belongs across the sell-side lifecycle, a ranked set of use cases with enough specification to build from, an honest account of what already worked, and a plan with dates. The audience was the CEO and the VP who ran deals. The bar was that they could read it and say yes or no without a second meeting.</p>
+
+<h2>How I ran the discovery</h2>
+<p>I started from the workflow, not from the technology. The sell-side lifecycle has three phases: origination, where referral partners and owners become mandates; pitch, where the firm wins the engagement; and execution, where the company is marketed and sold. I walked each phase step by step and asked, for every step, three things. Where is the judgment? Where is the rule that must be right every time? Who signs their name to the output?</p>
+<p>The most useful single document was a gap analysis of the firm's offshore research vendor. I mapped every service the vendor provided into three columns: what AI can fully replace today, what it can do 60 to 80 percent of with a person finishing, and what stays human. That turned an abstract conversation about AI into a line-item conversation about a budget the firm already paid.</p>
+
+<h2>The twelve blueprints</h2>
+<p>Each use case got the same treatment: the current workflow and where it breaks, the proposed system with the code, model, and person lines drawn, what it depends on, how adoption would be measured, and what I would not automate. Each one carried a build status at the time of writing.</p>
+<table>
+  <thead><tr><th>Status</th><th>Count</th><th>What it meant</th></tr></thead>
+  <tbody>
+    <tr><td>Built</td><td data-fact="aios.built">3</td><td>Running on real work. The <a href="buyer-universe.html">buyer outreach engine</a>, the <a href="dealcloud.html">CRM connector and Debrief</a>, and partner-meeting preparation.</td></tr>
+    <tr><td>Partial</td><td data-fact="aios.partial">4</td><td>A working prototype or a scoped spec with a clear next step. Deal intelligence dashboards, quality-of-earnings screening, referral-partner activation kits, origination signals.</td></tr>
+    <tr><td>Not built</td><td data-fact="aios.not_built">5</td><td>Specified and deliberately deferred. Either the dependency was not ready, the adoption risk was too high, or the human step was the whole value.</td></tr>
+  </tbody>
+</table>
+<p>The "not built" column was the one leadership read most carefully. A plan that proposes to automate everything is a sales deck. A plan that names what should stay human, and why, is something a managing partner can trust.</p>
+
+<h2>What I would not automate</h2>
+<ul>
+  <li>The decision to decline a referral from a valued source. That is a relationship decision, not a qualification decision.</li>
+  <li>The first conversation with a business owner about selling the company they built.</li>
+  <li>Any outreach where being wrong damages a partner's personal standing with their own client.</li>
+  <li>Anything that touches a live client matter without a named person approving it.</li>
+</ul>
+
+<h2>The plan</h2>
+<p>A <span data-fact="aios.plan_days">90</span>-day operating plan: which three use cases to harden first, who owned adoption on each team, how usage would be measured weekly, and what the firm would have at the end that it could not buy from a consultant, namely a team that already used the tools and a person inside who knew why each line was drawn where it was.</p>
+
+<h2>What happened</h2>
+<p>The built tools were adopted by about ten people across three teams. The blueprints and the gap analysis became the firm's reference for what to do next. The portal to house them was specified but not built.</p>
+
+<h2>What I'd do differently</h2>
+<div class="note"><b>Greg's note, coming.</b> Reserved for the honest version, in Greg's words.</div>
+
+<h2>Why it matters</h2>
+<p>Most AI deployment failures are not model failures. They are prioritization failures: the wrong workflow first, no adoption owner, no measurement, and nobody willing to say what should stay human. This document was my answer to all four, for one firm, with real tools behind it. The method travels.</p>
+<p class="disclosure">Internal firm documents are described, not reproduced. No client is named.</p>
+
+</article>
+
+<nav class="next" aria-label="More builds">
+  <a href="microcaprebuilder.html">Back to the start: MicroCapRebuilder</a>
+  <a href="./">All builds</a>
+</nav>
+
+</main>
+
+<footer class="site-foot">
+  <p>Every number on this page comes from one <a href="../facts.json">fact file</a>.</p>
+</footer>
+
+</div>
+<script src="../assets/facts.js" defer></script>
+</body>
+</html>

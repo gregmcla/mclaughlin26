@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buyer Universe Generator, a case study</title>
+<meta name="description" content="A sell-side M&A buyer outreach engine that scores buyers against a banker's rubric, drafts confidential pre-NDA outreach, and refuses to send anything on its own.">
+<link rel="canonical" href="https://6regory.com/builds/buyer-universe.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Buyer Universe Generator">
+<meta property="og:description" content="No auto-send. Ever. How an AI outreach engine for a deal firm was built so that the model could propose and only a banker could send.">
+<meta property="og:url" content="https://6regory.com/builds/buyer-universe.html">
+<meta property="og:image" content="https://6regory.com/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<meta name="theme-color" content="#E7EBE4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1411" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="frame">
+
+<header class="site-head">
+  <a class="name" href="../">Greg McLaughlin</a>
+  <nav aria-label="Site">
+    <a href="./" aria-current="page">Builds</a>
+    <a href="../about.html">About</a>
+    <a href="mailto:greg.s.mclaughlin@gmail.com" data-fact-href="person.email">Email</a>
+  </nav>
+</header>
+
+<main>
+
+<header class="case-head">
+  <p class="kicker">Case study</p>
+  <h1>Buyer Universe Generator</h1>
+  <p class="lede">A sell-side M&amp;A firm has a production bottleneck: for every company it sells, someone has to find the right buyers and reach them without revealing who the seller is. I built the engine that does the first 80 percent and refuses, by design, to do the last step.</p>
+  <dl class="case-meta">
+    <div><b>Where</b><span>A lower-middle-market M&amp;A advisory firm</span></div>
+    <div><b>Users</b><span>The deal team: bankers, an analyst, me</span></div>
+    <div><b>Stack</b><span>Python, Claude, Streamlit, append-only JSONL</span></div>
+    <div><b>Tests</b><span data-fact="bug.tests_passing">93</span></div>
+    <div><b>Tested on</b><span>A live mandate, not a fictional one</span></div>
+    <div><b>Built with</b><span>Claude Code, from a context document I wrote first</span></div>
+  </dl>
+</header>
+
+<article class="case">
+
+<h2>The situation</h2>
+<p>For every active mandate, an analyst pulled candidate buyers from PitchBook, ZoomInfo, and the team's memory. A banker scored fit by hand. Someone enriched contacts manually. A junior person drafted outreach one email at a time. Sends scattered across personal inboxes, activity tracking back to the CRM was inconsistent, and the team only knew what was working when something good or bad happened.</p>
+<p>That workflow took two to four weeks of skilled labor per deal. A venture-backed competitor was running the same process with fewer than ten people and closing in four months instead of six to nine. The firm did not need to become that company. It needed the internal capability to run at that velocity while keeping its relationships and its senior bankers' judgment intact.</p>
+
+<h2>What I was accountable for</h2>
+<p>The whole thing. I wrote the context document that defined the problem, the users, the firm's existing tools, the compliance rules, and what success looked like. I made the architectural decisions, directed the build in Claude Code, authored the test mandate from real deal materials, hand-curated the first <span data-fact="bug.buyers_scored">75</span> buyer candidates, and ran it against a live engagement. The one thing I deliberately did not own was the scoring rubric. That belonged to the senior banker, and the first milestone was built entirely around getting his judgment into it.</p>
+
+<h2>How it works</h2>
+<div class="lines-table">
+  <div><b>Code decides</b><ul><li>The seller's name and identifying details never reach the drafting model</li><li>Every draft is scanned for forbidden tokens after generation</li><li>Exclude lists are enforced at every stage</li><li>The send connector refuses any payload without an <code>approved_by</code> field</li><li>Every event goes to an append-only audit log with timestamp and actor</li></ul></div>
+  <div><b>Model proposes</b><ul><li>A fit score on <span data-fact="bug.rubric_dimensions">5</span> dimensions, with a written rationale per buyer</li><li>A subject line, an opening, and a why-paragraph specific to each buyer's thesis and recent deals</li></ul></div>
+  <div><b>A person owns</b><ul><li>The rubric weights and tier thresholds</li><li>The blind descriptor, written by the banker and used verbatim</li><li>Every single send</li></ul></div>
+</div>
+
+<h3>Scoring</h3>
+<p>The whole system rises or falls on whether the buyer scoring matches what an experienced banker would say. So the rubric is the banker's, not mine: strategic fit, size fit, capability gap, geographic fit, and timing fit, with separate sub-criteria for private equity and strategic buyers, and weights the lead banker can override per mandate. The output is never just a number. Each buyer gets a paragraph of reasoning the banker can trust or push back on.</p>
+<p>The first live run scored <span data-fact="bug.buyers_scored">75</span> buyers: <span data-fact="bug.tier_a">6</span> A-tier, <span data-fact="bug.tier_b">15</span> B, <span data-fact="bug.tier_c">45</span> C, and <span data-fact="bug.dropped">9</span> dropped. The test was not whether the list looked impressive. It was whether the senior banker looked at the top twenty and said "yes, these are the right firms, and here is why." Where he said "where is X, why is Y here," the rubric changed, not his judgment.</p>
+
+<h3>Drafting without leaking</h3>
+<p>Pre-NDA outreach has to describe the seller without naming it. "Florida-based outpatient imaging platform with nine locations" is fine. The company's name is not. Most demos handle this with an instruction in the prompt. I did not trust that, and I was right not to.</p>
+<p>The drafting model never sees the seller's name, location, or client names. It sees a banker-authored blind descriptor, the banker's priorities, and the buyer's public profile. After every draft, code scans the output against a list of seller-identifying tokens. If anything leaks, the draft is regenerated, up to <span data-fact="bug.regen_retries">2</span> times. If it still leaks, the draft is marked FLAGGED and surfaced for banker review. It is never quietly fixed and never sent.</p>
+<p>In the first live drafting run, <span data-fact="bug.drafts_generated">5</span> drafts were generated. <span data-fact="bug.drafts_clean">4</span> came back clean. <span data-fact="bug.drafts_flagged">1</span> leaked a regional phrase that was both true of the seller and natural to say about the buyer, and after two retries the system gave up and flagged it. That is the system working. A model that had been told the rule still broke it in a way that sounded completely reasonable, and only the code noticed.</p>
+
+<h3>No auto-send. Ever.</h3>
+<p>Sell-side M&amp;A is seller-protective by nature. One tone-deaf automated email to the wrong buyer costs more than the whole system saves. So there is no fire-and-forget mode. The connector that pushes outreach into the sequencing tool refuses any payload that does not carry the approving banker's name. The approval gate is not a setting. It is the shape of the system.</p>
+
+<h3>The hard part nobody sees</h3>
+<p>Four data sources, no shared identifier. PitchBook, ZoomInfo, the CRM, and the outreach tool each know the same firm by a different name. Matching them meant legal-entity normalization and fuzzy matching with confidence scores, and surfacing low-confidence matches to a person rather than silently guessing. Every vendor sits behind an interface so the firm is never locked to one of them. Research that took <span data-fact="bug.research_hours_before">about 20</span> hours per mandate took <span data-fact="bug.research_hours_after">about 1</span>.</p>
+
+<h2>What happened</h2>
+<p>The scoring and drafting milestones were built and tested against a live mandate. The ranked list went to the senior banker for calibration. The architecture was built so that the later phases, sequencing integration, bidirectional CRM sync, and reply triage, were additive rather than rewrites. The project became the anchor use case in a broader <a href="align-ai-os.html">AI operating plan</a> for the firm.</p>
+
+<h2>What I'd do differently</h2>
+<div class="note"><b>Greg's note, coming.</b> Reserved for the honest version, in Greg's words.</div>
+
+<h2>Why it matters beyond M&amp;A</h2>
+<p>Swap the nouns and this is every enterprise AI deployment that touches a customer. Somewhere there is a fact that must never leak, a list of people who must never be contacted, and a message that goes out with the firm's name on it. The model is excellent at the paragraph. It is not where the guarantee lives. The guarantee lives in the token scan, the exclude list, the audit log, and the person whose name is on the send.</p>
+<p class="disclosure">The client in the test mandate is not named here or anywhere public. The firm's internal data stays internal. Numbers come from the repository's run artifacts and test suite.</p>
+
+</article>
+
+<nav class="next" aria-label="More builds">
+  <a href="dealcloud.html">Next: DealCloud connector and Debrief</a>
+  <a href="./">All builds</a>
+</nav>
+
+</main>
+
+<footer class="site-foot">
+  <p>Every number on this page comes from one <a href="../facts.json">fact file</a>.</p>
+</footer>
+
+</div>
+<script src="../assets/facts.js" defer></script>
+</body>
+</html>

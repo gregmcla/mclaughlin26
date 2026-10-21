@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DealCloud connector and Debrief, a case study</title>
+<meta name="description" content="A connector that let anyone at an M&A firm ask Claude live questions of the CRM, and a small app that turned pasted meeting notes into logged records. Ten people used it without being told to.">
+<link rel="canonical" href="https://6regory.com/builds/dealcloud.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DealCloud connector and Debrief">
+<meta property="og:description" content="The adoption story. Ten people across three teams used it without being asked. 100+ records written to the system of record.">
+<meta property="og:url" content="https://6regory.com/builds/dealcloud.html">
+<meta property="og:image" content="https://6regory.com/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<meta name="theme-color" content="#E7EBE4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1411" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="frame">
+
+<header class="site-head">
+  <a class="name" href="../">Greg McLaughlin</a>
+  <nav aria-label="Site">
+    <a href="./" aria-current="page">Builds</a>
+    <a href="../about.html">About</a>
+    <a href="mailto:greg.s.mclaughlin@gmail.com" data-fact-href="person.email">Email</a>
+  </nav>
+</header>
+
+<main>
+
+<header class="case-head">
+  <p class="kicker">Case study</p>
+  <h1>DealCloud connector and Debrief</h1>
+  <p class="lede">The smallest build in the record and the one with the clearest adoption. A connector that let anyone at the firm ask Claude live questions of the CRM, and a one-screen app that turned pasted meeting notes into a logged record. <span data-fact="dealcloud.users">10</span> people used it without being told to.</p>
+  <dl class="case-meta">
+    <div><b>Where</b><span>A lower-middle-market M&amp;A advisory firm</span></div>
+    <div><b>Who used it</b><span>Business development, deal origination, due diligence</span></div>
+    <div><b>Size</b><span><span data-fact="dealcloud.mcp_lines">about 500</span> lines of Python, plus a <span data-fact="dealcloud.debrief_lines">about 340</span>-line Flask app</span></div>
+    <div><b>Records written</b><span data-fact="dealcloud.interactions_logged">100+</span></div>
+    <div><b>Built with</b><span>Claude, in chat and in Claude Code</span></div>
+  </dl>
+</header>
+
+<article class="case">
+
+<h2>The situation</h2>
+<p>The firm ran on DealCloud, the CRM that deal teams live in. The data was good. Getting at it was not. Answering "when did I last talk to this attorney and what was it about" meant opening the CRM, finding the contact, scrolling the activity feed, and reading. Finding every referral partner you had not touched in thirty days meant building a report. So people did not, and relationships went cold quietly.</p>
+<p>The second problem was the mirror image. After a meeting, the notes lived in someone's head or a notebook. The CRM record got created late, badly, or not at all, so the pipeline never reflected reality and nobody could tell which referral sources actually produced.</p>
+
+<h2>What I built</h2>
+<h3>The connector</h3>
+<p>A Model Context Protocol server that connects the CRM to Claude. It exposes <span data-fact="dealcloud.tools">7</span> tools: look up a contact, pull their interaction and email history, read the deal pipeline by stage, list relationships that have gone cold past a set number of days, search, and log a new interaction. It authenticates through the vendor's official SDK, caches pulls with time limits so repeat questions stay fast, and matches people by name.</p>
+<p>What that meant in practice: anyone with Claude open could type "who haven't I touched in 30 days" or "what did Vince and I talk about last time" and get a live answer from the system of record, in the tool they already had open.</p>
+
+<h3>Debrief</h3>
+<p>A single screen. Paste raw notes after a meeting. Claude extracts the structure: who was there, what was discussed, next steps, and any referrals mentioned. You review it. The app logs an Interaction record to the CRM. Three routes: process, extract, log. It became the seed for a larger use case in the firm's <a href="align-ai-os.html">AI operating plan</a>.</p>
+
+<div class="lines-table">
+  <div><b>Code decides</b><ul><li>Authentication and credential handling</li><li>Which fields map to which, in this instance of the CRM</li><li>Caching and its expiry</li><li>What is written, where, and under whose name</li></ul></div>
+  <div><b>Model proposes</b><ul><li>The structure pulled from messy notes: people, topics, next steps, referrals</li><li>Plain-language answers to plain-language questions about the data</li></ul></div>
+  <div><b>A person owns</b><ul><li>The notes going in</li><li>The record going out, reviewed before it is logged</li></ul></div>
+</div>
+
+<h2>The bug that taught the most</h2>
+<p>The early version broke on a field-mapping mismatch. The CRM's "Title" field was named differently in the firm's instance than in the vendor's documentation, so lookups silently returned incomplete records. Nothing errored. The answers were just quietly wrong. Tracing it meant reading the actual schema of the firm's instance rather than trusting the docs, then fixing the mapping and adding a check so a missing field is reported, not skipped.</p>
+<p>This is the kind of thing that decides whether an internal tool gets adopted. A tool that is confidently wrong once gets abandoned. A tool that says "I could not find that field" keeps its users.</p>
+
+<h2>What happened</h2>
+<p><span data-fact="dealcloud.users">10</span> people across business development, deal origination, and due diligence used the connector and Debrief in their daily work. Nobody mandated it. Debrief wrote <span data-fact="dealcloud.interactions_logged">100+</span> Interaction records into the CRM that otherwise would have arrived late or not at all. The questions people asked it were the questions they had always wanted to ask the CRM and never bothered to.</p>
+
+<h2>What I'd do differently</h2>
+<div class="note"><b>Greg's note, coming.</b> Reserved for the honest version, in Greg's words.</div>
+
+<h2>Why it matters</h2>
+<p>Adoption did not come from capability. It came from meeting people where they already were. The connector lived inside the chat window they had open all day. Debrief asked for the one thing they already had, raw notes, and gave back the one thing they were supposed to produce anyway. No training, no new login, no homework. That is the whole lesson, and it is the lesson I would bring to any deployment.</p>
+
+</article>
+
+<nav class="next" aria-label="More builds">
+  <a href="align-ai-os.html">Next: An AI operating system for a deal firm</a>
+  <a href="./">All builds</a>
+</nav>
+
+</main>
+
+<footer class="site-foot">
+  <p>Every number on this page comes from one <a href="../facts.json">fact file</a>.</p>
+</footer>
+
+</div>
+<script src="../assets/facts.js" defer></script>
+</body>
+</html>

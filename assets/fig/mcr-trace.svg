@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">A Real Zero-Proposal Analysis Trace</title>
+  <desc id="desc">Timing trace for an Asymmetric Catalyst Hunters analysis with 147 candidates, two holdings, and zero proposed trades.</desc>
+  <style>
+    .kicker{font:700 14px Inter,ui-sans-serif,system-ui;letter-spacing:2.2px;fill:#2563EB}.title{font:750 38px Inter,ui-sans-serif,system-ui;fill:#0F172A}.sub{font:400 18px Inter,ui-sans-serif,system-ui;fill:#475569}.metric{font:750 34px Inter,ui-sans-serif,system-ui;fill:#0F172A}.ml{font:600 13px Inter,ui-sans-serif,system-ui;fill:#64748B}.stage{font:700 15px Inter,ui-sans-serif,system-ui;fill:#0F172A}.time{font:700 17px Inter,ui-sans-serif,system-ui;fill:#0F172A}.note{font:400 14px Inter,ui-sans-serif,system-ui;fill:#475569}.small{font:500 12px Inter,ui-sans-serif,system-ui;fill:#64748B}.axis{font:500 12px Inter,ui-sans-serif,system-ui;fill:#64748B}
+  </style>
+  <rect width="1600" height="900" fill="#F8FAFC"/>
+  <text x="76" y="72" class="kicker">RETAINED DECISION TRACE · 2026-08-31</text>
+  <text x="76" y="122" class="title">A Real Zero-Proposal Analysis Trace</text>
+  <text x="76" y="156" class="sub">Asymmetric Catalyst Hunters · model: Claude Opus 4.6 · trace total: 327.577 seconds</text>
+
+  <g>
+    <rect x="76" y="200" width="244" height="104" rx="16" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="98" y="239" class="metric">147</text><text x="98" y="270" class="ml">CANDIDATES</text>
+    <rect x="336" y="200" width="244" height="104" rx="16" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="358" y="239" class="metric">2</text><text x="358" y="270" class="ml">HELD POSITIONS</text>
+    <rect x="596" y="200" width="244" height="104" rx="16" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="618" y="239" class="metric">80,149</text><text x="618" y="270" class="ml">PROMPT CHARACTERS</text>
+    <rect x="856" y="200" width="244" height="104" rx="16" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="878" y="239" class="metric">0</text><text x="878" y="270" class="ml">PROPOSALS</text>
+    <rect x="1116" y="200" width="408" height="104" rx="16" fill="#ECFDF5" stroke="#86EFAC"/>
+    <text x="1138" y="239" class="metric" fill="#15803D">No action</text><text x="1138" y="270" class="ml" fill="#15803D">CAN_EXECUTE = FALSE</text>
+  </g>
+
+  <text x="76" y="366" class="stage">Stage timings</text>
+  <line x1="328" y1="390" x2="1460" y2="390" stroke="#CBD5E1"/>
+  <line x1="328" y1="390" x2="328" y2="737" stroke="#CBD5E1"/>
+  <line x1="674" y1="390" x2="674" y2="737" stroke="#E2E8F0" stroke-dasharray="4 6"/>
+  <line x1="1020" y1="390" x2="1020" y2="737" stroke="#E2E8F0" stroke-dasharray="4 6"/>
+  <line x1="1366" y1="390" x2="1366" y2="737" stroke="#E2E8F0" stroke-dasharray="4 6"/>
+  <text x="328" y="380" class="axis" text-anchor="middle">0s</text><text x="674" y="380" class="axis" text-anchor="middle">100s</text><text x="1020" y="380" class="axis" text-anchor="middle">200s</text><text x="1366" y="380" class="axis" text-anchor="middle">300s</text>
+
+  <text x="76" y="435" class="stage">Watchlist scoring</text><rect x="328" y="411" width="98" height="32" rx="6" fill="#2563EB"/><text x="442" y="433" class="time">28.314s</text>
+  <text x="76" y="493" class="stage">Context + prompt assembly</text><rect x="328" y="469" width="65" height="32" rx="6" fill="#0EA5E9"/><text x="409" y="491" class="time">18.754s</text>
+  <text x="76" y="551" class="stage">Claude Opus 4.6 call</text><rect x="328" y="527" width="942" height="32" rx="6" fill="#D97706"/><text x="1286" y="549" class="time">272.307s</text>
+  <text x="76" y="609" class="stage">Structured-output parse</text><rect x="328" y="585" width="10" height="32" rx="4" fill="#7C3AED"/><text x="354" y="607" class="time">2.944s</text>
+  <text x="76" y="667" class="stage">Deterministic validation</text><rect x="328" y="643" width="9" height="32" rx="4" fill="#15803D"/><text x="353" y="665" class="time">2.493s</text>
+  <text x="76" y="725" class="stage">Other trace overhead</text><rect x="328" y="701" width="10" height="32" rx="4" fill="#94A3B8"/><text x="354" y="723" class="time">2.765s</text>
+
+  <rect x="76" y="774" width="1448" height="70" rx="14" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <text x="98" y="803" class="note">The model made an affirmative decision to do nothing. This is evidence of observability—not evidence of investment performance.</text>
+  <text x="98" y="827" class="small">Source: asymmetric-catalyst-hunters_20260831_124211_5c5a.json · Stage sum 324.812s; trace total includes 2.765s of other overhead.</text>
+</svg>

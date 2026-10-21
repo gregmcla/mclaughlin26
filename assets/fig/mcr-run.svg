@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">What Happens During an MCR Run</title>
+  <desc id="desc">Flow diagram from operator-triggered analysis through state loading, discovery and scoring, model proposals, host validation, human approval, execution revalidation and atomic simulated-ledger writes.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 Z" fill="#64748B"/></marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#0F172A" flood-opacity="0.08"/></filter>
+    <style>
+      .kicker{font:700 14px Inter,ui-sans-serif,system-ui;letter-spacing:2.2px;fill:#2563EB}.title{font:750 38px Inter,ui-sans-serif,system-ui;fill:#0F172A}.sub{font:400 18px Inter,ui-sans-serif,system-ui;fill:#475569}.lane{font:700 13px Inter,ui-sans-serif,system-ui;letter-spacing:1.3px}.n{font:700 13px Inter,ui-sans-serif,system-ui;fill:#64748B}.h{font:700 18px Inter,ui-sans-serif,system-ui;fill:#0F172A}.b{font:400 14px Inter,ui-sans-serif,system-ui;fill:#475569}.edge{stroke:#64748B;stroke-width:2.2;fill:none;marker-end:url(#arrow)}.foot{font:500 13px Inter,ui-sans-serif,system-ui;fill:#64748B}.pill{font:700 12px Inter,ui-sans-serif,system-ui}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#F8FAFC"/>
+  <text x="76" y="72" class="kicker">SYSTEM ARCHITECTURE</text>
+  <text x="76" y="122" class="title">What Happens During an MCR Run</text>
+  <text x="76" y="155" class="sub">The model proposes. The host owns state, validation, identity, and the simulated ledger.</text>
+
+  <rect x="76" y="194" width="1448" height="92" rx="18" fill="#ECFDF5"/>
+  <text x="100" y="222" class="lane" fill="#15803D">HUMAN OPERATOR</text>
+  <rect x="364" y="211" width="260" height="58" rx="13" fill="#FFFFFF" stroke="#86EFAC"/>
+  <text x="384" y="235" class="h">Start analysis</text><text x="384" y="256" class="b">manual trigger</text>
+  <rect x="1032" y="211" width="332" height="58" rx="13" fill="#FFFFFF" stroke="#86EFAC"/>
+  <text x="1052" y="235" class="h">Accept or reject every survivor</text><text x="1052" y="256" class="b">decision bound to exact proposal ID</text>
+
+  <rect x="76" y="304" width="1448" height="234" rx="18" fill="#EFF6FF"/>
+  <text x="100" y="332" class="lane" fill="#1D4ED8">MCR HOST — DETERMINISTIC AUTHORITY</text>
+  <g filter="url(#shadow)">
+    <rect x="180" y="359" width="250" height="124" rx="16" fill="#FFFFFF" stroke="#BFDBFE"/>
+    <rect x="472" y="359" width="250" height="124" rx="16" fill="#FFFFFF" stroke="#BFDBFE"/>
+    <rect x="764" y="359" width="250" height="124" rx="16" fill="#FFFFFF" stroke="#BFDBFE"/>
+    <rect x="1056" y="359" width="250" height="124" rx="16" fill="#FFFFFF" stroke="#BFDBFE"/>
+  </g>
+  <text x="202" y="387" class="n">01</text><text x="202" y="419" class="h">Load canonical state</text><text x="202" y="444" class="b">positions · cash · watchlist</text><text x="202" y="466" class="b">rules · history · configuration</text>
+  <text x="494" y="387" class="n">02</text><text x="494" y="419" class="h">Discover + score</text><text x="494" y="444" class="b">market and company data</text><text x="494" y="466" class="b">deterministic features and gates</text>
+  <text x="786" y="387" class="n">03</text><text x="786" y="419" class="h">Build model context</text><text x="786" y="444" class="b">prompt + explicit block manifest</text><text x="786" y="466" class="b">portfolio-specific evidence</text>
+  <text x="1078" y="387" class="n">05</text><text x="1078" y="419" class="h">Mint IDs + validate</text><text x="1078" y="444" class="b">host identity · eligibility · sizing</text><text x="1078" y="466" class="b">constraints · trace</text>
+  <path d="M430 421 H472" class="edge"/><path d="M722 421 H764" class="edge"/>
+  <path d="M494 269 C494 326 305 314 305 359" class="edge"/>
+
+  <rect x="76" y="556" width="1448" height="130" rx="18" fill="#FFF7ED"/>
+  <text x="100" y="584" class="lane" fill="#C2410C">CONFIGURED PORTFOLIO MODEL</text>
+  <rect x="764" y="602" width="250" height="64" rx="14" fill="#FFFFFF" stroke="#FED7AA"/>
+  <text x="786" y="628" class="h">04  Structured proposals</text><text x="786" y="650" class="b">judgment, not state authority</text>
+  <path d="M889 483 V602" class="edge"/><path d="M1014 634 C1090 634 1115 540 1178 483" class="edge"/>
+  <path d="M1181 359 V286" class="edge"/>
+
+  <rect x="76" y="704" width="1448" height="116" rx="18" fill="#F5F3FF"/>
+  <text x="100" y="732" class="lane" fill="#6D28D9">EXECUTION + PERSISTENCE</text>
+  <rect x="792" y="747" width="320" height="54" rx="13" fill="#FFFFFF" stroke="#DDD6FE"/>
+  <text x="812" y="770" class="h">Re-fetch + revalidate</text><text x="812" y="791" class="b">session · drift · constraints</text>
+  <rect x="1156" y="747" width="320" height="54" rx="13" fill="#FFFFFF" stroke="#DDD6FE"/>
+  <text x="1176" y="770" class="h">Atomic simulated-ledger write</text><text x="1176" y="791" class="b">fill · terminal drop · retry</text>
+  <path d="M1364 240 H1478 V704 C1478 731 952 714 952 747" class="edge"/><path d="M1112 774 H1156" class="edge"/>
+
+  <path d="M1306 421 H1374" stroke="#B91C1C" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <rect x="1374" y="404" width="126" height="34" rx="17" fill="#FEE2E2"/><text x="1437" y="425" class="pill" fill="#B91C1C" text-anchor="middle">validator reject</text>
+  <path d="M1198 269 V662 H1296" stroke="#B91C1C" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <rect x="1296" y="645" width="204" height="34" rx="17" fill="#FEE2E2"/><text x="1398" y="666" class="pill" fill="#B91C1C" text-anchor="middle">operator reject · recorded</text>
+  <text x="76" y="862" class="foot">Simulation only · No broker order path · Journal and evaluation finalize after the terminal outcome</text>
+</svg>
